@@ -1,0 +1,149 @@
+{
+  "boot": {
+    "tagline": "Ne kadar dayanabileceksin?",
+    "start": "Vardiyaya Başla",
+    "continue": "Devam Et"
+  },
+  "intro": {
+    "radio": "DEVLET RADYOSU",
+    "day": "GÜN",
+    "open": "Kapıyı Aç"
+  },
+  "hud": { "day": "G" },
+  "game": {
+    "deny": "RED",
+    "approve": "KABUL",
+    "documents": "Belgeler",
+    "inspect": "İncele",
+    "bribe_hint": "Belgenin altına {n} sıkıştırdı. Almak için 💰 simgesine dokun."
+  },
+  "summary": {
+    "title": "Gün Sonu",
+    "next": "Eve Git",
+    "processed": "İşlenen",
+    "tease1": "Bugün biri sana yalan söyledi. Kim olduğunu öğreneceksin.",
+    "tease2": "Evde bir mektup bekliyor. Üzerinde isim yok.",
+    "tease3": "Çıkarken Kemal'in kabini karanlıktı."
+  },
+  "ending": { "restart": "Yeni Memur" },
+
+  "doc": {
+    "passport": "PASAPORT",
+    "visa": "GİRİŞ VİZESİ",
+    "permit": "ÇALIŞMA İZNİ",
+    "health": "SAĞLIK BELGESİ",
+    "vehicle": "ARAÇ GEÇİŞ İZNİ"
+  },
+  "field": {
+    "name": "Ad", "country": "Köken", "dob": "Doğum", "expires": "Bitiş", "id": "Kimlik No.",
+    "purpose": "Amaç", "issued": "Veriliş",
+    "employer": "İşveren", "role": "Görev",
+    "clinic": "Klinik", "status": "Durum", "date": "Tarih",
+    "plate": "Plaka", "owner": "Sahip", "cargo": "Yük", "weight": "Ağırlık",
+    "reputation": "İtibar"
+  },
+
+  "char": {
+    "tourist": "YOLCU",
+    "worker": "İŞÇİ",
+    "elder": "YAŞLI ADAM",
+    "merchant": "TÜCCAR",
+    "refugee": "BELGESİZ KADIN",
+    "clerk": "NÖBETÇİ MEMUR",
+    "kemal": "KEMAL — KABİN 6",
+    "stranger": "GRİ PALTOLU YABANCI",
+    "student": "ÖĞRENCİ",
+    "patient": "HASTA YOLCU",
+    "traveler": "YOLCU"
+  },
+
+  "radio": {
+    "generic": "…Bakanlık, Devlet'e hizmet eden sadık memurlara teşekkür eder.",
+    "d1": "Kapı 7'ye hoş geldin. Devlet hizmetin için minnettar. Kural kitabına uy. Temiz belgeleri damgala. Gerisini reddet.",
+    "d2": "Güney vilayetlerinde huzursuzluk artıyor. Daha çok gelen olacak. Bakanlık hatırlatır: Belgeler yalan söylemez. İnsanlar söyler.",
+    "d3": "Dün gece başkentte patlama. Dört ölü. Güvenlik seviyesi yükseltildi. Hiçbir şeye güvenme. Kimseye güvenme.",
+    "d4": "Kural kitabı yine değişti. Yeni talimatı dikkatle oku. Sadakatin ölçülüyor."
+  },
+  "rule": {
+    "generic": "Talimat: Gelenleri işle. Düzeni koru.",
+    "d1": "Talimat: Geçerli belgeleri onayla. Geçersizleri reddet. Hepsi bu.",
+    "d2": "Talimat: Eastmark yükleri beyan edilmeli. Beyansız mal kaçaktır.",
+    "d3": "Talimat: Bugün istisna yok. Belgesi eksik olan herkes reddedilir.",
+    "d4": "Talimat: Olağandışı her şeyi üst makama bildir. Kendi kafana göre davranma."
+  },
+
+  "sc": {
+    "generic": {
+      "ok": "Damgalandı. Federasyon'a hoş geldin.",
+      "no": "Reddedildi. Tek kelime etmeden dönüp gidiyorlar."
+    },
+    "d1_tourist": {
+      "speech": "Günaydın memur bey. Sadece eski katedrali görmeye geldim.",
+      "ok": "Damgalandı. \"İyi geziler.\"",
+      "no": "Reddedildi. \"Ama… belgelerim tamam?\" Amirin kaşlarını çatıyor."
+    },
+    "d1_worker": {
+      "speech": "Çelik fabrikasına dönüyorum. Her ayki gibi, memur bey.",
+      "ok": "Damgalandı. Başını sallayıp çantasını omuzluyor.",
+      "no": "Reddedildi. \"İşimi kaybedeceğim…\" Arkadaki sıra homurdanıyor."
+    },
+    "d1_expired": {
+      "speech": "Sadece birkaç ay geçmiş. Bu kadarı sorun olmaz herhalde?",
+      "ok": "Süresi dolmuş bir pasaportu geçirdin. Bir kamera kırmızı yandı.",
+      "no": "Doğru karar — reddedildi. İç geçirip uzaklaşıyor."
+    },
+    "d2_bribe": {
+      "speech": "Memur bey… yüküm biraz, şey, acil. Belki birbirimize yardım ederiz?",
+      "wave": "Kontrol etmeden geçirdin. Fazla geniş gülümsüyor.",
+      "no": "Reddedildi. \"Yazık,\" diye mırıldanıp paraları cebine koyuyor.",
+      "take": "Parayı cebe attın. Göz kırpıyor. Bir yerlerde biri bunu not aldı."
+    },
+    "d2_refugee": {
+      "speech": "Lütfen. Köyümüzü yaktılar. Hiçbir şeyim yok — belge yok, sadece kızım var.",
+      "ok": "Onu geçirdin. Kural kitabı hayır diyor. Yüreğin başka şey.",
+      "no": "Reddedildi. İtiraz etmiyor. Sadece sana bakıp gidiyor."
+    },
+    "c_refugee_news": {
+      "speech": "Güney yolundan rapor: Soğukta bir kadın ve çocuk bulundu. Üzerlerinde belge yok.",
+      "ack": "Raporu imzalıyorsun. Elin titremiyor. Peki neden geri kalanın titriyor?"
+    },
+    "kemal_intro": {
+      "speech": "İlk hafta mı? Rahat ol. Hızlı damgala, eve daha hızlı git. Kimse her sayfayı okumaz. — Kemal, Kabin 6.",
+      "ok": "Kemal'le bir kahve içiyorsun. Kolayca gülüyor."
+    },
+    "kemal_vanish": {
+      "speech": "Kabin 6 boş. Kemal giriş yapmamış. İsimliği de yok.",
+      "ack": "Kimse ondan bahsetmiyor. Sormamaya karar veriyorsun."
+    },
+    "org_offer_1": {
+      "speech": "Seni izledik. Dikkatlisin. Dikkatli adamlar bizimle zengin olur. Haftada bir isim. Hepsi bu.",
+      "yes": "Zarfı aldın. Artık geri vermek diye bir şey yok.",
+      "no": "\"Yazık,\" diyorlar. \"Yine de görüşeceğiz.\" Kalabalığa karışıp kayboluyorlar."
+    },
+    "pool_student": { "speech": "Üniversite dönemi için geldim memur bey. İlk kez yurt dışındayım." },
+    "pool_sick": {
+      "speech": "Diyalizim sınırın öbür tarafında. Bir hafta kaçırırsam, sonrakine yetişemem.",
+      "ok": "Damgalandı. \"Allah razı olsun,\" diye fısıldıyor.",
+      "no": "Reddedildi. Tezgaha tutunuyor, sonra bırakıyor."
+    },
+    "pool_forged": {
+      "speech": "Her şey tamam memur bey. Hızlı bir damga, gidiyorum.",
+      "ok": "Gözünden kaçtı — doğum tarihi on üçüncü ay yazıyor. Sahte.",
+      "no": "Reddedildi. Sahtekarlık özensizdi. Sen güvenliği çağırmadan kaçıyor."
+    },
+    "pool_clean": { "speech": "Günaydın memur bey. Soğuk bir gün, değil mi?" }
+  },
+
+  "end": {
+    "epitaph": "Kapı 7'yi {days} gün tuttun.",
+    "fired":    { "t": "İŞTEN ATILDIN", "x": "Çok fazla şikayet. Rozetin kapıda alınıyor. Sen olmadan kabin yavaşlamıyor bile." },
+    "promoted": { "t": "TERFİ ETTİN", "x": "Seni yukarı, penceresi olmayan ve kapısında isim bulunmayan bir odaya alıyorlar. Kararlar buradan sonra sadece ağırlaşıyor." },
+    "broke":    { "t": "ÇÖKÜŞ", "x": "Para bitti. Sonra ilaç. Sonra bahaneler. Ev, kabinden hep daha soğuktu." },
+    "greed":    { "t": "DEFTERE DÜŞTÜN", "x": "Banka hesabın, maaşının cevaplayamayacağı sorular sordu. Müfettişler şafakta geliyor." },
+    "reckless": { "t": "KORKACAK BİR ŞEY KALMADI", "x": "Dikkatli olmayı bıraktın. Yanlış adam gülümseyerek geçti. Gerisini hiç duymadın." },
+    "paranoid": { "t": "HER GÖLGE BİR BIÇAK", "x": "Herkesi reddettin. Kendi yansımanı bile aradın. Seni 'sağlığın için' emekliye ayırıyorlar." },
+    "hollow":   { "t": "İÇİ BOŞ", "x": "Artık hiçbir şey hissetmiyorsun. Damgalıyorsun, reddediyorsun, eve gidiyorsun. Kusursuz bir memur. Bir insanın oturduğu yerde boş bir sandalye." },
+    "broken":   { "t": "AĞIRLIK", "x": "Bir yüz daha taşıyamadın. Vardiyanın ortasında damgayı bıraktın ve karın içine yürüdün." },
+    "arrest":   { "t": "ŞAFAKTA ALINDIN", "x": "Biliyorlardı. Hep biliyorlardı. Hücre küçük, ama en azından sorular sona erdi." }
+  }
+}

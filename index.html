@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta name="theme-color" content="#1a1410" />
+  <meta name="description" content="GATE 7 — A border officer survival game. How long can you last?" />
+  <title>GATE 7</title>
+  <link rel="manifest" href="manifest.json" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <!-- ============ BOOT / LANGUAGE SELECT ============ -->
+  <div id="boot-screen" class="screen active">
+    <div class="boot-inner">
+      <h1 class="logo">GATE <span>7</span></h1>
+      <p class="tagline" data-i18n="boot.tagline">How long can you last?</p>
+      <div class="lang-grid" id="lang-grid"><!-- filled by i18n.js --></div>
+      <button class="btn btn-primary" id="btn-start" data-i18n="boot.start">Begin Shift</button>
+      <button class="btn btn-ghost" id="btn-continue" hidden data-i18n="boot.continue">Continue</button>
+    </div>
+  </div>
+
+  <!-- ============ RADIO / DAY INTRO ============ -->
+  <div id="intro-screen" class="screen">
+    <div class="intro-inner">
+      <div class="radio">
+        <div class="radio-dial"><span class="radio-light"></span> <span data-i18n="intro.radio">STATE RADIO</span></div>
+        <p class="radio-news" id="radio-news">…</p>
+      </div>
+      <div class="day-banner">
+        <span data-i18n="intro.day">DAY</span> <span id="intro-day-num">1</span>
+      </div>
+      <p class="day-rule" id="intro-rule"></p>
+      <button class="btn btn-primary" id="btn-open-gate" data-i18n="intro.open">Open the Gate</button>
+    </div>
+  </div>
+
+  <!-- ============ MAIN DESK / GAMEPLAY ============ -->
+  <div id="game-screen" class="screen">
+    <!-- top status bar -->
+    <header class="status-bar">
+      <div class="stat" data-stat="reputation">
+        <span class="stat-icon">⚖️</span>
+        <div class="meter"><div class="meter-fill"></div></div>
+      </div>
+      <div class="stat" data-stat="money">
+        <span class="stat-icon">💰</span>
+        <div class="meter"><div class="meter-fill"></div></div>
+      </div>
+      <div class="stat" data-stat="fear">
+        <span class="stat-icon">😰</span>
+        <div class="meter"><div class="meter-fill"></div></div>
+      </div>
+      <div class="stat" data-stat="conscience">
+        <span class="stat-icon">❤️</span>
+        <div class="meter"><div class="meter-fill"></div></div>
+      </div>
+      <div class="day-chip">
+        <span data-i18n="hud.day">D</span><span id="hud-day">1</span>
+        <span class="queue-chip">👤 <span id="hud-queue">0</span></span>
+      </div>
+    </header>
+
+    <!-- the card / passenger -->
+    <main class="desk" id="desk">
+      <div class="card" id="card">
+        <div class="card-portrait" id="card-portrait"></div>
+        <div class="card-body">
+          <p class="card-name" id="card-name"></p>
+          <p class="card-speech" id="card-speech"></p>
+        </div>
+        <div class="swipe-hint swipe-hint-left" data-i18n="game.deny">DENY</div>
+        <div class="swipe-hint swipe-hint-right" data-i18n="game.approve">APPROVE</div>
+      </div>
+    </main>
+
+    <!-- document drawer -->
+    <button class="docs-toggle" id="docs-toggle">
+      <span data-i18n="game.documents">Documents</span> <span id="docs-count" class="docs-count">0</span>
+    </button>
+    <div class="docs-drawer" id="docs-drawer"><!-- documents render here --></div>
+
+    <!-- action buttons -->
+    <footer class="actions">
+      <button class="action-btn deny" id="btn-deny">
+        <span class="stamp-label">✗</span>
+        <span data-i18n="game.deny">DENY</span>
+      </button>
+      <button class="action-btn inspect" id="btn-inspect" data-i18n="game.inspect">Inspect</button>
+      <button class="action-btn approve" id="btn-approve">
+        <span class="stamp-label">✓</span>
+        <span data-i18n="game.approve">APPROVE</span>
+      </button>
+    </footer>
+  </div>
+
+  <!-- ============ DAY SUMMARY ============ -->
+  <div id="summary-screen" class="screen">
+    <div class="summary-inner">
+      <h2 data-i18n="summary.title">End of Day</h2>
+      <p class="summary-day"><span data-i18n="intro.day">DAY</span> <span id="summary-day-num">1</span></p>
+      <ul class="summary-list" id="summary-list"></ul>
+      <p class="summary-tease" id="summary-tease"></p>
+      <button class="btn btn-primary" id="btn-next-day" data-i18n="summary.next">Go Home</button>
+    </div>
+  </div>
+
+  <!-- ============ GAME OVER / ENDING ============ -->
+  <div id="ending-screen" class="screen">
+    <div class="ending-inner">
+      <h2 class="ending-title" id="ending-title"></h2>
+      <p class="ending-text" id="ending-text"></p>
+      <p class="ending-epitaph" id="ending-epitaph"></p>
+      <button class="btn btn-primary" id="btn-restart" data-i18n="ending.restart">New Officer</button>
+    </div>
+  </div>
+
+  <!-- modal toast for consequences -->
+  <div id="toast" class="toast"></div>
+
+  <!-- scripts -->
+  <script src="js/i18n.js"></script>
+  <script src="js/data/documents.js"></script>
+  <script src="js/data/scenarios.js"></script>
+  <script src="js/state.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/game.js"></script>
+  <script>
+    if ("serviceWorker" in navigator) {
+      window.addEventListener("load", () => navigator.serviceWorker.register("sw.js").catch(() => {}));
+    }
+  </script>
+</body>
+</html>
