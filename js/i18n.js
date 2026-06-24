@@ -32,6 +32,8 @@
   function t(key, vars) {
     let str = resolve(dict, key);
     if (str == null) return key; // fall back to the key itself
+    // a value may be an array of variants — pick one at random for variety
+    if (Array.isArray(str)) str = str[Math.floor(Math.random() * str.length)];
     if (vars) for (const k in vars) str = str.replace(new RegExp("\\{" + k + "\\}", "g"), vars[k]);
     return str;
   }
@@ -58,7 +60,7 @@
     (root || document).querySelectorAll("[data-i18n]").forEach((el) => {
       const key = el.getAttribute("data-i18n");
       const val = resolve(dict, key);
-      if (val != null) el.textContent = val;
+      if (val != null) el.textContent = Array.isArray(val) ? val[0] : val;
     });
   }
 
@@ -69,5 +71,8 @@
     return LANGS.some((l) => l.code === nav) ? nav : "en";
   }
 
-  window.I18N = { t, load, apply, detect, LANGS, get current() { return current; } };
+  // raw value (no random pick) — used when a caller needs the whole array
+  function raw(key) { return resolve(dict, key); }
+
+  window.I18N = { t, raw, load, apply, detect, LANGS, get current() { return current; } };
 })();

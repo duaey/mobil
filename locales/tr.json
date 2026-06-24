@@ -15,6 +15,8 @@
     "approve": "KABUL",
     "documents": "Belgeler",
     "inspect": "İncele",
+    "rules": "KURALLAR",
+    "rulebook": "KURAL DEFTERİ",
     "bribe_hint": "Belgenin altına {n} sıkıştırdı. Almak için 💰 simgesine dokun."
   },
   "summary": {
@@ -82,6 +84,17 @@
     "d7": "Diyorlar ki kapı kayıtlarını artık Bakan'ın kendisi inceliyormuş. Her damgada senin adın var."
   },
   "rule": {
+    "book": [
+      "§1  Geçerli belgeleri onayla. Geçersizleri reddet. Emir olmadan istisna yok.",
+      "§2  Her pasaport süresi geçmemiş, imzalı ve eksiksiz olmalı.",
+      "§3  Fotoğraf yüze uymalı. İsim tüm belgelerde aynı olmalı.",
+      "§4  Tarihler gerçek olmalı. Var olamayacak bir tarih sahteciliktir.",
+      "§5  Tüm yük beyan edilmeli. Beyansız mal kaçaktır.",
+      "§6  Yabancı uyruklular için geçerli vize ya da çalışma izni şart.",
+      "§7  Şüphen varsa damgalamadan önce sorgula.",
+      "§8  Yolcudan para almak suçtur. İç İşleri her an izliyor.",
+      "§9  Günlük kotanı doldur. Eksik bırakmak sicilini lekeler."
+    ],
     "generic": "Talimat: Gelenleri işle. Düzeni koru.",
     "d1": "Talimat: Geçerli belgeleri onayla. Geçersizleri reddet. Hepsi bu.",
     "d2": "Talimat: Eastmark yükleri beyan edilmeli. Beyansız mal kaçaktır.",
@@ -94,8 +107,22 @@
 
   "sc": {
     "generic": {
-      "ok": "Damgalandı. Federasyon'a hoş geldin.",
-      "no": "Reddedildi. Tek kelime etmeden dönüp gidiyorlar."
+      "ok": [
+        "Damgalandı. \"Federasyon'a hoş geldin.\"",
+        "Onaylandı. Damga küt diye iniyor. Geçip gidiyorlar.",
+        "Geçti. Daha onlar dönmeden \"Sıradaki!\" diye sesleniyorsun.",
+        "Damgalandı. Bir kez başını sallayıp kalabalığa karışıyor.",
+        "Onaylandı. Bir daha asla görmeyeceğin bir yüz daha.",
+        "Geçti. Kapı gıcırdayarak açılıyor, telaşla geçiyorlar."
+      ],
+      "no": [
+        "Reddedildi. Tek kelime etmeden dönüp gidiyorlar.",
+        "Reddedildi. \"Kenara çekil. Sıradaki.\"",
+        "Reddedildi. Kırmızı damga sertçe iniyor. İrkiliyorlar.",
+        "Reddedildi. Ağzını açıyor, sonra vazgeçiyor.",
+        "Reddedildi. \"Bugün olmaz.\" Sıra ileri kayıyor.",
+        "Reddedildi. Bir an fazla oyalanıp gidiyorlar."
+      ]
     },
     "d1_tourist": {
       "speech": "Günaydın memur bey. Sadece eski katedrali görmeye geldim.",
@@ -143,7 +170,12 @@
       "yes": "Zarfı aldın. Artık geri vermek diye bir şey yok.",
       "no": "\"Yazık,\" diyorlar. \"Yine de görüşeceğiz.\" Kalabalığa karışıp kayboluyorlar."
     },
-    "pool_student": { "speech": "Üniversite dönemi için geldim memur bey. İlk kez yurt dışındayım." },
+    "pool_student": { "speech": [
+      "Üniversite dönemi için geldim memur bey. İlk kez yurt dışındayım.",
+      "Sınırın ötesinde okumak için bursum var. Hepsi dosyada.",
+      "Sadece bir öğrenciyim efendim. Dersler pazartesi başlıyor, geç kalamam.",
+      "Ailemde yurt dışında okuyan ilk kişiyim. Annem istasyonda ağladı."
+    ] },
     "pool_sick": {
       "speech": "Diyalizim sınırın öbür tarafında. Bir hafta kaçırırsam, sonrakine yetişemem.",
       "ok": "Damgalandı. \"Allah razı olsun,\" diye fısıldıyor.",
@@ -155,7 +187,13 @@
       "ok": "Damgaladın. Doğum tarihi on üçüncü ayı gösteriyordu. Bunu duyacaksın.",
       "no": "Reddedildi. Sahtekarlık özensizdi. Sen güvenliği çağırmadan kaçıyor."
     },
-    "pool_clean": { "speech": "Günaydın memur bey. Soğuk bir gün, değil mi?" },
+    "pool_clean": { "speech": [
+      "Günaydın memur bey. Soğuk bir gün, değil mi?",
+      "Belgelerin hepsi burada. Vaktini almam.",
+      "Bugün sıra uzun. Umarım kahveni içmişsindir memur bey.",
+      "Her zamanki yolculuk. Beni daha önce damgalamışsındır muhtemelen.",
+      "Sakin bir sabah mı? Uzun sürmez, bahse girerim."
+    ] },
 
     "c_forged_caught": {
       "speech": "Memur bey. Onayladığın bir belge sahteymiş. İç İşleri'nin soruları var. Şurayı imzala.",

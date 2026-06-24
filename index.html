@@ -81,6 +81,13 @@
       </div>
     </header>
 
+    <!-- today's directive strip (tap to open rulebook) -->
+    <button class="directive-bar" id="directive-bar">
+      <span class="directive-icon">📋</span>
+      <span class="directive-text" id="directive-text"></span>
+      <span class="directive-more" data-i18n="game.rules">RULES</span>
+    </button>
+
     <!-- the card / passenger -->
     <main class="desk" id="desk">
       <div class="card" id="card">
@@ -133,6 +140,22 @@
       <p class="ending-text" id="ending-text"></p>
       <p class="ending-epitaph" id="ending-epitaph"></p>
       <button class="btn btn-primary" id="btn-restart" data-i18n="ending.restart">New Officer</button>
+    </div>
+  </div>
+
+  <!-- rulebook modal -->
+  <div id="rules-modal" class="modal" hidden>
+    <div class="modal-card">
+      <div class="modal-head">
+        <span data-i18n="game.rulebook">RULEBOOK</span>
+        <button class="modal-close" id="rules-close">✕</button>
+      </div>
+      <div class="rulebook-day">
+        <span data-i18n="intro.day">DAY</span> <span id="rules-day">1</span>
+        <span class="rulebook-date" id="rules-date">03 NOV 1987</span>
+      </div>
+      <p class="rulebook-directive" id="rules-directive"></p>
+      <ul class="rulebook-list" id="rules-list"></ul>
     </div>
   </div>
 

@@ -15,6 +15,8 @@
     "approve": "APPROVE",
     "documents": "Documents",
     "inspect": "Inspect",
+    "rules": "RULES",
+    "rulebook": "RULEBOOK",
     "bribe_hint": "They slipped {n} under a document. Tap 💰 to take it."
   },
   "summary": {
@@ -82,6 +84,17 @@
     "d7": "They say the Minister himself reviews the gate logs now. Every stamp has your name on it."
   },
   "rule": {
+    "book": [
+      "§1  Approve valid papers. Deny the invalid. No exceptions without orders.",
+      "§2  Every passport must be unexpired, signed, and complete.",
+      "§3  The photo must match the face. The name must match every document.",
+      "§4  Dates must be real. A date that cannot exist is a forgery.",
+      "§5  All cargo must be declared. Undeclared goods are contraband.",
+      "§6  Foreign nationals require a valid visa or work permit.",
+      "§7  When in doubt, interrogate before you stamp.",
+      "§8  Accepting payment from travelers is a crime. Internal Affairs is always watching.",
+      "§9  Meet your daily quota. Falling short reflects on your record."
+    ],
     "generic": "Directive: process arrivals. Maintain order.",
     "d1": "Directive: Approve valid documents. Deny the invalid. That is all.",
     "d2": "Directive: Eastmark cargo must be declared. Undeclared goods are contraband.",
@@ -94,8 +107,22 @@
 
   "sc": {
     "generic": {
-      "ok": "Stamped. Welcome to the Federation.",
-      "no": "Denied. They turn away without a word."
+      "ok": [
+        "Stamped. \"Welcome to the Federation.\"",
+        "Approved. The stamp thuds. They move on.",
+        "Cleared. \"Next!\" you call before they've even turned.",
+        "Stamped. They nod once and vanish into the crowd.",
+        "Approved. Another face you'll never see again.",
+        "Cleared. The gate creaks open. They hurry through."
+      ],
+      "no": [
+        "Denied. They turn away without a word.",
+        "Refused. \"Step aside. Next in line.\"",
+        "Denied. The red stamp lands hard. They flinch.",
+        "Rejected. They open their mouth, then think better of it.",
+        "Denied. \"Not today.\" The line shuffles forward.",
+        "Refused. They linger a moment too long, then go."
+      ]
     },
     "d1_tourist": {
       "speech": "Good morning, officer. Just here to see the old cathedral.",
@@ -143,7 +170,12 @@
       "yes": "You took the envelope. There's no giving it back now.",
       "no": "\"Shame,\" they say. \"We'll be seeing you anyway.\" They melt into the crowd."
     },
-    "pool_student": { "speech": "Here for the university term, officer. First time abroad." },
+    "pool_student": { "speech": [
+      "Here for the university term, officer. First time abroad.",
+      "I've got a scholarship to study across the line. Everything's in the folder.",
+      "Just a student, sir. Lectures start Monday — I can't be late.",
+      "First in my family to study abroad. My mother cried at the station."
+    ] },
     "pool_sick": {
       "speech": "My dialysis is across the border. I miss a week, I don't make the next.",
       "ok": "Stamped. \"Bless you,\" he whispers.",
@@ -155,7 +187,13 @@
       "ok": "You stamped it. The birthdate read month thirteen. You'll hear about this.",
       "no": "Denied. The forgery was sloppy. He bolts before you call security."
     },
-    "pool_clean": { "speech": "Morning, officer. Cold one today, isn't it?" },
+    "pool_clean": { "speech": [
+      "Morning, officer. Cold one today, isn't it?",
+      "Papers are all there. I won't waste your time.",
+      "Long line today. Hope you've had your coffee, officer.",
+      "Same trip as always. You've probably stamped me before.",
+      "Quiet morning at the gate? Won't be for long, I'd wager."
+    ] },
 
     "c_forged_caught": {
       "speech": "Officer. A document you cleared was forged. Internal Affairs has questions. Sign here.",

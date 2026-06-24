@@ -52,8 +52,26 @@
     $("#docs-toggle").addEventListener("click", () => $("#docs-drawer").classList.toggle("open"));
 
     document.addEventListener("card:rendered", (e) => offerBribe(e.detail));
+
+    // rulebook: directive strip opens the modal; modal closes on ✕ or backdrop
+    $("#directive-bar").addEventListener("click", openRules);
+    $("#rules-close").addEventListener("click", closeRules);
+    $("#rules-modal").addEventListener("click", (e) => { if (e.target.id === "rules-modal") closeRules(); });
+
     UI.initSwipe();
   }
+
+  /* ---------- rulebook ---------- */
+  function currentRuleKey() { return introFor(STATE.S.day).rule; }
+  function renderDirective() {
+    const el = $("#directive-text");
+    if (el) el.textContent = t(currentRuleKey());
+  }
+  function openRules() {
+    UI.renderRulebook(STATE.S.day, currentRuleKey());
+    $("#rules-modal").hidden = false;
+  }
+  function closeRules() { $("#rules-modal").hidden = true; }
 
   function buildLangGrid() {
     const grid = $("#lang-grid");
@@ -85,6 +103,7 @@
   function beginGameplay() {
     UI.show("game-screen");
     UI.renderMeters();
+    renderDirective();
     nextCard();
   }
 

@@ -1,5 +1,5 @@
 /* GATE 7 — service worker for offline play (PWA) */
-const CACHE = "gate7-v4";
+const CACHE = "gate7-v5";
 const ASSETS = [
   "./", "./index.html", "./css/style.css",
   "./js/i18n.js", "./js/state.js", "./js/ui.js", "./js/game.js",

@@ -75,13 +75,22 @@
     });
 
     // documents
+    const DOC_EMBLEM = { passport: "🛂", visa: "🎫", permit: "🏭", health: "⚕", vehicle: "🚚" };
+    const portraitKey = pickPortrait(scenario) || scenario.portrait;
     docs.forEach((d, i) => {
       const def = DOC_TYPES[d.type];
       if (!def) return;
       const flagged = d.flagged || probeState.flaggedDocs[i];
       const el = document.createElement("div");
       el.className = "doc" + (flagged ? " flagged" : "");
-      let html = `<h4>${t(def.titleKey)}</h4>`;
+      const emblem = DOC_EMBLEM[d.type] || "📄";
+      let html = `<h4><span class="doc-emblem">${emblem}</span> ${t(def.titleKey)}</h4>`;
+      // a passport carries the holder's photo
+      if (d.type === "passport") {
+        const ph = portraitKey
+          ? `style="background-image:url(assets/img/${portraitKey}.png)"` : "";
+        html += `<div class="doc-photo" ${ph}>${portraitKey ? "" : "👤"}</div>`;
+      }
       def.fields.forEach((f) => {
         const label = t(docFieldLabel(f));
         const value = d.data[f] != null ? d.data[f] : "—";
@@ -243,10 +252,36 @@
     list.innerHTML = "";
     entries.forEach((e) => {
       const li = document.createElement("li");
-      li.innerHTML = `<span>${e.label}</span><span>${e.value}</span>`;
+      li.innerHTML = `<span>${e.label}</span><span class="val">${e.value}</span>`;
       list.appendChild(li);
     });
     $("#summary-tease").textContent = teaseKey ? t(teaseKey) : "";
+  }
+
+  /* ---------- rulebook modal ---------- */
+  function renderRulebook(day, ruleKey) {
+    $("#rules-day").textContent = day;
+    const dateEl = $("#rules-date");
+    if (dateEl) dateEl.textContent = gameDate(day);
+    $("#rules-directive").textContent = ruleKey ? t(ruleKey) : "";
+    const list = $("#rules-list");
+    list.innerHTML = "";
+    // standing rules: rule.book is an array in the locale
+    const book = I18N.raw("rule.book");
+    const items = Array.isArray(book) ? book : (typeof book === "string" ? [book] : []);
+    // fallback if locale not yet updated
+    const lines = items.length ? items : [
+      "Approve valid papers. Deny the invalid.",
+      "Every passport must be unexpired and complete.",
+      "Cross-check the photo, name and dates.",
+      "Declare all cargo. Undeclared goods are contraband.",
+      "Bribes are illegal. Internal Affairs is always watching.",
+    ];
+    lines.forEach((line) => {
+      const li = document.createElement("li");
+      li.textContent = line;
+      list.appendChild(li);
+    });
   }
 
   /* ---------- ending ---------- */
@@ -259,7 +294,7 @@
 
   window.UI = {
     show, $, renderMeters, renderCard, flyOut, initSwipe, choose,
-    toast, renderIntro, renderSummary, renderEnding, applyProbeResult,
+    toast, renderIntro, renderSummary, renderEnding, renderRulebook, applyProbeResult,
     get currentScenario() { return currentScenario; },
   };
 })();
