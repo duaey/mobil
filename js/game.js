@@ -90,7 +90,20 @@
     if (STATE.endDayReady()) return endDay();
     const sc = STATE.nextScenario();
     if (!sc) return endDay(); // ran out of eligible content
-    UI.renderCard(sc, (choiceName) => resolveChoice(sc, choiceName));
+    UI.renderCard(sc, (choiceName) => resolveChoice(sc, choiceName), (probe) => resolveProbe(sc, probe));
+  }
+
+  /* a probe: interrogating the passenger / cross-checking papers.
+     Costs are small (time pressure, annoyance). Probing innocents too
+     much nicks reputation; probing the guilty reveals contradictions. */
+  function resolveProbe(scenario, probe) {
+    STATE.applyEffects(probe.effects);
+    STATE.addSuspicion(probe.suspicion || 0);
+    STATE.setFlags(probe.setFlags);
+    STATE.save();
+    UI.applyProbeResult(probe);
+    UI.renderMeters();
+    if (probe.resultKey) UI.toast(t(probe.resultKey));
   }
 
   function resolveChoice(scenario, choiceName) {

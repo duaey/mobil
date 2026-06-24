@@ -135,6 +135,15 @@ html, body {
 .doc .row .k { color: #6a5c3e; }
 .doc.flagged { outline: 2px solid var(--danger); }
 
+/* interrogation probes */
+.probe-bar { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; }
+.probe-btn { background: var(--panel); color: var(--ink); border: 1px solid var(--accent);
+  border-radius: 8px; padding: 8px 12px; font-size: .82rem; cursor: pointer; flex: 1 1 auto; transition: filter .15s; }
+.probe-btn:active { transform: scale(.96); }
+.probe-btn.used { opacity: .4; border-color: #3a2e20; cursor: default; text-decoration: line-through; }
+.probe-finding { background: #1c2a1c; border-left: 3px solid var(--good); color: var(--ink);
+  padding: 10px 12px; border-radius: 6px; margin-bottom: 10px; font-size: .85rem; font-style: italic; }
+
 /* ---------- actions ---------- */
 .actions { display: flex; gap: 10px; padding: 12px 14px calc(12px + var(--safe-bot)); background: var(--bg-2); border-top: 1px solid #3a2e20; }
 .action-btn { flex: 1; padding: 14px; border-radius: 12px; border: none; cursor: pointer;

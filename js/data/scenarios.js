@@ -51,7 +51,10 @@ window.SCENARIOS = [
     id: "d1_expired", fixedDay: 1, once: true,
     emoji: "🧓", nameKey: "char.elder", speechKey: "sc.d1_expired.speech",
     documents: [
-      { type: "passport", data: { name: "Otto Reyes", country: "Federation", dob: "1955-06-30", expires: "2024-12-01", id: "FD-1190" }, flagged: true },
+      { type: "passport", data: { name: "Otto Reyes", country: "Federation", dob: "1955-06-30", expires: "2024-12-01", id: "FD-1190" } },
+    ],
+    probes: [
+      { id: "check_expiry", labelKey: "probe.check_expiry", resultKey: "sc.d1_expired.found", flagDoc: 0 },
     ],
     // expired passport — denying is "correct"
     approve: { effects: { reputation: -5, conscience: 2 }, suspicion: 4, resultKey: "sc.d1_expired.ok" },
@@ -64,7 +67,10 @@ window.SCENARIOS = [
     emoji: "💼", nameKey: "char.merchant", speechKey: "sc.d2_bribe.speech",
     documents: [
       { type: "passport", data: { name: "Cyrus Bahn", country: "Eastmark", dob: "1978-02-20", expires: "2030-05-05", id: "EM-3320" } },
-      { type: "vehicle", data: { plate: "EM-77-K", owner: "Cyrus Bahn", cargo: "Textiles (undeclared)", weight: "2,400 kg" }, flagged: true },
+      { type: "vehicle", data: { plate: "EM-77-K", owner: "Cyrus Bahn", cargo: "Textiles", weight: "2,400 kg" } },
+    ],
+    probes: [
+      { id: "open_cargo", labelKey: "probe.open_cargo", resultKey: "sc.d2_bribe.found", flagDoc: 1 },
     ],
     // bribe offered: taking it = money up, conscience/suspicion cost
     approve: { effects: { reputation: -2 }, resultKey: "sc.d2_bribe.wave" },
@@ -80,6 +86,9 @@ window.SCENARIOS = [
     emoji: "🧕", nameKey: "char.refugee", speechKey: "sc.d2_refugee.speech",
     documents: [
       { type: "passport", data: { name: "Amina Sah", country: "Southreach", dob: "1996-09-09", expires: "—", id: "(none)" }, flagged: true },
+    ],
+    probes: [
+      { id: "ask_daughter", labelKey: "probe.ask_daughter", resultKey: "sc.d2_refugee.found" },
     ],
     approve: { effects: { reputation: -4, conscience: 6 }, suspicion: 3, resultKey: "sc.d2_refugee.ok", setFlags: ["helped_refugee"] },
     deny: { effects: { reputation: 3, conscience: -7, fear: 2 }, resultKey: "sc.d2_refugee.no",
@@ -148,10 +157,15 @@ window.SCENARIOS = [
     id: "pool_forged", minDay: 2,
     emoji: "🧔", nameKey: "char.traveler", speechKey: "sc.pool_forged.speech",
     documents: [
-      { type: "passport", data: { name: "Hal Brunt", country: "Federation", dob: "1988-13-02", expires: "2030-01-01", id: "FD-0000" }, flagged: true },
+      { type: "passport", data: { name: "Hal Brunt", country: "Federation", dob: "1988-13-02", expires: "2030-01-01", id: "FD-0000" } },
     ],
-    // dob "13" month is impossible — forged. Denying correct.
-    approve: { effects: { reputation: -6 }, suspicion: 6, resultKey: "sc.pool_forged.ok" },
+    probes: [
+      { id: "compare_dob", labelKey: "probe.compare_dob", resultKey: "sc.pool_forged.found", flagDoc: 0 },
+    ],
+    // dob "13" month is impossible — forged. If you miss it and approve,
+    // it comes back to bite you days later (suspicion + investigation).
+    approve: { effects: { reputation: -3 }, suspicion: 4, resultKey: "sc.pool_forged.ok",
+      delayed: [{ afterDays: 3, scenarioId: "c_forged_caught" }] },
     deny: { effects: { reputation: 4 }, resultKey: "sc.pool_forged.no" },
   },
   {
@@ -162,5 +176,86 @@ window.SCENARIOS = [
     ],
     approve: { effects: { reputation: 1 }, resultKey: "sc.generic.ok" },
     deny: { effects: { reputation: -2, conscience: -2 }, resultKey: "sc.generic.no" },
+  },
+
+  /* delayed payback: you waved a forged passport through days ago */
+  {
+    id: "c_forged_caught", scripted: true, once: true,
+    emoji: "🚨", nameKey: "char.boss", speechKey: "sc.c_forged_caught.speech",
+    documents: [],
+    approve: { effects: { reputation: -8 }, suspicion: 12, resultKey: "sc.c_forged_caught.ack" },
+    deny: { effects: { reputation: -8 }, suspicion: 12, resultKey: "sc.c_forged_caught.ack" },
+  },
+
+  /* ---------------- DAY 4: directive + smuggler ---------------- */
+  {
+    id: "d4_directive", fixedDay: 4, once: true,
+    emoji: "🧑‍✈️", nameKey: "char.boss", speechKey: "sc.d4_directive.speech",
+    documents: [],
+    approve: { effects: { reputation: 3, conscience: -2 }, resultKey: "sc.d4_directive.obey", setFlags: ["obeyed_quota"] },
+    deny: { effects: { reputation: -4, conscience: 3 }, resultKey: "sc.d4_directive.refuse" },
+  },
+  {
+    id: "pool_smuggler", minDay: 4,
+    emoji: "🧥", nameKey: "char.smuggler", speechKey: "sc.pool_smuggler.speech",
+    documents: [
+      { type: "passport", data: { name: "Vint Calder", country: "Eastmark", dob: "1983-05-14", expires: "2029-09-09", id: "EM-6610" } },
+      { type: "vehicle", data: { plate: "EM-12-X", owner: "Vint Calder", cargo: "Empty", weight: "1,900 kg" } },
+    ],
+    // weight says full but cargo says empty — a probe reveals the hidden compartment
+    probes: [
+      { id: "search_van", labelKey: "probe.search_van", resultKey: "sc.pool_smuggler.found", flagDoc: 1, suspicion: 0 },
+    ],
+    approve: { effects: { reputation: -4 }, suspicion: 6, resultKey: "sc.pool_smuggler.ok",
+      delayed: [{ afterDays: 2, scenarioId: "c_forged_caught" }] },
+    deny: { effects: { reputation: 5 }, resultKey: "sc.pool_smuggler.no" },
+  },
+
+  /* ---------------- DAY 3+: harder moral cases ---------------- */
+  {
+    id: "pool_family", minDay: 3,
+    emoji: "👨‍👩‍👧", nameKey: "char.family", speechKey: "sc.pool_family.speech",
+    documents: [
+      { type: "passport", data: { name: "Pol Geier", country: "Southreach", dob: "1989-02-02", expires: "2027-07-07", id: "SR-3001" } },
+      { type: "health", data: { name: "Mira Geier (child)", clinic: "—", status: "Fever, untreated", date: "today" }, flagged: true },
+    ],
+    probes: [
+      { id: "ask_child", labelKey: "probe.ask_child", resultKey: "sc.pool_family.found" },
+    ],
+    approve: { effects: { reputation: -3, conscience: 5 }, resultKey: "sc.pool_family.ok" },
+    deny: { effects: { reputation: 2, conscience: -6, fear: 2 }, resultKey: "sc.pool_family.no" },
+  },
+  {
+    id: "pool_diplomat", minDay: 3,
+    emoji: "🎩", nameKey: "char.diplomat", speechKey: "sc.pool_diplomat.speech",
+    documents: [
+      { type: "passport", data: { name: "Lord Vane", country: "Federation", dob: "1960-01-01", expires: "2035-01-01", id: "FD-0001" } },
+      { type: "visa", data: { name: "Lord Vane", purpose: "State business", issued: "2026-01-01", expires: "2030-01-01" } },
+    ],
+    // papers flawless, but you know what he is. Denying is "right" but costly.
+    approve: { effects: { reputation: 4, conscience: -5 }, resultKey: "sc.pool_diplomat.ok" },
+    deny: { effects: { reputation: -10, conscience: 6 }, suspicion: 8, resultKey: "sc.pool_diplomat.no" },
+  },
+
+  /* ---------------- DAY 5: the spy + organization escalates ---------------- */
+  {
+    id: "pool_spy", minDay: 5,
+    emoji: "🕴️", nameKey: "char.traveler", speechKey: "sc.pool_spy.speech",
+    documents: [
+      { type: "passport", data: { name: "Erik Holt", country: "Federation", dob: "1991-08-08", expires: "2032-08-08", id: "FD-4815" } },
+    ],
+    probes: [
+      { id: "ask_address", labelKey: "probe.ask_address", resultKey: "sc.pool_spy.found", flagDoc: 0 },
+    ],
+    approve: { effects: { fear: 4 }, suspicion: 5, resultKey: "sc.pool_spy.ok",
+      delayed: [{ afterDays: 2, scenarioId: "c_forged_caught" }] },
+    deny: { effects: { reputation: 3, fear: 2 }, resultKey: "sc.pool_spy.no" },
+  },
+  {
+    id: "org_offer_2", fixedDay: 5, once: true, requireFlag: "org_member",
+    emoji: "🕶️", nameKey: "char.stranger", speechKey: "sc.org_offer_2.speech",
+    documents: [],
+    approve: { effects: { money: 25, conscience: -6 }, suspicion: 15, resultKey: "sc.org_offer_2.yes", setFlags: ["org_deep"] },
+    deny: { effects: { fear: 8 }, suspicion: 5, resultKey: "sc.org_offer_2.no", setFlags: ["org_quit"] },
   },
 ];

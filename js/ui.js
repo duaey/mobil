@@ -27,16 +27,45 @@
     $("#hud-queue").textContent = Math.max(0, STATE.quota() - STATE.S.processedToday);
   }
 
-  /* ---------- documents ---------- */
-  function renderDocs(docs) {
+  /* ---------- inspector: interrogation probes + documents ---------- */
+  function renderInspector(scenario) {
     const drawer = $("#docs-drawer");
     drawer.innerHTML = "";
+    const docs = scenario.documents || [];
+    const probes = scenario.probes || [];
     $("#docs-count").textContent = docs.length;
-    docs.forEach((d) => {
+
+    // interrogation probe buttons
+    if (probes.length) {
+      const bar = document.createElement("div");
+      bar.className = "probe-bar";
+      probes.forEach((p) => {
+        const used = !!probeState.used[p.id];
+        const b = document.createElement("button");
+        b.className = "probe-btn" + (used ? " used" : "");
+        b.textContent = "🔍 " + t(p.labelKey);
+        b.disabled = used;
+        b.addEventListener("click", () => { if (onProbe) onProbe(p); });
+        bar.appendChild(b);
+      });
+      drawer.appendChild(bar);
+    }
+
+    // revealed interrogation findings
+    probeState.revealed.forEach((key) => {
+      const r = document.createElement("div");
+      r.className = "probe-finding";
+      r.textContent = t(key);
+      drawer.appendChild(r);
+    });
+
+    // documents
+    docs.forEach((d, i) => {
       const def = DOC_TYPES[d.type];
       if (!def) return;
+      const flagged = d.flagged || probeState.flaggedDocs[i];
       const el = document.createElement("div");
-      el.className = "doc" + (d.flagged ? " flagged" : "");
+      el.className = "doc" + (flagged ? " flagged" : "");
       let html = `<h4>${t(def.titleKey)}</h4>`;
       def.fields.forEach((f) => {
         const label = t(docFieldLabel(f));
@@ -50,11 +79,17 @@
 
   /* ---------- card ---------- */
   let currentScenario = null;
-  let onChoice = null; // callback(outcomeName)
+  let onChoice = null;   // callback(outcomeName)
+  let onProbe = null;    // callback(probe)
+  // transient per-card interrogation state (not persisted)
+  let probeState = { used: {}, flaggedDocs: {}, revealed: [] };
 
-  function renderCard(scenario, choiceCb) {
+  function renderCard(scenario, choiceCb, probeCb) {
     currentScenario = scenario;
     onChoice = choiceCb;
+    onProbe = probeCb;
+    probeState = { used: {}, flaggedDocs: {}, revealed: [] };
+
     const card = $("#card");
     card.style.transform = "";
     card.style.opacity = "";
@@ -71,11 +106,19 @@
       portrait.style.backgroundImage = "";
     }
 
-    renderDocs(scenario.documents || []);
+    renderInspector(scenario);
     $("#docs-drawer").classList.remove("open");
 
     // surface bribe as an extra option via toast prompt button (handled in game.js)
     document.dispatchEvent(new CustomEvent("card:rendered", { detail: scenario }));
+  }
+
+  // mark a probe used + flag a document (called by game.js after a probe resolves)
+  function applyProbeResult(probe) {
+    probeState.used[probe.id] = true;
+    if (probe.flagDoc != null) probeState.flaggedDocs[probe.flagDoc] = true;
+    if (probe.resultKey) probeState.revealed.push(probe.resultKey);
+    if (currentScenario) renderInspector(currentScenario);
   }
 
   function flyOut(dir, cb) {
@@ -166,7 +209,7 @@
 
   window.UI = {
     show, $, renderMeters, renderCard, flyOut, initSwipe, choose,
-    toast, renderIntro, renderSummary, renderEnding,
+    toast, renderIntro, renderSummary, renderEnding, applyProbeResult,
     get currentScenario() { return currentScenario; },
   };
 })();

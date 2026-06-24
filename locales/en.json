@@ -54,7 +54,21 @@
     "stranger": "STRANGER IN GREY",
     "student": "STUDENT",
     "patient": "SICK TRAVELER",
-    "traveler": "TRAVELER"
+    "traveler": "TRAVELER",
+    "boss": "SUPERVISOR",
+    "family": "FATHER & CHILD",
+    "diplomat": "STATE OFFICIAL",
+    "smuggler": "TRAVELER IN A HEAVY COAT"
+  },
+
+  "probe": {
+    "check_expiry": "Check the dates",
+    "open_cargo": "Open the cargo",
+    "compare_dob": "Re-read the birthdate",
+    "ask_daughter": "Ask about the child",
+    "search_van": "Search the van",
+    "ask_child": "Ask about the child",
+    "ask_address": "Ask his home address"
   },
 
   "radio": {
@@ -89,17 +103,20 @@
     },
     "d1_expired": {
       "speech": "It's only a few months past. Surely that doesn't matter?",
+      "found": "The expiry date reads two years ago. This passport is dead.",
       "ok": "You waved an expired passport through. A camera blinked red.",
       "no": "Denied — correctly. He sighs and shuffles away."
     },
     "d2_bribe": {
       "speech": "Officer… my cargo is, ah, time-sensitive. Perhaps we help each other?",
+      "found": "Under the textiles: unstamped liquor crates. Smuggling.",
       "wave": "You waved him through without checking. He smiles too widely.",
       "no": "Denied. \"A pity,\" he mutters, folding the bills back into his coat.",
       "take": "You pocketed the cash. He winks. Someone, somewhere, took note."
     },
     "d2_refugee": {
       "speech": "Please. They burned our village. I have nothing — no papers, only my daughter.",
+      "found": "The child clings to her. The fear in their eyes isn't an act.",
       "ok": "You let her through. The rulebook says no. Your chest says otherwise.",
       "no": "Denied. She doesn't argue. She just looks at you, then leaves."
     },
@@ -128,10 +145,49 @@
     },
     "pool_forged": {
       "speech": "Everything's in order, officer. Quick stamp and I'm gone.",
-      "ok": "You missed it — the birthdate reads month thirteen. Forged.",
+      "found": "Birthdate: month THIRTEEN. No such month. This is forged.",
+      "ok": "You stamped it. The birthdate read month thirteen. You'll hear about this.",
       "no": "Denied. The forgery was sloppy. He bolts before you call security."
     },
-    "pool_clean": { "speech": "Morning, officer. Cold one today, isn't it?" }
+    "pool_clean": { "speech": "Morning, officer. Cold one today, isn't it?" },
+
+    "c_forged_caught": {
+      "speech": "Officer. A document you cleared was forged. Internal Affairs has questions. Sign here.",
+      "ack": "You sign. The pen feels heavier than it should."
+    },
+    "d4_directive": {
+      "speech": "New orders from above: cut approvals by half this week. The State is watching the numbers. And you.",
+      "obey": "You nod. Fewer people through your gate now. You try not to look at their faces.",
+      "refuse": "You say nothing — and keep stamping as before. Someone upstairs notices."
+    },
+    "pool_smuggler": {
+      "speech": "Just passing through, officer. Empty van. Nothing to see.",
+      "found": "Cargo logged 'empty' — but the van weighs two tonnes. False floor.",
+      "ok": "Waved through. The van's weight never matched its manifest. You knew.",
+      "no": "Denied. He doesn't protest the search. That tells you enough."
+    },
+    "pool_family": {
+      "speech": "My daughter's burning up. We just need to reach the clinic across the line. Please.",
+      "found": "The child's fever is real. The father's hands won't stop shaking.",
+      "ok": "You let them run for the clinic. The rulebook will never know why.",
+      "no": "Denied. The father picks up his daughter and walks back into the cold."
+    },
+    "pool_diplomat": {
+      "speech": "I trust this will be quick. People like me don't wait in lines, officer.",
+      "ok": "Stamped. His papers were perfect. So was his smile. You feel unclean.",
+      "no": "Denied a State official with flawless papers. The phone is already ringing."
+    },
+    "pool_spy": {
+      "speech": "Home for a funeral, officer. Family matter. Won't be long.",
+      "found": "He gives a home address — but stumbles on his own street name.",
+      "ok": "Stamped. His papers were flawless. Too flawless. The unease lingers.",
+      "no": "Denied. He holds your gaze a beat too long, then turns away."
+    },
+    "org_offer_2": {
+      "speech": "You're in deep now, friend. One more — a big one. After this, you're set for life. Or you talk, and we end the conversation.",
+      "yes": "You did it. The money is real. So is the noose tightening around your neck.",
+      "no": "You refused. \"Wrong answer,\" they say softly. Now they're a threat, not a partner."
+    }
   },
 
   "end": {

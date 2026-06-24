@@ -54,7 +54,21 @@
     "stranger": "GRİ PALTOLU YABANCI",
     "student": "ÖĞRENCİ",
     "patient": "HASTA YOLCU",
-    "traveler": "YOLCU"
+    "traveler": "YOLCU",
+    "boss": "AMİR",
+    "family": "BABA VE ÇOCUK",
+    "diplomat": "DEVLET YETKİLİSİ",
+    "smuggler": "KALIN PALTOLU YOLCU"
+  },
+
+  "probe": {
+    "check_expiry": "Tarihleri kontrol et",
+    "open_cargo": "Yükü aç",
+    "compare_dob": "Doğum tarihini tekrar oku",
+    "ask_daughter": "Çocuğu sor",
+    "search_van": "Minibüsü ara",
+    "ask_child": "Çocuğu sor",
+    "ask_address": "Ev adresini sor"
   },
 
   "radio": {
@@ -89,17 +103,20 @@
     },
     "d1_expired": {
       "speech": "Sadece birkaç ay geçmiş. Bu kadarı sorun olmaz herhalde?",
+      "found": "Bitiş tarihi iki yıl önce. Bu pasaport ölü.",
       "ok": "Süresi dolmuş bir pasaportu geçirdin. Bir kamera kırmızı yandı.",
       "no": "Doğru karar — reddedildi. İç geçirip uzaklaşıyor."
     },
     "d2_bribe": {
       "speech": "Memur bey… yüküm biraz, şey, acil. Belki birbirimize yardım ederiz?",
+      "found": "Kumaşların altında: damgasız içki sandıkları. Kaçakçılık.",
       "wave": "Kontrol etmeden geçirdin. Fazla geniş gülümsüyor.",
       "no": "Reddedildi. \"Yazık,\" diye mırıldanıp paraları cebine koyuyor.",
       "take": "Parayı cebe attın. Göz kırpıyor. Bir yerlerde biri bunu not aldı."
     },
     "d2_refugee": {
       "speech": "Lütfen. Köyümüzü yaktılar. Hiçbir şeyim yok — belge yok, sadece kızım var.",
+      "found": "Çocuk ona sımsıkı sarılıyor. Gözlerindeki korku rol değil.",
       "ok": "Onu geçirdin. Kural kitabı hayır diyor. Yüreğin başka şey.",
       "no": "Reddedildi. İtiraz etmiyor. Sadece sana bakıp gidiyor."
     },
@@ -128,10 +145,49 @@
     },
     "pool_forged": {
       "speech": "Her şey tamam memur bey. Hızlı bir damga, gidiyorum.",
-      "ok": "Gözünden kaçtı — doğum tarihi on üçüncü ay yazıyor. Sahte.",
+      "found": "Doğum tarihi: ON ÜÇÜNCÜ ay. Böyle bir ay yok. Bu sahte.",
+      "ok": "Damgaladın. Doğum tarihi on üçüncü ayı gösteriyordu. Bunu duyacaksın.",
       "no": "Reddedildi. Sahtekarlık özensizdi. Sen güvenliği çağırmadan kaçıyor."
     },
-    "pool_clean": { "speech": "Günaydın memur bey. Soğuk bir gün, değil mi?" }
+    "pool_clean": { "speech": "Günaydın memur bey. Soğuk bir gün, değil mi?" },
+
+    "c_forged_caught": {
+      "speech": "Memur bey. Onayladığın bir belge sahteymiş. İç İşleri'nin soruları var. Şurayı imzala.",
+      "ack": "İmzalıyorsun. Kalem olması gerekenden ağır geliyor."
+    },
+    "d4_directive": {
+      "speech": "Yukarıdan yeni emir: bu hafta onayları yarıya indir. Devlet rakamları izliyor. Ve seni.",
+      "obey": "Başını sallıyorsun. Artık kapından daha az insan geçiyor. Yüzlerine bakmamaya çalışıyorsun.",
+      "refuse": "Hiçbir şey demiyorsun — ve eskisi gibi damgalamaya devam ediyorsun. Yukarıdan biri fark ediyor."
+    },
+    "pool_smuggler": {
+      "speech": "Sadece geçiyorum memur bey. Minibüs boş. Görecek bir şey yok.",
+      "found": "Yük 'boş' yazıyor — ama minibüs iki ton ağırlığında. Sahte taban.",
+      "ok": "Geçirildi. Minibüsün ağırlığı hiçbir zaman beyanıyla uyuşmadı. Biliyordun.",
+      "no": "Reddedildi. Aramaya itiraz etmiyor. Bu sana yetiyor."
+    },
+    "pool_family": {
+      "speech": "Kızım ateşler içinde. Sadece sınırın öbür yanındaki kliniğe ulaşmamız lazım. Lütfen.",
+      "found": "Çocuğun ateşi gerçek. Babanın elleri durmadan titriyor.",
+      "ok": "Kliniğe koşmalarına izin verdin. Kural kitabı nedenini asla bilmeyecek.",
+      "no": "Reddedildi. Baba kızını kucağına alıp soğuğa geri yürüyor."
+    },
+    "pool_diplomat": {
+      "speech": "Umarım bu hızlı olur. Benim gibiler sırada beklemez memur bey.",
+      "ok": "Damgalandı. Belgeleri kusursuzdu. Gülümsemesi de. Kirlenmiş hissediyorsun.",
+      "no": "Kusursuz belgeli bir Devlet yetkilisini reddettin. Telefon çoktan çalıyor."
+    },
+    "pool_spy": {
+      "speech": "Cenaze için dönüyorum memur bey. Aile meselesi. Uzun sürmez.",
+      "found": "Bir ev adresi veriyor — ama kendi sokağının adında takılıyor.",
+      "ok": "Damgalandı. Belgeleri kusursuzdu. Fazla kusursuz. Tedirginlik geçmiyor.",
+      "no": "Reddedildi. Gözlerine bir an fazla bakıyor, sonra dönüp gidiyor."
+    },
+    "org_offer_2": {
+      "speech": "Artık iyice içindesin dostum. Bir tane daha — büyük olan. Bundan sonra ömrün boyunca rahatsın. Ya da konuşursun, biz de bu sohbeti bitiririz.",
+      "yes": "Yaptın. Para gerçek. Boynundaki ilmek de.",
+      "no": "Reddettin. \"Yanlış cevap,\" diyorlar usulca. Artık ortak değil, tehditler."
+    }
   },
 
   "end": {
