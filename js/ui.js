@@ -12,18 +12,33 @@
     $("#" + id).classList.add("active");
   }
 
+  /* ---------- in-world date: starts 03 NOV 1987, one day per shift ---------- */
+  const MONTHS = ["JAN","FEB","MAR","APR","MAY","JUN","JUL","AUG","SEP","OCT","NOV","DEC"];
+  function gameDate(day) {
+    const d = new Date(1987, 10, 3); // Nov 3 1987
+    d.setDate(d.getDate() + (day - 1));
+    const dd = String(d.getDate()).padStart(2, "0");
+    return dd + " " + MONTHS[d.getMonth()] + " " + d.getFullYear();
+  }
+
   /* ---------- meters ---------- */
   function renderMeters() {
     const r = STATE.S.resources;
-    document.querySelectorAll(".stat").forEach((el) => {
+    document.querySelectorAll(".stat[data-stat]").forEach((el) => {
       const key = el.getAttribute("data-stat");
       const fill = el.querySelector(".meter-fill");
+      const valEl = el.querySelector(".stat-value");
       const val = r[key];
-      if (fill.style.width !== val + "%") fill.classList.add("flash");
-      fill.style.width = val + "%";
-      setTimeout(() => fill.classList.remove("flash"), 500);
+      if (fill && fill.style.width !== val + "%") {
+        fill.classList.add("flash");
+        fill.style.width = val + "%";
+        setTimeout(() => fill.classList.remove("flash"), 500);
+      }
+      if (valEl) valEl.textContent = val;
     });
     $("#hud-day").textContent = STATE.S.day;
+    const dateEl = $("#hud-date");
+    if (dateEl) dateEl.textContent = gameDate(STATE.S.day);
     $("#hud-queue").textContent = Math.max(0, STATE.quota() - STATE.S.processedToday);
   }
 
@@ -215,6 +230,8 @@
   /* ---------- radio / intro ---------- */
   function renderIntro(day, newsKey, ruleKey) {
     $("#intro-day-num").textContent = day;
+    const dateEl = $("#intro-date");
+    if (dateEl) dateEl.textContent = gameDate(day);
     $("#radio-news").textContent = t(newsKey);
     $("#intro-rule").textContent = ruleKey ? t(ruleKey) : "";
   }

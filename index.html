@@ -14,6 +14,7 @@
   <div id="boot-screen" class="screen active">
     <div class="boot-inner">
       <h1 class="logo">GATE <span>7</span></h1>
+      <p class="logo-sub">Border Checkpoint — Eastern Federation</p>
       <p class="tagline" data-i18n="boot.tagline">How long can you last?</p>
       <div class="lang-grid" id="lang-grid"><!-- filled by i18n.js --></div>
       <button class="btn btn-primary" id="btn-start" data-i18n="boot.start">Begin Shift</button>
@@ -31,6 +32,7 @@
       <div class="day-banner">
         <span data-i18n="intro.day">DAY</span> <span id="intro-day-num">1</span>
       </div>
+      <p class="day-date" id="intro-date">03 NOV 1987</p>
       <p class="day-rule" id="intro-rule"></p>
       <button class="btn btn-primary" id="btn-open-gate" data-i18n="intro.open">Open the Gate</button>
     </div>
@@ -41,23 +43,40 @@
     <!-- top status bar -->
     <header class="status-bar">
       <div class="stat" data-stat="reputation">
-        <span class="stat-icon">⚖️</span>
+        <div class="stat-header">
+          <span class="stat-icon">⚖</span>
+          <span class="stat-label">REP</span>
+        </div>
         <div class="meter"><div class="meter-fill"></div></div>
+        <span class="stat-value" id="val-reputation">50</span>
       </div>
       <div class="stat" data-stat="money">
-        <span class="stat-icon">💰</span>
+        <div class="stat-header">
+          <span class="stat-icon">$</span>
+          <span class="stat-label">MONEY</span>
+        </div>
         <div class="meter"><div class="meter-fill"></div></div>
+        <span class="stat-value" id="val-money">30</span>
       </div>
       <div class="stat" data-stat="fear">
-        <span class="stat-icon">😰</span>
+        <div class="stat-header">
+          <span class="stat-icon">!</span>
+          <span class="stat-label">FEAR</span>
+        </div>
         <div class="meter"><div class="meter-fill"></div></div>
+        <span class="stat-value" id="val-fear">20</span>
       </div>
       <div class="stat" data-stat="conscience">
-        <span class="stat-icon">❤️</span>
+        <div class="stat-header">
+          <span class="stat-icon">♥</span>
+          <span class="stat-label">CONS</span>
+        </div>
         <div class="meter"><div class="meter-fill"></div></div>
+        <span class="stat-value" id="val-conscience">70</span>
       </div>
-      <div class="day-chip">
-        <span data-i18n="hud.day">D</span><span id="hud-day">1</span>
+      <div class="hud-side">
+        <span class="day-chip">DAY <span id="hud-day">1</span></span>
+        <span class="date-chip" id="hud-date">03 NOV 1987</span>
         <span class="queue-chip">👤 <span id="hud-queue">0</span></span>
       </div>
     </header>
@@ -67,6 +86,7 @@
       <div class="card" id="card">
         <div class="card-portrait" id="card-portrait"></div>
         <div class="card-body">
+          <p class="card-tag">GATE 7 — CHECKPOINT</p>
           <p class="card-name" id="card-name"></p>
           <p class="card-speech" id="card-speech"></p>
         </div>
