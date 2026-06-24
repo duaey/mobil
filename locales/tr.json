@@ -76,14 +76,20 @@
     "d1": "Kapı 7'ye hoş geldin. Devlet hizmetin için minnettar. Kural kitabına uy. Temiz belgeleri damgala. Gerisini reddet.",
     "d2": "Güney vilayetlerinde huzursuzluk artıyor. Daha çok gelen olacak. Bakanlık hatırlatır: Belgeler yalan söylemez. İnsanlar söyler.",
     "d3": "Dün gece başkentte patlama. Dört ölü. Güvenlik seviyesi yükseltildi. Hiçbir şeye güvenme. Kimseye güvenme.",
-    "d4": "Kural kitabı yine değişti. Yeni talimatı dikkatle oku. Sadakatin ölçülüyor."
+    "d4": "Kural kitabı yine değişti. Yeni talimatı dikkatle oku. Sadakatin ölçülüyor.",
+    "d5": "İç İşleri bu ay üç kapı memuru hakkında dosya açtı. Bakanlık temiz olanı ödüllendirir, gerisini gömer.",
+    "d6": "Sokağa çıkma yasağı uzatıldı. Tayınlar kısıldı. Kapıdaki kalabalık çaresizleşiyor, çaresiz insanlar en iyi yalanı söyler.",
+    "d7": "Diyorlar ki kapı kayıtlarını artık Bakan'ın kendisi inceliyormuş. Her damgada senin adın var."
   },
   "rule": {
     "generic": "Talimat: Gelenleri işle. Düzeni koru.",
     "d1": "Talimat: Geçerli belgeleri onayla. Geçersizleri reddet. Hepsi bu.",
     "d2": "Talimat: Eastmark yükleri beyan edilmeli. Beyansız mal kaçaktır.",
     "d3": "Talimat: Bugün istisna yok. Belgesi eksik olan herkes reddedilir.",
-    "d4": "Talimat: Olağandışı her şeyi üst makama bildir. Kendi kafana göre davranma."
+    "d4": "Talimat: Olağandışı her şeyi üst makama bildir. Kendi kafana göre davranma.",
+    "d5": "Talimat: Bu kapıda İç İşleri aktif. İzlendiğini varsay.",
+    "d6": "Talimat: Kotalar yükseltildi. Bu hafta hatalar affedilmeyecek.",
+    "d7": "Talimat: Hattı tut. Bugün ne olursa olsun, kapı layık olmayanlara kapalı kalacak."
   },
 
   "sc": {
@@ -187,6 +193,20 @@
       "speech": "Artık iyice içindesin dostum. Bir tane daha — büyük olan. Bundan sonra ömrün boyunca rahatsın. Ya da konuşursun, biz de bu sohbeti bitiririz.",
       "yes": "Yaptın. Para gerçek. Boynundaki ilmek de.",
       "no": "Reddettin. \"Yanlış cevap,\" diyorlar usulca. Artık ortak değil, tehditler."
+    },
+
+    "s_audit_warning": {
+      "speech": "İç İşleri kabinini işaretledi. Düzensizlikler. Artık her damgayı izliyoruz. Bizi geri getirme.",
+      "ack": "Başını sallıyorsun. Üstündeki lamba birden bir sorgu ışığı gibi hissettiriyor."
+    },
+    "s_sting": {
+      "speech": "Sakin gün, memur bey? Bak… acelem var. Belki işleri hızlandıracak ufak bir şey? Aramızda kalsın.",
+      "clean": "Temiz kaldın. 'Yolcu' giderken bir rozet gösteriyor — bir testti. Geçtin.",
+      "trap": "Parayı aldın. Rozet çıkıyor. Bir tuzaktı. Bunu bekliyorlardı."
+    },
+    "s_final_warning": {
+      "speech": "Bu son uyarın. Bir düzensizlik daha olursa eve gitmezsin — aşağıya inersin. Anlaşıldı mı?",
+      "ack": "Anlaşıldı. Ellerinin teri bir türlü durmuyor."
     }
   },
 

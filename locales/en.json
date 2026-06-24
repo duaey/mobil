@@ -76,14 +76,20 @@
     "d1": "Welcome to Gate 7. The State is grateful for your service. Follow the rulebook. Stamp clean papers. Refuse the rest.",
     "d2": "Unrest in the southern provinces grows. Expect more arrivals. The Ministry reminds you: documents do not lie. People do.",
     "d3": "A bombing in the capital last night. Four dead. Security level raised. Trust nothing. Trust no one.",
-    "d4": "The rulebook has changed again. Read the new directive carefully. Your loyalty is being measured."
+    "d4": "The rulebook has changed again. Read the new directive carefully. Your loyalty is being measured.",
+    "d5": "Internal Affairs has opened files on three gate officers this month. The Ministry rewards the clean and buries the rest.",
+    "d6": "Curfew extended. Rations cut. The crowds at the gates grow desperate, and desperate people lie best.",
+    "d7": "They say the Minister himself reviews the gate logs now. Every stamp has your name on it."
   },
   "rule": {
     "generic": "Directive: process arrivals. Maintain order.",
     "d1": "Directive: Approve valid documents. Deny the invalid. That is all.",
     "d2": "Directive: Eastmark cargo must be declared. Undeclared goods are contraband.",
     "d3": "Directive: No exceptions today. Anyone without complete papers is denied.",
-    "d4": "Directive: Refer anything unusual upward. Do not improvise."
+    "d4": "Directive: Refer anything unusual upward. Do not improvise.",
+    "d5": "Directive: Internal Affairs is active at this gate. Assume you are watched.",
+    "d6": "Directive: Quotas raised. Errors will not be forgiven this week.",
+    "d7": "Directive: Hold the line. Whatever happens today, the gate stays shut to the unworthy."
   },
 
   "sc": {
@@ -187,6 +193,20 @@
       "speech": "You're in deep now, friend. One more — a big one. After this, you're set for life. Or you talk, and we end the conversation.",
       "yes": "You did it. The money is real. So is the noose tightening around your neck.",
       "no": "You refused. \"Wrong answer,\" they say softly. Now they're a threat, not a partner."
+    },
+
+    "s_audit_warning": {
+      "speech": "Internal Affairs flagged your booth. Irregularities. We're watching every stamp now. Don't make us come back.",
+      "ack": "You nod. The lamp above you suddenly feels like a spotlight."
+    },
+    "s_sting": {
+      "speech": "Quiet day, officer? Listen… I'm in a hurry. Maybe a little something to speed things along? Just between us.",
+      "clean": "You kept it clean. The 'traveler' flashes a badge as he leaves — a test. You passed.",
+      "trap": "You took the money. The badge comes out. It was a sting. They've been waiting for this."
+    },
+    "s_final_warning": {
+      "speech": "This is your last warning. One more irregularity and you don't go home — you go downstairs. Understood?",
+      "ack": "Understood. Your hands won't stop sweating."
     }
   },
 

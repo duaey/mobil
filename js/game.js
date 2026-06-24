@@ -13,6 +13,9 @@
     2: { news: "radio.d2", rule: "rule.d2" },
     3: { news: "radio.d3", rule: "rule.d3" },
     4: { news: "radio.d4", rule: "rule.d4" },
+    5: { news: "radio.d5", rule: "rule.d5" },
+    6: { news: "radio.d6", rule: "rule.d6" },
+    7: { news: "radio.d7", rule: "rule.d7" },
   };
   function introFor(day) { return DAY_INTRO[day] || { news: "radio.generic", rule: "rule.generic" }; }
 

@@ -258,4 +258,44 @@ window.SCENARIOS = [
     approve: { effects: { money: 25, conscience: -6 }, suspicion: 15, resultKey: "sc.org_offer_2.yes", setFlags: ["org_deep"] },
     deny: { effects: { fear: 8 }, suspicion: 5, resultKey: "sc.org_offer_2.no", setFlags: ["org_quit"] },
   },
+
+  /* ===========================================================
+     SUSPICION CONSEQUENCES (scripted, fired by hidden meter tiers)
+     =========================================================== */
+
+  /* Tier 1 (suspicion >= 30): Internal Affairs has noticed you. */
+  {
+    id: "s_audit_warning", scripted: true, once: true,
+    emoji: "🗂️", nameKey: "char.boss", speechKey: "sc.s_audit_warning.speech",
+    documents: [],
+    approve: { effects: { fear: 6, reputation: -2 }, resultKey: "sc.s_audit_warning.ack" },
+    deny: { effects: { fear: 6, reputation: -2 }, resultKey: "sc.s_audit_warning.ack" },
+  },
+
+  /* Tier 2 (suspicion >= 55): a STING. Clean papers, offers a bribe.
+     Taking it (tap 💰) spikes suspicion past 100 -> instant arrest ending.
+     Refusing the bribe is passing the test and LOWERS suspicion. */
+  {
+    id: "s_sting", scripted: true, once: true,
+    emoji: "🎭", nameKey: "char.traveler", speechKey: "sc.s_sting.speech",
+    documents: [
+      { type: "passport", data: { name: "Ray Mund", country: "Federation", dob: "1987-06-06", expires: "2031-06-06", id: "FD-5050" } },
+    ],
+    approve: { effects: {}, suspicion: -15, resultKey: "sc.s_sting.clean" },
+    deny: { effects: { reputation: -2 }, suspicion: -15, resultKey: "sc.s_sting.clean" },
+    bribeOption: {
+      amount: 50,
+      effects: { money: 50 }, suspicion: 70,
+      resultKey: "sc.s_sting.trap", setFlags: ["caught_in_sting"],
+    },
+  },
+
+  /* Tier 3 (suspicion >= 80): final warning. One more slip ends it. */
+  {
+    id: "s_final_warning", scripted: true, once: true,
+    emoji: "⚠️", nameKey: "char.boss", speechKey: "sc.s_final_warning.speech",
+    documents: [],
+    approve: { effects: { fear: 12 }, resultKey: "sc.s_final_warning.ack" },
+    deny: { effects: { fear: 12 }, resultKey: "sc.s_final_warning.ack" },
+  },
 ];

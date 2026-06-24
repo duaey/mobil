@@ -16,6 +16,7 @@
     seen: {},               // scenario ids already shown (for once/repeat)
     delayed: [],            // [{ fireDay, scenarioId }]
     dayLog: [],             // entries for the end-of-day summary
+    suspTier: 0,            // how many suspicion thresholds have fired
     ended: false,
   });
 
@@ -51,6 +52,22 @@
   function addSuspicion(delta) {
     if (!delta) return;
     S.suspicion = clamp(S.suspicion + delta);
+  }
+
+  /* When suspicion crosses a tier, queue a scripted consequence card to fire
+     for the very next passenger. Each tier fires once. This turns the hidden
+     meter into escalating, visible pressure: notice → audit → sting → final. */
+  const SUSP_TIERS = [
+    { at: 30, id: "s_audit_warning" },
+    { at: 55, id: "s_sting" },
+    { at: 80, id: "s_final_warning" },
+  ];
+  function checkSuspicionTriggers() {
+    while (S.suspTier < SUSP_TIERS.length && S.suspicion >= SUSP_TIERS[S.suspTier].at) {
+      // fire immediately for the next card (fireDay = today)
+      S.delayed.push({ fireDay: S.day, scenarioId: SUSP_TIERS[S.suspTier].id });
+      S.suspTier++;
+    }
   }
 
   function setFlags(list) { (list || []).forEach((f) => (S.flags[f] = true)); }
@@ -110,8 +127,9 @@
     queueDelayed(outcome.delayed);
     S.processedToday++;
     S.dayLog.push({ scenario: scenario.id, result: outcome.resultKey });
-    // suspicion can trigger an arrest ending
+    // suspicion can trigger an arrest ending, or escalating warning cards
     if (S.suspicion >= 100) hits.push({ stat: "suspicion", bound: "high" });
+    else checkSuspicionTriggers();
     save();
     return hits;
   }
