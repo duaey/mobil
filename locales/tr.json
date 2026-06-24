@@ -9,7 +9,11 @@
     "day": "GÜN",
     "open": "Kapıyı Aç"
   },
-  "hud": { "day": "G" },
+  "hud": { "day": "GÜN", "rep": "İTİBAR", "money": "PARA", "fear": "KORKU", "cons": "VİCDAN" },
+  "names": {
+    "first": ["Ahmet","Mehmet","Mustafa","Ali","Hasan","Hüseyin","İbrahim","Osman","Murat","Kemal","Emre","Cem","Burak","Serkan","Tolga","Volkan","Onur","Barış","Deniz","Kaan","Ayşe","Fatma","Emine","Hatice","Zeynep","Elif","Meryem","Sevgi","Gül","Leyla","Nur","Selin","Derya","Esra","Pınar","Sibel","Yasemin","Hülya","Filiz","Aslı","Bora","Cengiz","Doruk","Ferhat","Gökhan","Levent","Sinan","Ufuk"],
+    "last": ["Yılmaz","Kaya","Demir","Şahin","Çelik","Yıldız","Yıldırım","Öztürk","Aydın","Özdemir","Arslan","Doğan","Kılıç","Aslan","Çetin","Kara","Koç","Kurt","Özkan","Şimşek","Polat","Korkmaz","Çakır","Erdoğan","Güneş","Aksoy","Bulut","Acar","Bozkurt","Taş","Aktaş","Avcı","Bilgin","Çakmak","Duman","Ekinci","Güler","Işık","Karaca","Mutlu","Sarı","Tekin","Uçar","Yalçın","Yavuz","Zengin","Turan","Ünal"]
+  },
   "game": {
     "deny": "RED",
     "approve": "KABUL",

@@ -9,12 +9,122 @@
     "day": "DAY",
     "open": "Open the Gate"
   },
-  "hud": { "day": "D" },
+  "hud": {
+    "day": "D",
+    "rep": "REP",
+    "money": "CASH",
+    "fear": "FEAR",
+    "cons": "SOUL"
+  },
+  "names": {
+    "first": [
+      "Lena",
+      "Marek",
+      "Otto",
+      "Cyrus",
+      "Dorin",
+      "Iris",
+      "Sol",
+      "Vint",
+      "Pol",
+      "Erik",
+      "Anya",
+      "Bruno",
+      "Clara",
+      "Dmitri",
+      "Elsa",
+      "Felix",
+      "Greta",
+      "Henrik",
+      "Ilse",
+      "Janos",
+      "Karl",
+      "Liesel",
+      "Milos",
+      "Nadia",
+      "Oskar",
+      "Petra",
+      "Roman",
+      "Sabine",
+      "Tomas",
+      "Ursula",
+      "Viktor",
+      "Wanda",
+      "Yusuf",
+      "Zofia",
+      "Aleksy",
+      "Bianca",
+      "Caspar",
+      "Dora",
+      "Emil",
+      "Franka",
+      "Gustav",
+      "Hedda",
+      "Ivo",
+      "Katia",
+      "Leon",
+      "Magda",
+      "Nikolai",
+      "Olga"
+    ],
+    "last": [
+      "Voss",
+      "Dolan",
+      "Reyes",
+      "Bahn",
+      "Vale",
+      "Penn",
+      "Ardin",
+      "Calder",
+      "Geier",
+      "Holt",
+      "Brandt",
+      "Cernik",
+      "Drago",
+      "Engel",
+      "Falk",
+      "Garin",
+      "Haas",
+      "Imre",
+      "Janski",
+      "Korda",
+      "Lindqvist",
+      "Marek",
+      "Novak",
+      "Ostrov",
+      "Pavel",
+      "Quint",
+      "Roth",
+      "Sandor",
+      "Tarkov",
+      "Ulrich",
+      "Varga",
+      "Weiss",
+      "Yatsenko",
+      "Zander",
+      "Albescu",
+      "Bauer",
+      "Cretu",
+      "Dabrowski",
+      "Ehrlich",
+      "Fischer",
+      "Grund",
+      "Hoffman",
+      "Ionescu",
+      "Kohl",
+      "Lazar",
+      "Mraz",
+      "Nemeth",
+      "Petran"
+    ]
+  },
   "game": {
     "deny": "DENY",
     "approve": "APPROVE",
     "documents": "Documents",
     "inspect": "Inspect",
+    "rules": "RULES",
+    "rulebook": "RULEBOOK",
     "bribe_hint": "They slipped {n} under a document. Tap 💰 to take it."
   },
   "summary": {
@@ -25,8 +135,9 @@
     "tease2": "A letter waits at home. No name on it.",
     "tease3": "Kemal's booth was dark when you left."
   },
-  "ending": { "restart": "New Officer" },
-
+  "ending": {
+    "restart": "New Officer"
+  },
   "doc": {
     "passport": "PASSPORT",
     "visa": "ENTRY VISA",
@@ -35,14 +146,24 @@
     "vehicle": "VEHICLE PASS"
   },
   "field": {
-    "name": "Name", "country": "Origin", "dob": "Born", "expires": "Expires", "id": "ID No.",
-    "purpose": "Purpose", "issued": "Issued",
-    "employer": "Employer", "role": "Role",
-    "clinic": "Clinic", "status": "Status", "date": "Date",
-    "plate": "Plate", "owner": "Owner", "cargo": "Cargo", "weight": "Weight",
+    "name": "Name",
+    "country": "Origin",
+    "dob": "Born",
+    "expires": "Expires",
+    "id": "ID No.",
+    "purpose": "Purpose",
+    "issued": "Issued",
+    "employer": "Employer",
+    "role": "Role",
+    "clinic": "Clinic",
+    "status": "Status",
+    "date": "Date",
+    "plate": "Plate",
+    "owner": "Owner",
+    "cargo": "Cargo",
+    "weight": "Weight",
     "reputation": "Reputation"
   },
-
   "char": {
     "tourist": "TRAVELER",
     "worker": "LABORER",
@@ -54,28 +175,70 @@
     "stranger": "STRANGER IN GREY",
     "student": "STUDENT",
     "patient": "SICK TRAVELER",
-    "traveler": "TRAVELER"
+    "traveler": "TRAVELER",
+    "boss": "SUPERVISOR",
+    "family": "FATHER & CHILD",
+    "diplomat": "STATE OFFICIAL",
+    "smuggler": "TRAVELER IN A HEAVY COAT"
   },
-
+  "probe": {
+    "check_expiry": "Check the dates",
+    "open_cargo": "Open the cargo",
+    "compare_dob": "Re-read the birthdate",
+    "ask_daughter": "Ask about the child",
+    "search_van": "Search the van",
+    "ask_child": "Ask about the child",
+    "ask_address": "Ask his home address"
+  },
   "radio": {
     "generic": "…the Ministry thanks loyal officers for their service to the State.",
     "d1": "Welcome to Gate 7. The State is grateful for your service. Follow the rulebook. Stamp clean papers. Refuse the rest.",
     "d2": "Unrest in the southern provinces grows. Expect more arrivals. The Ministry reminds you: documents do not lie. People do.",
     "d3": "A bombing in the capital last night. Four dead. Security level raised. Trust nothing. Trust no one.",
-    "d4": "The rulebook has changed again. Read the new directive carefully. Your loyalty is being measured."
+    "d4": "The rulebook has changed again. Read the new directive carefully. Your loyalty is being measured.",
+    "d5": "Internal Affairs has opened files on three gate officers this month. The Ministry rewards the clean and buries the rest.",
+    "d6": "Curfew extended. Rations cut. The crowds at the gates grow desperate, and desperate people lie best.",
+    "d7": "They say the Minister himself reviews the gate logs now. Every stamp has your name on it."
   },
   "rule": {
+    "book": [
+      "§1  Approve valid papers. Deny the invalid. No exceptions without orders.",
+      "§2  Every passport must be unexpired, signed, and complete.",
+      "§3  The photo must match the face. The name must match every document.",
+      "§4  Dates must be real. A date that cannot exist is a forgery.",
+      "§5  All cargo must be declared. Undeclared goods are contraband.",
+      "§6  Foreign nationals require a valid visa or work permit.",
+      "§7  When in doubt, interrogate before you stamp.",
+      "§8  Accepting payment from travelers is a crime. Internal Affairs is always watching.",
+      "§9  Meet your daily quota. Falling short reflects on your record."
+    ],
     "generic": "Directive: process arrivals. Maintain order.",
     "d1": "Directive: Approve valid documents. Deny the invalid. That is all.",
     "d2": "Directive: Eastmark cargo must be declared. Undeclared goods are contraband.",
     "d3": "Directive: No exceptions today. Anyone without complete papers is denied.",
-    "d4": "Directive: Refer anything unusual upward. Do not improvise."
+    "d4": "Directive: Refer anything unusual upward. Do not improvise.",
+    "d5": "Directive: Internal Affairs is active at this gate. Assume you are watched.",
+    "d6": "Directive: Quotas raised. Errors will not be forgiven this week.",
+    "d7": "Directive: Hold the line. Whatever happens today, the gate stays shut to the unworthy."
   },
-
   "sc": {
     "generic": {
-      "ok": "Stamped. Welcome to the Federation.",
-      "no": "Denied. They turn away without a word."
+      "ok": [
+        "Stamped. \"Welcome to the Federation.\"",
+        "Approved. The stamp thuds. They move on.",
+        "Cleared. \"Next!\" you call before they've even turned.",
+        "Stamped. They nod once and vanish into the crowd.",
+        "Approved. Another face you'll never see again.",
+        "Cleared. The gate creaks open. They hurry through."
+      ],
+      "no": [
+        "Denied. They turn away without a word.",
+        "Refused. \"Step aside. Next in line.\"",
+        "Denied. The red stamp lands hard. They flinch.",
+        "Rejected. They open their mouth, then think better of it.",
+        "Denied. \"Not today.\" The line shuffles forward.",
+        "Refused. They linger a moment too long, then go."
+      ]
     },
     "d1_tourist": {
       "speech": "Good morning, officer. Just here to see the old cathedral.",
@@ -89,17 +252,20 @@
     },
     "d1_expired": {
       "speech": "It's only a few months past. Surely that doesn't matter?",
+      "found": "The expiry date reads two years ago. This passport is dead.",
       "ok": "You waved an expired passport through. A camera blinked red.",
       "no": "Denied — correctly. He sighs and shuffles away."
     },
     "d2_bribe": {
       "speech": "Officer… my cargo is, ah, time-sensitive. Perhaps we help each other?",
+      "found": "Under the textiles: unstamped liquor crates. Smuggling.",
       "wave": "You waved him through without checking. He smiles too widely.",
       "no": "Denied. \"A pity,\" he mutters, folding the bills back into his coat.",
       "take": "You pocketed the cash. He winks. Someone, somewhere, took note."
     },
     "d2_refugee": {
       "speech": "Please. They burned our village. I have nothing — no papers, only my daughter.",
+      "found": "The child clings to her. The fear in their eyes isn't an act.",
       "ok": "You let her through. The rulebook says no. Your chest says otherwise.",
       "no": "Denied. She doesn't argue. She just looks at you, then leaves."
     },
@@ -120,7 +286,14 @@
       "yes": "You took the envelope. There's no giving it back now.",
       "no": "\"Shame,\" they say. \"We'll be seeing you anyway.\" They melt into the crowd."
     },
-    "pool_student": { "speech": "Here for the university term, officer. First time abroad." },
+    "pool_student": {
+      "speech": [
+        "Here for the university term, officer. First time abroad.",
+        "I've got a scholarship to study across the line. Everything's in the folder.",
+        "Just a student, sir. Lectures start Monday — I can't be late.",
+        "First in my family to study abroad. My mother cried at the station."
+      ]
+    },
     "pool_sick": {
       "speech": "My dialysis is across the border. I miss a week, I don't make the next.",
       "ok": "Stamped. \"Bless you,\" he whispers.",
@@ -128,22 +301,107 @@
     },
     "pool_forged": {
       "speech": "Everything's in order, officer. Quick stamp and I'm gone.",
+      "found": "Birthdate: month THIRTEEN. No such month. This is forged.",
       "ok": "You missed it — the birthdate reads month thirteen. Forged.",
       "no": "Denied. The forgery was sloppy. He bolts before you call security."
     },
-    "pool_clean": { "speech": "Morning, officer. Cold one today, isn't it?" }
+    "pool_clean": {
+      "speech": [
+        "Morning, officer. Cold one today, isn't it?",
+        "Papers are all there. I won't waste your time.",
+        "Long line today. Hope you've had your coffee, officer.",
+        "Same trip as always. You've probably stamped me before.",
+        "Quiet morning at the gate? Won't be for long, I'd wager."
+      ]
+    },
+    "c_forged_caught": {
+      "speech": "Officer. A document you cleared was forged. Internal Affairs has questions. Sign here.",
+      "ack": "You sign. The pen feels heavier than it should."
+    },
+    "d4_directive": {
+      "speech": "New orders from above: cut approvals by half this week. The State is watching the numbers. And you.",
+      "obey": "You nod. Fewer people through your gate now. You try not to look at their faces.",
+      "refuse": "You say nothing — and keep stamping as before. Someone upstairs notices."
+    },
+    "pool_smuggler": {
+      "speech": "Just passing through, officer. Empty van. Nothing to see.",
+      "found": "Cargo logged 'empty' — but the van weighs two tonnes. False floor.",
+      "ok": "Waved through. The van's weight never matched its manifest. You knew.",
+      "no": "Denied. He doesn't protest the search. That tells you enough."
+    },
+    "pool_family": {
+      "speech": "My daughter's burning up. We just need to reach the clinic across the line. Please.",
+      "found": "The child's fever is real. The father's hands won't stop shaking.",
+      "ok": "You let them run for the clinic. The rulebook will never know why.",
+      "no": "Denied. The father picks up his daughter and walks back into the cold."
+    },
+    "pool_diplomat": {
+      "speech": "I trust this will be quick. People like me don't wait in lines, officer.",
+      "ok": "Stamped. His papers were perfect. So was his smile. You feel unclean.",
+      "no": "Denied a State official with flawless papers. The phone is already ringing."
+    },
+    "pool_spy": {
+      "speech": "Home for a funeral, officer. Family matter. Won't be long.",
+      "found": "He gives a home address — but stumbles on his own street name.",
+      "ok": "Stamped. His papers were flawless. Too flawless. The unease lingers.",
+      "no": "Denied. He holds your gaze a beat too long, then turns away."
+    },
+    "org_offer_2": {
+      "speech": "You're in deep now, friend. One more — a big one. After this, you're set for life. Or you talk, and we end the conversation.",
+      "yes": "You did it. The money is real. So is the noose tightening around your neck.",
+      "no": "You refused. \"Wrong answer,\" they say softly. Now they're a threat, not a partner."
+    },
+    "s_audit_warning": {
+      "speech": "Internal Affairs flagged your booth. Irregularities. We're watching every stamp now. Don't make us come back.",
+      "ack": "You nod. The lamp above you suddenly feels like a spotlight."
+    },
+    "s_sting": {
+      "speech": "Quiet day, officer? Listen… I'm in a hurry. Maybe a little something to speed things along? Just between us.",
+      "clean": "You kept it clean. The 'traveler' flashes a badge as he leaves — a test. You passed.",
+      "trap": "You took the money. The badge comes out. It was a sting. They've been waiting for this."
+    },
+    "s_final_warning": {
+      "speech": "This is your last warning. One more irregularity and you don't go home — you go downstairs. Understood?",
+      "ack": "Understood. Your hands won't stop sweating."
+    }
   },
-
   "end": {
     "epitaph": "You held Gate 7 for {days} day(s).",
-    "fired":    { "t": "DISMISSED", "x": "Too many complaints. Your badge is taken at the door. The booth doesn't even slow down without you." },
-    "promoted": { "t": "PROMOTED", "x": "They move you upstairs, into a room with no window and no name on the door. The decisions only get heavier from here." },
-    "broke":    { "t": "RUIN", "x": "The money ran out. Then the medicine. Then the excuses. Home is colder than the booth ever was." },
-    "greed":    { "t": "CAUGHT IN THE LEDGER", "x": "Your bank account asked questions your salary couldn't answer. The auditors arrive at dawn." },
-    "reckless": { "t": "NOTHING LEFT TO FEAR", "x": "You stopped being careful. The wrong man walked through, smiling. You never heard the rest." },
-    "paranoid": { "t": "EVERY SHADOW A KNIFE", "x": "You denied everyone. You searched your own reflection. They retire you 'for your health.'" },
-    "hollow":   { "t": "HOLLOW", "x": "You feel nothing now. You stamp, you deny, you go home. A perfect officer. An empty chair where a person sat." },
-    "broken":   { "t": "THE WEIGHT", "x": "You couldn't carry one more face. You set down the stamp mid-shift and walked into the snow." },
-    "arrest":   { "t": "TAKEN AT DAWN", "x": "They knew. They always knew. The cell is small, but at least the questions have stopped." }
+    "fired": {
+      "t": "DISMISSED",
+      "x": "Too many complaints. Your badge is taken at the door. The booth doesn't even slow down without you."
+    },
+    "promoted": {
+      "t": "PROMOTED",
+      "x": "They move you upstairs, into a room with no window and no name on the door. The decisions only get heavier from here."
+    },
+    "broke": {
+      "t": "RUIN",
+      "x": "The money ran out. Then the medicine. Then the excuses. Home is colder than the booth ever was."
+    },
+    "greed": {
+      "t": "CAUGHT IN THE LEDGER",
+      "x": "Your bank account asked questions your salary couldn't answer. The auditors arrive at dawn."
+    },
+    "reckless": {
+      "t": "NOTHING LEFT TO FEAR",
+      "x": "You stopped being careful. The wrong man walked through, smiling. You never heard the rest."
+    },
+    "paranoid": {
+      "t": "EVERY SHADOW A KNIFE",
+      "x": "You denied everyone. You searched your own reflection. They retire you 'for your health.'"
+    },
+    "hollow": {
+      "t": "HOLLOW",
+      "x": "You feel nothing now. You stamp, you deny, you go home. A perfect officer. An empty chair where a person sat."
+    },
+    "broken": {
+      "t": "THE WEIGHT",
+      "x": "You couldn't carry one more face. You set down the stamp mid-shift and walked into the snow."
+    },
+    "arrest": {
+      "t": "TAKEN AT DAWN",
+      "x": "They knew. They always knew. The cell is small, but at least the questions have stopped."
+    }
   }
 }

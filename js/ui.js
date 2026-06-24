@@ -93,7 +93,12 @@
       }
       def.fields.forEach((f) => {
         const label = t(docFieldLabel(f));
-        const value = d.data[f] != null ? d.data[f] : "—";
+        let value = d.data[f] != null ? d.data[f] : "—";
+        // override name/id with the card's generated identity when applicable
+        if (cardIdentity && value !== "—" && value !== "(none)") {
+          if (f === "name") value = cardIdentity.name;
+          else if (f === "id") value = cardIdentity.id;
+        }
         html += `<div class="row"><span class="k">${label}</span><span class="v">${value}</span></div>`;
       });
       el.innerHTML = html;
@@ -133,8 +138,31 @@
     return base + "_" + n;                     // e.g. "tourist_3"
   }
 
+  /* ---------- random identities ----------
+     Story characters keep their authored names; everyone else draws a
+     fresh first+last from the per-language pool so the same face/name
+     never repeats. ID numbers are generated from the country prefix. */
+  const FIXED_NAME_IDS = new Set([
+    "d2_refugee", "org_offer_1", "pool_diplomat", "pool_family",
+  ]);
+  const COUNTRY_PREFIX = { Federation: "FD", Eastmark: "EM", Southreach: "SR" };
+
+  function pick(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+
+  function makeIdentity(scenario) {
+    const first = I18N.raw("names.first");
+    const last = I18N.raw("names.last");
+    if (!Array.isArray(first) || !Array.isArray(last)) return null;
+    const country = (scenario.documents || []).map((d) => d.data && d.data.country)
+      .find((c) => c && c !== "—") || "Federation";
+    const prefix = COUNTRY_PREFIX[country] || "FD";
+    const num = String(Math.floor(1000 + Math.random() * 8999));
+    return { name: pick(first) + " " + pick(last), id: prefix + "-" + num };
+  }
+
   /* ---------- card ---------- */
   let currentScenario = null;
+  let cardIdentity = null;  // {name,id} for random-name cards
   let onChoice = null;   // callback(outcomeName)
   let onProbe = null;    // callback(probe)
   // transient per-card interrogation state (not persisted)
@@ -145,6 +173,9 @@
     onChoice = choiceCb;
     onProbe = probeCb;
     probeState = { used: {}, flaggedDocs: {}, revealed: [] };
+    // give travelers a fresh identity unless they're a story character
+    const hasPassport = (scenario.documents || []).some((d) => d.type === "passport" && d.data && d.data.name && d.data.name !== "—");
+    cardIdentity = (hasPassport && !FIXED_NAME_IDS.has(scenario.id)) ? makeIdentity(scenario) : null;
 
     const card = $("#card");
     card.style.transform = "";

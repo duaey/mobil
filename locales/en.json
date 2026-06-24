@@ -9,7 +9,11 @@
     "day": "DAY",
     "open": "Open the Gate"
   },
-  "hud": { "day": "D" },
+  "hud": { "day": "DAY", "rep": "REP", "money": "CASH", "fear": "FEAR", "cons": "SOUL" },
+  "names": {
+    "first": ["Lena","Marek","Otto","Cyrus","Dorin","Iris","Sol","Vint","Pol","Erik","Anya","Bruno","Clara","Dmitri","Elsa","Felix","Greta","Henrik","Ilse","Janos","Karl","Liesel","Milos","Nadia","Oskar","Petra","Roman","Sabine","Tomas","Ursula","Viktor","Wanda","Yusuf","Zofia","Aleksy","Bianca","Caspar","Dora","Emil","Franka","Gustav","Hedda","Ivo","Katia","Leon","Magda","Nikolai","Olga"],
+    "last": ["Voss","Dolan","Reyes","Bahn","Vale","Penn","Ardin","Calder","Geier","Holt","Brandt","Cernik","Drago","Engel","Falk","Garin","Haas","Imre","Janski","Korda","Lindqvist","Marek","Novak","Ostrov","Pavel","Quint","Roth","Sandor","Tarkov","Ulrich","Varga","Weiss","Yatsenko","Zander","Albescu","Bauer","Cretu","Dabrowski","Ehrlich","Fischer","Grund","Hoffman","Ionescu","Kohl","Lazar","Mraz","Nemeth","Petran"]
+  },
   "game": {
     "deny": "DENY",
     "approve": "APPROVE",

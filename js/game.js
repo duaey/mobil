@@ -41,13 +41,25 @@
     markSelectedLang();
     if (STATE.hasSave()) $("#btn-continue").hidden = false;
 
-    $("#btn-start").addEventListener("click", startNew);
-    $("#btn-continue").addEventListener("click", () => { STATE.load(); beginDay(); });
-    $("#btn-open-gate").addEventListener("click", beginGameplay);
+    $("#btn-start").addEventListener("click", () => { AUDIO.init(); AUDIO.sfx("stamp"); startNew(); });
+    $("#btn-continue").addEventListener("click", () => { AUDIO.init(); STATE.load(); beginDay(); });
+    $("#btn-open-gate").addEventListener("click", () => { AUDIO.init(); beginGameplay(); });
     $("#btn-next-day").addEventListener("click", () => { STATE.nextDay(); beginDay(); });
-    $("#btn-restart").addEventListener("click", () => { STATE.reset(); UI.show("boot-screen"); $("#btn-continue").hidden = true; });
+    $("#btn-restart").addEventListener("click", () => { AUDIO.stopMusic(); STATE.reset(); UI.show("boot-screen"); $("#btn-continue").hidden = true; });
     $("#btn-approve").addEventListener("click", () => UI.choose("approve"));
     $("#btn-deny").addEventListener("click", () => UI.choose("deny"));
+
+    // sound toggle
+    const muteBtn = $("#btn-mute");
+    const syncMute = () => { muteBtn.textContent = AUDIO.isMuted() ? "🔇" : "🔊"; };
+    syncMute();
+    muteBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      AUDIO.init();
+      const m = AUDIO.toggle();
+      syncMute();
+      if (!m) { AUDIO.startMusic(); AUDIO.sfx("click"); }
+    });
     $("#btn-inspect").addEventListener("click", () => $("#docs-drawer").classList.toggle("open"));
     $("#docs-toggle").addEventListener("click", () => $("#docs-drawer").classList.toggle("open"));
 
@@ -68,6 +80,7 @@
     if (el) el.textContent = t(currentRuleKey());
   }
   function openRules() {
+    AUDIO.sfx("page");
     UI.renderRulebook(STATE.S.day, currentRuleKey());
     $("#rules-modal").hidden = false;
   }
@@ -81,7 +94,7 @@
       b.className = "lang-btn";
       b.textContent = l.label;
       b.dataset.code = l.code;
-      b.addEventListener("click", async () => { await I18N.load(l.code); markSelectedLang(); });
+      b.addEventListener("click", async () => { AUDIO.init(); AUDIO.sfx("click"); await I18N.load(l.code); markSelectedLang(); });
       grid.appendChild(b);
     });
   }
@@ -104,6 +117,7 @@
     UI.show("game-screen");
     UI.renderMeters();
     renderDirective();
+    AUDIO.startMusic();
     nextCard();
   }
 
@@ -119,6 +133,7 @@
      Costs are small (time pressure, annoyance). Probing innocents too
      much nicks reputation; probing the guilty reveals contradictions. */
   function resolveProbe(scenario, probe) {
+    AUDIO.sfx("page");
     STATE.applyEffects(probe.effects);
     STATE.addSuspicion(probe.suspicion || 0);
     STATE.setFlags(probe.setFlags);
@@ -131,6 +146,7 @@
   function resolveChoice(scenario, choiceName) {
     const outcome = scenario[choiceName];
     if (!outcome) return;
+    AUDIO.sfx(choiceName === "approve" ? "approve" : "deny");
     UI.flyOut(choiceName === "approve" ? "right" : "left", () => {
       finishOutcome(scenario, outcome);
     });
@@ -157,6 +173,7 @@
       moneyStat.onclick = () => {
         if (!pendingBribe) return;
         const b = pendingBribe; pendingBribe = null; moneyStat.onclick = null;
+        AUDIO.sfx("coin");
         UI.flyOut("right", () => finishOutcome(scenario, b));
       };
     }
@@ -170,6 +187,7 @@
   }
 
   function triggerEnding(ending) {
+    AUDIO.sfx("alert"); AUDIO.stopMusic();
     STATE.S.ended = true; STATE.save();
     const epitaph = t("end.epitaph", { days: STATE.S.day });
     UI.renderEnding(ending.title, ending.text, epitaph);

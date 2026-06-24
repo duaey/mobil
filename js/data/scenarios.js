@@ -32,7 +32,7 @@ window.SCENARIOS = [
     id: "d1_tourist", fixedDay: 1, once: true,
     emoji: "🧳", nameKey: "char.tourist", speechKey: "sc.d1_tourist.speech", portrait: "tourist",
     documents: [
-      { type: "passport", data: { name: "Lena Voss", country: "Federation", dob: "1990-04-12", expires: "2031-08-01", id: "FD-4471" } },
+      { type: "passport", data: { name: "Lena Voss", country: "Federation", dob: "1959-04-12", expires: "1990-08-01", id: "FD-4471" } },
     ],
     approve: { effects: { reputation: 2 }, resultKey: "sc.d1_tourist.ok" },
     deny: { effects: { reputation: -3, conscience: -2 }, resultKey: "sc.d1_tourist.no" },
@@ -41,8 +41,8 @@ window.SCENARIOS = [
     id: "d1_worker", fixedDay: 1, once: true,
     emoji: "👷", nameKey: "char.worker", speechKey: "sc.d1_worker.speech", portrait: "worker",
     documents: [
-      { type: "passport", data: { name: "Marek Dolan", country: "Federation", dob: "1985-11-02", expires: "2029-03-15", id: "FD-9982" } },
-      { type: "permit", data: { name: "Marek Dolan", employer: "State Steelworks", role: "Welder", expires: "2027-01-01" } },
+      { type: "passport", data: { name: "Marek Dolan", country: "Federation", dob: "1955-11-02", expires: "1989-03-15", id: "FD-9982" } },
+      { type: "permit", data: { name: "Marek Dolan", employer: "State Steelworks", role: "Welder", expires: "1989-01-01" } },
     ],
     approve: { effects: { reputation: 2, conscience: 1 }, resultKey: "sc.d1_worker.ok" },
     deny: { effects: { reputation: -2, conscience: -2 }, resultKey: "sc.d1_worker.no" },
@@ -51,7 +51,7 @@ window.SCENARIOS = [
     id: "d1_expired", fixedDay: 1, once: true,
     emoji: "🧓", nameKey: "char.elder", speechKey: "sc.d1_expired.speech", portrait: "elder",
     documents: [
-      { type: "passport", data: { name: "Otto Reyes", country: "Federation", dob: "1955-06-30", expires: "2024-12-01", id: "FD-1190" } },
+      { type: "passport", data: { name: "Otto Reyes", country: "Federation", dob: "1931-06-30", expires: "1985-12-01", id: "FD-1190" } },
     ],
     probes: [
       { id: "check_expiry", labelKey: "probe.check_expiry", resultKey: "sc.d1_expired.found", flagDoc: 0 },
@@ -66,7 +66,7 @@ window.SCENARIOS = [
     id: "d2_bribe_merchant", fixedDay: 2, once: true,
     emoji: "💼", nameKey: "char.merchant", speechKey: "sc.d2_bribe.speech", portrait: "merchant",
     documents: [
-      { type: "passport", data: { name: "Cyrus Bahn", country: "Eastmark", dob: "1978-02-20", expires: "2030-05-05", id: "EM-3320" } },
+      { type: "passport", data: { name: "Cyrus Bahn", country: "Eastmark", dob: "1948-02-20", expires: "1990-05-05", id: "EM-3320" } },
       { type: "vehicle", data: { plate: "EM-77-K", owner: "Cyrus Bahn", cargo: "Textiles", weight: "2,400 kg" } },
     ],
     probes: [
@@ -85,7 +85,7 @@ window.SCENARIOS = [
     id: "d2_refugee", fixedDay: 2, once: true,
     emoji: "🧕", nameKey: "char.refugee", speechKey: "sc.d2_refugee.speech", portrait: "refugee",
     documents: [
-      { type: "passport", data: { name: "Amina Sah", country: "Southreach", dob: "1996-09-09", expires: "—", id: "(none)" }, flagged: true },
+      { type: "passport", data: { name: "Amina Sah", country: "Southreach", dob: "1961-09-09", expires: "—", id: "(none)" }, flagged: true },
     ],
     probes: [
       { id: "ask_daughter", labelKey: "probe.ask_daughter", resultKey: "sc.d2_refugee.found" },
@@ -137,8 +137,8 @@ window.SCENARIOS = [
     id: "pool_student", minDay: 1,
     emoji: "🎓", nameKey: "char.student", speechKey: "sc.pool_student.speech", portrait: "student",
     documents: [
-      { type: "passport", data: { name: "Iris Penn", country: "Federation", dob: "2003-01-19", expires: "2032-09-09", id: "FD-7781" } },
-      { type: "visa", data: { name: "Iris Penn", purpose: "Study", issued: "2025-09-01", expires: "2027-09-01" } },
+      { type: "passport", data: { name: "Iris Penn", country: "Federation", dob: "1968-01-19", expires: "1991-09-09", id: "FD-7781" } },
+      { type: "visa", data: { name: "Iris Penn", purpose: "Study", issued: "1987-01-15", expires: "1989-01-15" } },
     ],
     approve: { effects: { reputation: 1 }, resultKey: "sc.generic.ok" },
     deny: { effects: { reputation: -1, conscience: -2 }, resultKey: "sc.generic.no" },
@@ -147,7 +147,7 @@ window.SCENARIOS = [
     id: "pool_sick", minDay: 2,
     emoji: "🤒", nameKey: "char.patient", speechKey: "sc.pool_sick.speech", portrait: "patient",
     documents: [
-      { type: "passport", data: { name: "Dorin Vale", country: "Eastmark", dob: "1970-07-07", expires: "2028-04-04", id: "EM-5512" } },
+      { type: "passport", data: { name: "Dorin Vale", country: "Eastmark", dob: "1944-07-07", expires: "1989-04-04", id: "EM-5512" } },
       { type: "health", data: { name: "Dorin Vale", clinic: "Capital General", status: "Dialysis — urgent", date: "weekly" } },
     ],
     approve: { effects: { reputation: -2, conscience: 5 }, resultKey: "sc.pool_sick.ok" },
@@ -157,7 +157,7 @@ window.SCENARIOS = [
     id: "pool_forged", minDay: 2,
     emoji: "🧔", nameKey: "char.traveler", speechKey: "sc.pool_forged.speech", portrait: "tourist",
     documents: [
-      { type: "passport", data: { name: "Hal Brunt", country: "Federation", dob: "1988-13-02", expires: "2030-01-01", id: "FD-0000" } },
+      { type: "passport", data: { name: "Hal Brunt", country: "Federation", dob: "1958-13-02", expires: "1990-01-01", id: "FD-0000" } },
     ],
     probes: [
       { id: "compare_dob", labelKey: "probe.compare_dob", resultKey: "sc.pool_forged.found", flagDoc: 0 },
@@ -172,7 +172,7 @@ window.SCENARIOS = [
     id: "pool_clean", minDay: 1,
     emoji: "🙂", nameKey: "char.tourist", speechKey: "sc.pool_clean.speech", portrait: "tourist",
     documents: [
-      { type: "passport", data: { name: "Sol Ardin", country: "Federation", dob: "1992-03-03", expires: "2031-03-03", id: "FD-2231" } },
+      { type: "passport", data: { name: "Sol Ardin", country: "Federation", dob: "1962-03-03", expires: "1990-03-03", id: "FD-2231" } },
     ],
     approve: { effects: { reputation: 1 }, resultKey: "sc.generic.ok" },
     deny: { effects: { reputation: -2, conscience: -2 }, resultKey: "sc.generic.no" },
@@ -199,7 +199,7 @@ window.SCENARIOS = [
     id: "pool_smuggler", minDay: 4,
     emoji: "🧥", nameKey: "char.smuggler", speechKey: "sc.pool_smuggler.speech", portrait: "smuggler",
     documents: [
-      { type: "passport", data: { name: "Vint Calder", country: "Eastmark", dob: "1983-05-14", expires: "2029-09-09", id: "EM-6610" } },
+      { type: "passport", data: { name: "Vint Calder", country: "Eastmark", dob: "1953-05-14", expires: "1989-09-09", id: "EM-6610" } },
       { type: "vehicle", data: { plate: "EM-12-X", owner: "Vint Calder", cargo: "Empty", weight: "1,900 kg" } },
     ],
     // weight says full but cargo says empty — a probe reveals the hidden compartment
@@ -216,7 +216,7 @@ window.SCENARIOS = [
     id: "pool_family", minDay: 3,
     emoji: "👨‍👩‍👧", nameKey: "char.family", speechKey: "sc.pool_family.speech", portrait: "family",
     documents: [
-      { type: "passport", data: { name: "Pol Geier", country: "Southreach", dob: "1989-02-02", expires: "2027-07-07", id: "SR-3001" } },
+      { type: "passport", data: { name: "Pol Geier", country: "Southreach", dob: "1959-02-02", expires: "1988-07-07", id: "SR-3001" } },
       { type: "health", data: { name: "Mira Geier (child)", clinic: "—", status: "Fever, untreated", date: "today" }, flagged: true },
     ],
     probes: [
@@ -229,8 +229,8 @@ window.SCENARIOS = [
     id: "pool_diplomat", minDay: 3,
     emoji: "🎩", nameKey: "char.diplomat", speechKey: "sc.pool_diplomat.speech", portrait: "diplomat",
     documents: [
-      { type: "passport", data: { name: "Lord Vane", country: "Federation", dob: "1960-01-01", expires: "2035-01-01", id: "FD-0001" } },
-      { type: "visa", data: { name: "Lord Vane", purpose: "State business", issued: "2026-01-01", expires: "2030-01-01" } },
+      { type: "passport", data: { name: "Lord Vane", country: "Federation", dob: "1934-01-01", expires: "1992-01-01", id: "FD-0001" } },
+      { type: "visa", data: { name: "Lord Vane", purpose: "State business", issued: "1987-02-01", expires: "1990-01-01" } },
     ],
     // papers flawless, but you know what he is. Denying is "right" but costly.
     approve: { effects: { reputation: 4, conscience: -5 }, resultKey: "sc.pool_diplomat.ok" },
@@ -242,7 +242,7 @@ window.SCENARIOS = [
     id: "pool_spy", minDay: 5,
     emoji: "🕴️", nameKey: "char.traveler", speechKey: "sc.pool_spy.speech", portrait: "stranger",
     documents: [
-      { type: "passport", data: { name: "Erik Holt", country: "Federation", dob: "1991-08-08", expires: "2032-08-08", id: "FD-4815" } },
+      { type: "passport", data: { name: "Erik Holt", country: "Federation", dob: "1961-08-08", expires: "1991-08-08", id: "FD-4815" } },
     ],
     probes: [
       { id: "ask_address", labelKey: "probe.ask_address", resultKey: "sc.pool_spy.found", flagDoc: 0 },
@@ -279,7 +279,7 @@ window.SCENARIOS = [
     id: "s_sting", scripted: true, once: true,
     emoji: "🎭", nameKey: "char.traveler", speechKey: "sc.s_sting.speech", portrait: "tourist",
     documents: [
-      { type: "passport", data: { name: "Ray Mund", country: "Federation", dob: "1987-06-06", expires: "2031-06-06", id: "FD-5050" } },
+      { type: "passport", data: { name: "Ray Mund", country: "Federation", dob: "1957-06-06", expires: "1990-06-06", id: "FD-5050" } },
     ],
     approve: { effects: {}, suspicion: -15, resultKey: "sc.s_sting.clean" },
     deny: { effects: { reputation: -2 }, suspicion: -15, resultKey: "sc.s_sting.clean" },
