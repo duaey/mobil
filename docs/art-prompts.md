@@ -19,8 +19,16 @@
 grim noir illustration, 1980s Eastern-bloc border checkpoint aesthetic,
 muted desaturated palette (amber, olive, oxblood, cold grey), heavy film
 grain, dramatic single-source lamp light, hand-painted gouache texture,
-oppressive bureaucratic mood, serious, NOT cartoonish, cinematic, detailed,
-plain dark background
+oppressive bureaucratic mood, serious, NOT cartoonish, cinematic, detailed
+```
+
+## Background LOCK — APPEND to every character prompt
+This keeps every portrait consistent (same wall, tight framing) instead of a
+different full scene each time:
+```
+tight head-and-shoulders portrait, face fills the frame, subject alone against
+a plain weathered dark grey concrete wall, no other people, no background
+scenery, single dim lamp from above
 ```
 
 ---
