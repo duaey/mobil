@@ -77,6 +77,36 @@
     });
   }
 
+  /* ---------- portrait variant picker ----------
+     Each portrait key can have multiple numbered variants (tourist_1, tourist_2...).
+     PORTRAIT_VARIANTS maps a key to how many variants exist.
+     Add a number here when you drop a new file in assets/img/.
+     If a key has 0 or is absent, falls back to the un-numbered file.        */
+  const PORTRAIT_VARIANTS = {
+    tourist:    3,   // tourist_1.png, tourist_2.png, tourist_3.png
+    worker:     2,
+    elder:      2,
+    merchant:   2,
+    refugee:    1,
+    kemal:      1,
+    stranger:   2,
+    student:    2,
+    patient:    2,
+    smuggler:   2,
+    boss:       1,
+    family:     1,
+    diplomat:   1,
+  };
+
+  function pickPortrait(scenario) {
+    const base = scenario.portrait;
+    if (!base) return null;
+    const count = PORTRAIT_VARIANTS[base] || 0;
+    if (count <= 1) return base;               // only one file: use as-is
+    const n = Math.floor(Math.random() * count) + 1;
+    return base + "_" + n;                     // e.g. "tourist_3"
+  }
+
   /* ---------- card ---------- */
   let currentScenario = null;
   let onChoice = null;   // callback(outcomeName)
@@ -99,8 +129,9 @@
     $("#card-speech").textContent = t(scenario.speechKey);
     const portrait = $("#card-portrait");
     portrait.textContent = scenario.emoji || "👤";
-    if (scenario.portrait) {
-      portrait.style.backgroundImage = `url(assets/img/${scenario.portrait}.png)`;
+    const portraitKey = pickPortrait(scenario);
+    if (portraitKey) {
+      portrait.style.backgroundImage = `url(assets/img/${portraitKey}.png)`;
       portrait.textContent = "";
     } else {
       portrait.style.backgroundImage = "";
