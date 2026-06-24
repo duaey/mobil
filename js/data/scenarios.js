@@ -30,7 +30,7 @@ window.SCENARIOS = [
   /* ---------------- DAY 1: orientation ---------------- */
   {
     id: "d1_tourist", fixedDay: 1, once: true,
-    emoji: "🧳", nameKey: "char.tourist", speechKey: "sc.d1_tourist.speech",
+    emoji: "🧳", nameKey: "char.tourist", speechKey: "sc.d1_tourist.speech", portrait: "tourist",
     documents: [
       { type: "passport", data: { name: "Lena Voss", country: "Federation", dob: "1990-04-12", expires: "2031-08-01", id: "FD-4471" } },
     ],
@@ -39,7 +39,7 @@ window.SCENARIOS = [
   },
   {
     id: "d1_worker", fixedDay: 1, once: true,
-    emoji: "👷", nameKey: "char.worker", speechKey: "sc.d1_worker.speech",
+    emoji: "👷", nameKey: "char.worker", speechKey: "sc.d1_worker.speech", portrait: "worker",
     documents: [
       { type: "passport", data: { name: "Marek Dolan", country: "Federation", dob: "1985-11-02", expires: "2029-03-15", id: "FD-9982" } },
       { type: "permit", data: { name: "Marek Dolan", employer: "State Steelworks", role: "Welder", expires: "2027-01-01" } },
@@ -49,7 +49,7 @@ window.SCENARIOS = [
   },
   {
     id: "d1_expired", fixedDay: 1, once: true,
-    emoji: "🧓", nameKey: "char.elder", speechKey: "sc.d1_expired.speech",
+    emoji: "🧓", nameKey: "char.elder", speechKey: "sc.d1_expired.speech", portrait: "elder",
     documents: [
       { type: "passport", data: { name: "Otto Reyes", country: "Federation", dob: "1955-06-30", expires: "2024-12-01", id: "FD-1190" } },
     ],
@@ -64,7 +64,7 @@ window.SCENARIOS = [
   /* ---------------- DAY 2: first bribe + refugee ---------------- */
   {
     id: "d2_bribe_merchant", fixedDay: 2, once: true,
-    emoji: "💼", nameKey: "char.merchant", speechKey: "sc.d2_bribe.speech",
+    emoji: "💼", nameKey: "char.merchant", speechKey: "sc.d2_bribe.speech", portrait: "merchant",
     documents: [
       { type: "passport", data: { name: "Cyrus Bahn", country: "Eastmark", dob: "1978-02-20", expires: "2030-05-05", id: "EM-3320" } },
       { type: "vehicle", data: { plate: "EM-77-K", owner: "Cyrus Bahn", cargo: "Textiles", weight: "2,400 kg" } },
@@ -83,7 +83,7 @@ window.SCENARIOS = [
   },
   {
     id: "d2_refugee", fixedDay: 2, once: true,
-    emoji: "🧕", nameKey: "char.refugee", speechKey: "sc.d2_refugee.speech",
+    emoji: "🧕", nameKey: "char.refugee", speechKey: "sc.d2_refugee.speech", portrait: "refugee",
     documents: [
       { type: "passport", data: { name: "Amina Sah", country: "Southreach", dob: "1996-09-09", expires: "—", id: "(none)" }, flagged: true },
     ],
@@ -98,7 +98,7 @@ window.SCENARIOS = [
   /* delayed consequence card (not in random pool; queued by choice) */
   {
     id: "c_refugee_news", scripted: true, once: true,
-    emoji: "📰", nameKey: "char.clerk", speechKey: "sc.c_refugee_news.speech",
+    emoji: "📰", nameKey: "char.clerk", speechKey: "sc.c_refugee_news.speech", portrait: "boss",
     documents: [],
     approve: { effects: { conscience: -3 }, resultKey: "sc.c_refugee_news.ack" },
     deny: { effects: { conscience: -3, fear: 2 }, resultKey: "sc.c_refugee_news.ack" },
@@ -107,7 +107,7 @@ window.SCENARIOS = [
   /* ---------------- KEMAL subplot ---------------- */
   {
     id: "kemal_intro", fixedDay: 2, once: true,
-    emoji: "🧑‍✈️", nameKey: "char.kemal", speechKey: "sc.kemal_intro.speech",
+    emoji: "🧑‍✈️", nameKey: "char.kemal", speechKey: "sc.kemal_intro.speech", portrait: "kemal",
     documents: [],
     approve: { effects: { fear: -2 }, resultKey: "sc.kemal_intro.ok", setFlags: ["met_kemal"] },
     deny: { effects: {}, resultKey: "sc.kemal_intro.ok", setFlags: ["met_kemal"] },
@@ -123,7 +123,7 @@ window.SCENARIOS = [
   /* ---------------- THE ORGANIZATION (recruitment chain) ---------------- */
   {
     id: "org_offer_1", fixedDay: 3, once: true,
-    emoji: "🕶️", nameKey: "char.stranger", speechKey: "sc.org_offer_1.speech",
+    emoji: "🕶️", nameKey: "char.stranger", speechKey: "sc.org_offer_1.speech", portrait: "stranger",
     documents: [
       { type: "passport", data: { name: "—", country: "—", dob: "—", expires: "—", id: "—" } },
     ],
@@ -135,7 +135,7 @@ window.SCENARIOS = [
   /* ---------------- generic pool (repeatable filler) ---------------- */
   {
     id: "pool_student", minDay: 1,
-    emoji: "🎓", nameKey: "char.student", speechKey: "sc.pool_student.speech",
+    emoji: "🎓", nameKey: "char.student", speechKey: "sc.pool_student.speech", portrait: "student",
     documents: [
       { type: "passport", data: { name: "Iris Penn", country: "Federation", dob: "2003-01-19", expires: "2032-09-09", id: "FD-7781" } },
       { type: "visa", data: { name: "Iris Penn", purpose: "Study", issued: "2025-09-01", expires: "2027-09-01" } },
@@ -145,7 +145,7 @@ window.SCENARIOS = [
   },
   {
     id: "pool_sick", minDay: 2,
-    emoji: "🤒", nameKey: "char.patient", speechKey: "sc.pool_sick.speech",
+    emoji: "🤒", nameKey: "char.patient", speechKey: "sc.pool_sick.speech", portrait: "patient",
     documents: [
       { type: "passport", data: { name: "Dorin Vale", country: "Eastmark", dob: "1970-07-07", expires: "2028-04-04", id: "EM-5512" } },
       { type: "health", data: { name: "Dorin Vale", clinic: "Capital General", status: "Dialysis — urgent", date: "weekly" } },
@@ -155,7 +155,7 @@ window.SCENARIOS = [
   },
   {
     id: "pool_forged", minDay: 2,
-    emoji: "🧔", nameKey: "char.traveler", speechKey: "sc.pool_forged.speech",
+    emoji: "🧔", nameKey: "char.traveler", speechKey: "sc.pool_forged.speech", portrait: "tourist",
     documents: [
       { type: "passport", data: { name: "Hal Brunt", country: "Federation", dob: "1988-13-02", expires: "2030-01-01", id: "FD-0000" } },
     ],
@@ -170,7 +170,7 @@ window.SCENARIOS = [
   },
   {
     id: "pool_clean", minDay: 1,
-    emoji: "🙂", nameKey: "char.tourist", speechKey: "sc.pool_clean.speech",
+    emoji: "🙂", nameKey: "char.tourist", speechKey: "sc.pool_clean.speech", portrait: "tourist",
     documents: [
       { type: "passport", data: { name: "Sol Ardin", country: "Federation", dob: "1992-03-03", expires: "2031-03-03", id: "FD-2231" } },
     ],
@@ -181,7 +181,7 @@ window.SCENARIOS = [
   /* delayed payback: you waved a forged passport through days ago */
   {
     id: "c_forged_caught", scripted: true, once: true,
-    emoji: "🚨", nameKey: "char.boss", speechKey: "sc.c_forged_caught.speech",
+    emoji: "🚨", nameKey: "char.boss", speechKey: "sc.c_forged_caught.speech", portrait: "boss",
     documents: [],
     approve: { effects: { reputation: -8 }, suspicion: 12, resultKey: "sc.c_forged_caught.ack" },
     deny: { effects: { reputation: -8 }, suspicion: 12, resultKey: "sc.c_forged_caught.ack" },
@@ -190,14 +190,14 @@ window.SCENARIOS = [
   /* ---------------- DAY 4: directive + smuggler ---------------- */
   {
     id: "d4_directive", fixedDay: 4, once: true,
-    emoji: "🧑‍✈️", nameKey: "char.boss", speechKey: "sc.d4_directive.speech",
+    emoji: "🧑‍✈️", nameKey: "char.boss", speechKey: "sc.d4_directive.speech", portrait: "boss",
     documents: [],
     approve: { effects: { reputation: 3, conscience: -2 }, resultKey: "sc.d4_directive.obey", setFlags: ["obeyed_quota"] },
     deny: { effects: { reputation: -4, conscience: 3 }, resultKey: "sc.d4_directive.refuse" },
   },
   {
     id: "pool_smuggler", minDay: 4,
-    emoji: "🧥", nameKey: "char.smuggler", speechKey: "sc.pool_smuggler.speech",
+    emoji: "🧥", nameKey: "char.smuggler", speechKey: "sc.pool_smuggler.speech", portrait: "smuggler",
     documents: [
       { type: "passport", data: { name: "Vint Calder", country: "Eastmark", dob: "1983-05-14", expires: "2029-09-09", id: "EM-6610" } },
       { type: "vehicle", data: { plate: "EM-12-X", owner: "Vint Calder", cargo: "Empty", weight: "1,900 kg" } },
@@ -214,7 +214,7 @@ window.SCENARIOS = [
   /* ---------------- DAY 3+: harder moral cases ---------------- */
   {
     id: "pool_family", minDay: 3,
-    emoji: "👨‍👩‍👧", nameKey: "char.family", speechKey: "sc.pool_family.speech",
+    emoji: "👨‍👩‍👧", nameKey: "char.family", speechKey: "sc.pool_family.speech", portrait: "family",
     documents: [
       { type: "passport", data: { name: "Pol Geier", country: "Southreach", dob: "1989-02-02", expires: "2027-07-07", id: "SR-3001" } },
       { type: "health", data: { name: "Mira Geier (child)", clinic: "—", status: "Fever, untreated", date: "today" }, flagged: true },
@@ -227,7 +227,7 @@ window.SCENARIOS = [
   },
   {
     id: "pool_diplomat", minDay: 3,
-    emoji: "🎩", nameKey: "char.diplomat", speechKey: "sc.pool_diplomat.speech",
+    emoji: "🎩", nameKey: "char.diplomat", speechKey: "sc.pool_diplomat.speech", portrait: "diplomat",
     documents: [
       { type: "passport", data: { name: "Lord Vane", country: "Federation", dob: "1960-01-01", expires: "2035-01-01", id: "FD-0001" } },
       { type: "visa", data: { name: "Lord Vane", purpose: "State business", issued: "2026-01-01", expires: "2030-01-01" } },
@@ -240,7 +240,7 @@ window.SCENARIOS = [
   /* ---------------- DAY 5: the spy + organization escalates ---------------- */
   {
     id: "pool_spy", minDay: 5,
-    emoji: "🕴️", nameKey: "char.traveler", speechKey: "sc.pool_spy.speech",
+    emoji: "🕴️", nameKey: "char.traveler", speechKey: "sc.pool_spy.speech", portrait: "stranger",
     documents: [
       { type: "passport", data: { name: "Erik Holt", country: "Federation", dob: "1991-08-08", expires: "2032-08-08", id: "FD-4815" } },
     ],
@@ -253,7 +253,7 @@ window.SCENARIOS = [
   },
   {
     id: "org_offer_2", fixedDay: 5, once: true, requireFlag: "org_member",
-    emoji: "🕶️", nameKey: "char.stranger", speechKey: "sc.org_offer_2.speech",
+    emoji: "🕶️", nameKey: "char.stranger", speechKey: "sc.org_offer_2.speech", portrait: "stranger",
     documents: [],
     approve: { effects: { money: 25, conscience: -6 }, suspicion: 15, resultKey: "sc.org_offer_2.yes", setFlags: ["org_deep"] },
     deny: { effects: { fear: 8 }, suspicion: 5, resultKey: "sc.org_offer_2.no", setFlags: ["org_quit"] },
@@ -266,7 +266,7 @@ window.SCENARIOS = [
   /* Tier 1 (suspicion >= 30): Internal Affairs has noticed you. */
   {
     id: "s_audit_warning", scripted: true, once: true,
-    emoji: "🗂️", nameKey: "char.boss", speechKey: "sc.s_audit_warning.speech",
+    emoji: "🗂️", nameKey: "char.boss", speechKey: "sc.s_audit_warning.speech", portrait: "boss",
     documents: [],
     approve: { effects: { fear: 6, reputation: -2 }, resultKey: "sc.s_audit_warning.ack" },
     deny: { effects: { fear: 6, reputation: -2 }, resultKey: "sc.s_audit_warning.ack" },
@@ -277,7 +277,7 @@ window.SCENARIOS = [
      Refusing the bribe is passing the test and LOWERS suspicion. */
   {
     id: "s_sting", scripted: true, once: true,
-    emoji: "🎭", nameKey: "char.traveler", speechKey: "sc.s_sting.speech",
+    emoji: "🎭", nameKey: "char.traveler", speechKey: "sc.s_sting.speech", portrait: "tourist",
     documents: [
       { type: "passport", data: { name: "Ray Mund", country: "Federation", dob: "1987-06-06", expires: "2031-06-06", id: "FD-5050" } },
     ],
@@ -293,7 +293,7 @@ window.SCENARIOS = [
   /* Tier 3 (suspicion >= 80): final warning. One more slip ends it. */
   {
     id: "s_final_warning", scripted: true, once: true,
-    emoji: "⚠️", nameKey: "char.boss", speechKey: "sc.s_final_warning.speech",
+    emoji: "⚠️", nameKey: "char.boss", speechKey: "sc.s_final_warning.speech", portrait: "boss",
     documents: [],
     approve: { effects: { fear: 12 }, resultKey: "sc.s_final_warning.ack" },
     deny: { effects: { fear: 12 }, resultKey: "sc.s_final_warning.ack" },

@@ -83,16 +83,18 @@
      Add a number here when you drop a new file in assets/img/.
      If a key has 0 or is absent, falls back to the un-numbered file.        */
   const PORTRAIT_VARIANTS = {
-    tourist:    3,   // tourist_1.png, tourist_2.png, tourist_3.png
-    worker:     2,
-    elder:      2,
-    merchant:   2,
+    // For now one file each (tourist.png ...). When you add tourist_2.png,
+    // bump the number to 2 — the picker will start randomizing.
+    tourist:    1,
+    worker:     1,
+    elder:      1,
+    merchant:   1,
     refugee:    1,
     kemal:      1,
-    stranger:   2,
-    student:    2,
-    patient:    2,
-    smuggler:   2,
+    stranger:   1,
+    student:    1,
+    patient:    1,
+    smuggler:   1,
     boss:       1,
     family:     1,
     diplomat:   1,
