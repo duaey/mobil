@@ -48,7 +48,10 @@ html, body {
 
 /* ---------- boot screen ---------- */
 #boot-screen { justify-content: center; align-items: center; text-align: center;
-  background: radial-gradient(circle at 50% 30%, var(--bg-2), var(--bg)); }
+  background:
+    linear-gradient(to bottom, rgba(26,20,16,.82), rgba(26,20,16,.95)),
+    url(../assets/img/title-bg.png) center / cover no-repeat,
+    radial-gradient(circle at 50% 30%, var(--bg-2), var(--bg)); }
 .boot-inner { max-width: 420px; width: 100%; }
 .logo { font-family: var(--font); font-size: 4rem; letter-spacing: .15em; color: var(--ink); }
 .logo span { color: var(--accent); }
@@ -83,7 +86,10 @@ html, body {
 .day-rule { color: var(--accent); margin-bottom: 28px; font-size: .95rem; min-height: 1.2em; }
 
 /* ---------- game screen ---------- */
-#game-screen { padding-top: var(--safe-top); }
+#game-screen { padding-top: var(--safe-top);
+  background:
+    linear-gradient(to bottom, rgba(26,20,16,.88), rgba(26,20,16,.97)),
+    url(../assets/img/desk-bg.png) center / cover no-repeat fixed; }
 
 .status-bar { display: flex; align-items: center; gap: 8px; padding: 10px 14px;
   background: var(--bg-2); border-bottom: 1px solid #3a2e20; }
