@@ -509,3 +509,5 @@ html, body {
 .card.fly-right { transition: transform .4s ease, opacity .4s; transform: translateX(140%) rotate(20deg) !important; opacity: 0; }
 .card.fly-in    { animation: flyIn .35s ease; }
 @keyframes flyIn { from { transform: translateY(50px); opacity: 0; } }
+
+.build-tag { margin-top: 18px; font-family: var(--font); font-size: .68rem; color: var(--ink-dim); opacity: .6; letter-spacing: .08em; }
