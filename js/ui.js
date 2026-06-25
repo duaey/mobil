@@ -42,13 +42,102 @@
     $("#hud-queue").textContent = Math.max(0, STATE.quota() - STATE.S.processedToday);
   }
 
-  /* ---------- inspector: interrogation probes + documents ---------- */
+  /* ---------- cross-document verification ----------
+     Comparable fields (name, dob, country) that appear on 2+ papers can be
+     cross-checked by the player. Some travelers carry a planted discrepancy
+     (a forged secondary paper) the player must catch. */
+  const COMPARABLE = ["name", "dob", "country"];
+  const DOC_EMBLEM = { passport: "🛂", visa: "🎫", permit: "🏭", health: "⚕", vehicle: "🚚" };
+
+  let cardDocs = [];          // resolved [{type,def,flagged,fields:[{key,label,value}]}]
+  let cardDiscrepancy = null; // {kind,docIndex,label,expected,actual} | null
+  let compareState = { activeKey: null, found: {} }; // per-card compare interaction
+
+  // generate a plausible "wrong" full name distinct from `avoid`
+  function otherName(avoid) {
+    const first = I18N.raw("names.first"); const last = I18N.raw("names.last");
+    if (!Array.isArray(first) || !Array.isArray(last)) return "—";
+    let n = "—";
+    for (let i = 0; i < 8; i++) { n = pick(first) + " " + pick(last); if (n !== avoid) break; }
+    return n;
+  }
+  function shiftDate(s) {
+    // nudge a YYYY-MM-DD by a few years/days so it reads as a clerical forgery
+    const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(s || "");
+    if (!m) return s;
+    const yr = Math.max(1900, +m[1] + (Math.random() < .5 ? -1 : 1) * (1 + Math.floor(Math.random() * 6)));
+    return yr + "-" + m[2] + "-" + m[3];
+  }
+
+  // build the resolved documents for the current card, applying the generated
+  // identity and (optionally) injecting a single catchable discrepancy.
+  function buildCardDocs(scenario) {
+    cardDocs = []; cardDiscrepancy = null;
+    compareState = { activeKey: null, found: {} };
+    const docs = scenario.documents || [];
+    docs.forEach((d) => {
+      const def = DOC_TYPES[d.type];
+      if (!def) { cardDocs.push(null); return; }
+      const fields = def.fields.map((f) => {
+        let value = d.data[f] != null ? d.data[f] : "—";
+        if (cardIdentity && value !== "—" && value !== "(none)") {
+          if (f === "name") value = cardIdentity.name;
+          else if (f === "id") value = cardIdentity.id;
+        }
+        return { key: f, label: t(docFieldLabel(f)), value };
+      });
+      cardDocs.push({ type: d.type, def, flagged: !!d.flagged, fields });
+    });
+
+    // inject a discrepancy onto a secondary paper for eligible travelers
+    maybeInjectDiscrepancy(scenario);
+  }
+
+  function maybeInjectDiscrepancy(scenario) {
+    if (scenario.noDiscrepancy) return;
+    // only random-pool travelers get planted forgeries (story beats stay authored)
+    const random = scenario.fixedDay == null && !scenario.scripted;
+    const chance = scenario.discrepancy === true ? 1 : (random ? 0.32 : 0);
+    if (Math.random() >= chance) return;
+
+    // find a comparable field shared by the passport (doc 0) and a later doc
+    const primary = cardDocs[0];
+    if (!primary) return;
+    const candidates = [];
+    COMPARABLE.forEach((key) => {
+      const pf = primary.fields.find((x) => x.key === key && x.value !== "—" && x.value !== "(none)");
+      if (!pf) return;
+      for (let i = 1; i < cardDocs.length; i++) {
+        const dd = cardDocs[i]; if (!dd) continue;
+        const sf = dd.fields.find((x) => x.key === key);
+        if (sf && sf.value !== "—" && sf.value !== "(none)") candidates.push({ key, docIndex: i, pf, sf });
+      }
+    });
+    if (!candidates.length) return;
+    const c = pick(candidates);
+    const expected = c.pf.value;
+    const actual = c.key === "name" ? otherName(expected) : shiftDate(expected);
+    if (actual === expected) return;
+    c.sf.value = actual;
+    cardDiscrepancy = { kind: c.key, docIndex: c.docIndex, label: c.pf.label, expected, actual };
+  }
+
+  /* ---------- inspector: comparison + interrogation probes + documents ---------- */
   function renderInspector(scenario) {
     const drawer = $("#docs-drawer");
     drawer.innerHTML = "";
-    const docs = scenario.documents || [];
     const probes = scenario.probes || [];
-    $("#docs-count").textContent = docs.length;
+    $("#docs-count").textContent = cardDocs.filter(Boolean).length;
+
+    // which comparable fields appear on 2+ papers (so they can be cross-checked)
+    const counts = {};
+    cardDocs.forEach((d) => { if (!d) return; d.fields.forEach((f) => {
+      if (COMPARABLE.includes(f.key) && f.value !== "—" && f.value !== "(none)") counts[f.key] = (counts[f.key] || 0) + 1;
+    }); });
+    const crossKeys = Object.keys(counts).filter((k) => counts[k] >= 2);
+
+    // verification status bar
+    if (crossKeys.length) drawer.appendChild(buildVerifyBar(crossKeys));
 
     // interrogation probe buttons
     if (probes.length) {
@@ -75,35 +164,87 @@
     });
 
     // documents
-    const DOC_EMBLEM = { passport: "🛂", visa: "🎫", permit: "🏭", health: "⚕", vehicle: "🚚" };
     const portraitKey = pickPortrait(scenario) || scenario.portrait;
-    docs.forEach((d, i) => {
-      const def = DOC_TYPES[d.type];
-      if (!def) return;
+    const activeKey = compareState.activeKey;
+    // detect mismatch among the values of the active comparable key
+    let mismatchVals = null;
+    if (activeKey) {
+      const vals = [];
+      cardDocs.forEach((d) => { if (!d) return; const f = d.fields.find((x) => x.key === activeKey); if (f && f.value !== "—" && f.value !== "(none)") vals.push(f.value); });
+      mismatchVals = new Set(vals).size > 1 ? new Set(vals) : null;
+    }
+
+    cardDocs.forEach((d, i) => {
+      if (!d) return;
       const flagged = d.flagged || probeState.flaggedDocs[i];
       const el = document.createElement("div");
       el.className = "doc" + (flagged ? " flagged" : "");
       const emblem = DOC_EMBLEM[d.type] || "📄";
-      let html = `<h4><span class="doc-emblem">${emblem}</span> ${t(def.titleKey)}</h4>`;
-      // a passport carries the holder's photo
+      let html = `<h4><span class="doc-emblem">${emblem}</span> ${t(d.def.titleKey)}</h4>`;
       if (d.type === "passport") {
-        const ph = portraitKey
-          ? `style="background-image:url(assets/img/${portraitKey}.png)"` : "";
+        const ph = portraitKey ? `style="background-image:url(assets/img/${portraitKey}.png)"` : "";
         html += `<div class="doc-photo" ${ph}>${portraitKey ? "" : "👤"}</div>`;
       }
-      def.fields.forEach((f) => {
-        const label = t(docFieldLabel(f));
-        let value = d.data[f] != null ? d.data[f] : "—";
-        // override name/id with the card's generated identity when applicable
-        if (cardIdentity && value !== "—" && value !== "(none)") {
-          if (f === "name") value = cardIdentity.name;
-          else if (f === "id") value = cardIdentity.id;
-        }
-        html += `<div class="row"><span class="k">${label}</span><span class="v">${value}</span></div>`;
+      d.fields.forEach((f) => {
+        const cmp = crossKeys.includes(f.key);
+        const isActive = activeKey === f.key;
+        let cls = "row" + (cmp ? " cmp" : "") + (isActive ? " active" : "");
+        // when this key is being compared and values disagree, paint the row
+        if (isActive && mismatchVals && mismatchVals.size > 1) cls += " mismatch";
+        const tap = cmp ? ` data-cmp="${f.key}"` : "";
+        const badge = cmp ? `<span class="cmp-dot">⇄</span>` : "";
+        html += `<div class="${cls}"${tap}><span class="k">${f.label}${badge}</span><span class="v">${f.value}</span></div>`;
       });
       el.innerHTML = html;
       drawer.appendChild(el);
     });
+
+    // wire comparable-row taps
+    drawer.querySelectorAll(".row.cmp").forEach((row) => {
+      row.addEventListener("click", () => toggleCompare(row.getAttribute("data-cmp"), scenario));
+    });
+  }
+
+  function buildVerifyBar(crossKeys) {
+    const bar = document.createElement("div");
+    bar.className = "verify-bar";
+    const active = compareState.activeKey;
+    let status = t("verify.hint");
+    let cls = "verify-status";
+    if (active) {
+      const vals = [];
+      cardDocs.forEach((d) => { if (!d) return; const f = d.fields.find((x) => x.key === active); if (f && f.value !== "—" && f.value !== "(none)") vals.push(f.value); });
+      const mism = new Set(vals).size > 1;
+      const label = t(docFieldLabel(active));
+      if (mism) { status = "⚠ " + t("verify.mismatch") + ": " + label; cls += " bad"; }
+      else { status = "✓ " + t("verify.match") + ": " + label; cls += " ok"; }
+    }
+    bar.innerHTML = `<span class="${cls}">${status}</span>`;
+    return bar;
+  }
+
+  // toggle which comparable field is being cross-checked; record catches
+  function toggleCompare(key, scenario) {
+    compareState.activeKey = compareState.activeKey === key ? null : key;
+    if (compareState.activeKey) {
+      const vals = [];
+      cardDocs.forEach((d) => { if (!d) return; const f = d.fields.find((x) => x.key === key); if (f && f.value !== "—" && f.value !== "(none)") vals.push(f.value); });
+      const mism = new Set(vals).size > 1;
+      if (mism && !compareState.found[key]) {
+        compareState.found[key] = true;
+        AUDIO && AUDIO.sfx && AUDIO.sfx("alert");
+        toast("⚠ " + t("verify.mismatch") + ": " + t(docFieldLabel(key)), 2200);
+      } else {
+        AUDIO && AUDIO.sfx && AUDIO.sfx("page");
+      }
+    }
+    renderInspector(scenario);
+  }
+
+  // did the player uncover the planted discrepancy? (read by game.js)
+  function discrepancyInfo() {
+    if (!cardDiscrepancy) return { present: false, found: false };
+    return { present: true, found: !!compareState.found[cardDiscrepancy.kind], kind: cardDiscrepancy.kind };
   }
 
   /* ---------- portrait variant picker ----------
@@ -176,6 +317,7 @@
     // give travelers a fresh identity unless they're a story character
     const hasPassport = (scenario.documents || []).some((d) => d.type === "passport" && d.data && d.data.name && d.data.name !== "—");
     cardIdentity = (hasPassport && !FIXED_NAME_IDS.has(scenario.id)) ? makeIdentity(scenario) : null;
+    buildCardDocs(scenario);
 
     const card = $("#card");
     card.style.transform = "";
@@ -326,6 +468,7 @@
   window.UI = {
     show, $, renderMeters, renderCard, flyOut, initSwipe, choose,
     toast, renderIntro, renderSummary, renderEnding, renderRulebook, applyProbeResult,
+    discrepancyInfo,
     get currentScenario() { return currentScenario; },
   };
 })();

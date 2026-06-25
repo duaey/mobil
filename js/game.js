@@ -148,13 +148,34 @@
     if (!outcome) return;
     AUDIO.sfx(choiceName === "approve" ? "approve" : "deny");
     UI.flyOut(choiceName === "approve" ? "right" : "left", () => {
-      finishOutcome(scenario, outcome);
+      finishOutcome(scenario, outcome, choiceName);
     });
   }
 
-  function finishOutcome(scenario, outcome) {
+  /* a planted forgery: denying it is correct, approving it is a costly miss.
+     Catching it first (via cross-checking papers) sweetens the reward. */
+  function discrepancyOutcome(choiceName) {
+    const d = UI.discrepancyInfo();
+    if (!d.present) return null;
+    if (choiceName === "deny") {
+      return d.found
+        ? { effects: { reputation: 5, money: 2 }, suspicion: -2, resultKey: "verify.caught" }
+        : { effects: { reputation: 2 }, resultKey: "verify.denied_blind" };
+    }
+    // approved a forgery — it slips through and comes back to bite
+    return { effects: { reputation: -6, conscience: -2 }, suspicion: 12, resultKey: "verify.missed" };
+  }
+
+  function finishOutcome(scenario, outcome, choiceName) {
+    const disc = discrepancyOutcome(choiceName);
     const hits = STATE.process(outcome, scenario);
-    if (outcome.resultKey) UI.toast(t(outcome.resultKey));
+    if (disc) {
+      STATE.applyEffects(disc.effects);
+      STATE.addSuspicion(disc.suspicion || 0);
+      STATE.save();
+    }
+    if (disc && disc.resultKey) UI.toast(t(disc.resultKey), 3200);
+    else if (outcome.resultKey) UI.toast(t(outcome.resultKey));
     UI.renderMeters();
     pendingBribe = null;
 

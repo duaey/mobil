@@ -9,10 +9,114 @@
     "day": "GÜN",
     "open": "Kapıyı Aç"
   },
-  "hud": { "day": "GÜN", "rep": "İTİBAR", "money": "PARA", "fear": "KORKU", "cons": "VİCDAN" },
+  "hud": {
+    "day": "GÜN",
+    "rep": "İTİBAR",
+    "money": "PARA",
+    "fear": "KORKU",
+    "cons": "VİCDAN"
+  },
   "names": {
-    "first": ["Ahmet","Mehmet","Mustafa","Ali","Hasan","Hüseyin","İbrahim","Osman","Murat","Kemal","Emre","Cem","Burak","Serkan","Tolga","Volkan","Onur","Barış","Deniz","Kaan","Ayşe","Fatma","Emine","Hatice","Zeynep","Elif","Meryem","Sevgi","Gül","Leyla","Nur","Selin","Derya","Esra","Pınar","Sibel","Yasemin","Hülya","Filiz","Aslı","Bora","Cengiz","Doruk","Ferhat","Gökhan","Levent","Sinan","Ufuk"],
-    "last": ["Yılmaz","Kaya","Demir","Şahin","Çelik","Yıldız","Yıldırım","Öztürk","Aydın","Özdemir","Arslan","Doğan","Kılıç","Aslan","Çetin","Kara","Koç","Kurt","Özkan","Şimşek","Polat","Korkmaz","Çakır","Erdoğan","Güneş","Aksoy","Bulut","Acar","Bozkurt","Taş","Aktaş","Avcı","Bilgin","Çakmak","Duman","Ekinci","Güler","Işık","Karaca","Mutlu","Sarı","Tekin","Uçar","Yalçın","Yavuz","Zengin","Turan","Ünal"]
+    "first": [
+      "Ahmet",
+      "Mehmet",
+      "Mustafa",
+      "Ali",
+      "Hasan",
+      "Hüseyin",
+      "İbrahim",
+      "Osman",
+      "Murat",
+      "Kemal",
+      "Emre",
+      "Cem",
+      "Burak",
+      "Serkan",
+      "Tolga",
+      "Volkan",
+      "Onur",
+      "Barış",
+      "Deniz",
+      "Kaan",
+      "Ayşe",
+      "Fatma",
+      "Emine",
+      "Hatice",
+      "Zeynep",
+      "Elif",
+      "Meryem",
+      "Sevgi",
+      "Gül",
+      "Leyla",
+      "Nur",
+      "Selin",
+      "Derya",
+      "Esra",
+      "Pınar",
+      "Sibel",
+      "Yasemin",
+      "Hülya",
+      "Filiz",
+      "Aslı",
+      "Bora",
+      "Cengiz",
+      "Doruk",
+      "Ferhat",
+      "Gökhan",
+      "Levent",
+      "Sinan",
+      "Ufuk"
+    ],
+    "last": [
+      "Yılmaz",
+      "Kaya",
+      "Demir",
+      "Şahin",
+      "Çelik",
+      "Yıldız",
+      "Yıldırım",
+      "Öztürk",
+      "Aydın",
+      "Özdemir",
+      "Arslan",
+      "Doğan",
+      "Kılıç",
+      "Aslan",
+      "Çetin",
+      "Kara",
+      "Koç",
+      "Kurt",
+      "Özkan",
+      "Şimşek",
+      "Polat",
+      "Korkmaz",
+      "Çakır",
+      "Erdoğan",
+      "Güneş",
+      "Aksoy",
+      "Bulut",
+      "Acar",
+      "Bozkurt",
+      "Taş",
+      "Aktaş",
+      "Avcı",
+      "Bilgin",
+      "Çakmak",
+      "Duman",
+      "Ekinci",
+      "Güler",
+      "Işık",
+      "Karaca",
+      "Mutlu",
+      "Sarı",
+      "Tekin",
+      "Uçar",
+      "Yalçın",
+      "Yavuz",
+      "Zengin",
+      "Turan",
+      "Ünal"
+    ]
   },
   "game": {
     "deny": "RED",
@@ -31,8 +135,9 @@
     "tease2": "Evde bir mektup bekliyor. Üzerinde isim yok.",
     "tease3": "Çıkarken Kemal'in kabini karanlıktı."
   },
-  "ending": { "restart": "Yeni Memur" },
-
+  "ending": {
+    "restart": "Yeni Memur"
+  },
   "doc": {
     "passport": "PASAPORT",
     "visa": "GİRİŞ VİZESİ",
@@ -41,14 +146,24 @@
     "vehicle": "ARAÇ GEÇİŞ İZNİ"
   },
   "field": {
-    "name": "Ad", "country": "Köken", "dob": "Doğum", "expires": "Bitiş", "id": "Kimlik No.",
-    "purpose": "Amaç", "issued": "Veriliş",
-    "employer": "İşveren", "role": "Görev",
-    "clinic": "Klinik", "status": "Durum", "date": "Tarih",
-    "plate": "Plaka", "owner": "Sahip", "cargo": "Yük", "weight": "Ağırlık",
+    "name": "Ad",
+    "country": "Köken",
+    "dob": "Doğum",
+    "expires": "Bitiş",
+    "id": "Kimlik No.",
+    "purpose": "Amaç",
+    "issued": "Veriliş",
+    "employer": "İşveren",
+    "role": "Görev",
+    "clinic": "Klinik",
+    "status": "Durum",
+    "date": "Tarih",
+    "plate": "Plaka",
+    "owner": "Sahip",
+    "cargo": "Yük",
+    "weight": "Ağırlık",
     "reputation": "İtibar"
   },
-
   "char": {
     "tourist": "YOLCU",
     "worker": "İŞÇİ",
@@ -66,7 +181,6 @@
     "diplomat": "DEVLET YETKİLİSİ",
     "smuggler": "KALIN PALTOLU YOLCU"
   },
-
   "probe": {
     "check_expiry": "Tarihleri kontrol et",
     "open_cargo": "Yükü aç",
@@ -76,7 +190,6 @@
     "ask_child": "Çocuğu sor",
     "ask_address": "Ev adresini sor"
   },
-
   "radio": {
     "generic": "…Bakanlık, Devlet'e hizmet eden sadık memurlara teşekkür eder.",
     "d1": "Kapı 7'ye hoş geldin. Devlet hizmetin için minnettar. Kural kitabına uy. Temiz belgeleri damgala. Gerisini reddet.",
@@ -108,7 +221,6 @@
     "d6": "Talimat: Kotalar yükseltildi. Bu hafta hatalar affedilmeyecek.",
     "d7": "Talimat: Hattı tut. Bugün ne olursa olsun, kapı layık olmayanlara kapalı kalacak."
   },
-
   "sc": {
     "generic": {
       "ok": [
@@ -174,12 +286,14 @@
       "yes": "Zarfı aldın. Artık geri vermek diye bir şey yok.",
       "no": "\"Yazık,\" diyorlar. \"Yine de görüşeceğiz.\" Kalabalığa karışıp kayboluyorlar."
     },
-    "pool_student": { "speech": [
-      "Üniversite dönemi için geldim memur bey. İlk kez yurt dışındayım.",
-      "Sınırın ötesinde okumak için bursum var. Hepsi dosyada.",
-      "Sadece bir öğrenciyim efendim. Dersler pazartesi başlıyor, geç kalamam.",
-      "Ailemde yurt dışında okuyan ilk kişiyim. Annem istasyonda ağladı."
-    ] },
+    "pool_student": {
+      "speech": [
+        "Üniversite dönemi için geldim memur bey. İlk kez yurt dışındayım.",
+        "Sınırın ötesinde okumak için bursum var. Hepsi dosyada.",
+        "Sadece bir öğrenciyim efendim. Dersler pazartesi başlıyor, geç kalamam.",
+        "Ailemde yurt dışında okuyan ilk kişiyim. Annem istasyonda ağladı."
+      ]
+    },
     "pool_sick": {
       "speech": "Diyalizim sınırın öbür tarafında. Bir hafta kaçırırsam, sonrakine yetişemem.",
       "ok": "Damgalandı. \"Allah razı olsun,\" diye fısıldıyor.",
@@ -191,14 +305,15 @@
       "ok": "Damgaladın. Doğum tarihi on üçüncü ayı gösteriyordu. Bunu duyacaksın.",
       "no": "Reddedildi. Sahtekarlık özensizdi. Sen güvenliği çağırmadan kaçıyor."
     },
-    "pool_clean": { "speech": [
-      "Günaydın memur bey. Soğuk bir gün, değil mi?",
-      "Belgelerin hepsi burada. Vaktini almam.",
-      "Bugün sıra uzun. Umarım kahveni içmişsindir memur bey.",
-      "Her zamanki yolculuk. Beni daha önce damgalamışsındır muhtemelen.",
-      "Sakin bir sabah mı? Uzun sürmez, bahse girerim."
-    ] },
-
+    "pool_clean": {
+      "speech": [
+        "Günaydın memur bey. Soğuk bir gün, değil mi?",
+        "Belgelerin hepsi burada. Vaktini almam.",
+        "Bugün sıra uzun. Umarım kahveni içmişsindir memur bey.",
+        "Her zamanki yolculuk. Beni daha önce damgalamışsındır muhtemelen.",
+        "Sakin bir sabah mı? Uzun sürmez, bahse girerim."
+      ]
+    },
     "c_forged_caught": {
       "speech": "Memur bey. Onayladığın bir belge sahteymiş. İç İşleri'nin soruları var. Şurayı imzala.",
       "ack": "İmzalıyorsun. Kalem olması gerekenden ağır geliyor."
@@ -236,7 +351,6 @@
       "yes": "Yaptın. Para gerçek. Boynundaki ilmek de.",
       "no": "Reddettin. \"Yanlış cevap,\" diyorlar usulca. Artık ortak değil, tehditler."
     },
-
     "s_audit_warning": {
       "speech": "İç İşleri kabinini işaretledi. Düzensizlikler. Artık her damgayı izliyoruz. Bizi geri getirme.",
       "ack": "Başını sallıyorsun. Üstündeki lamba birden bir sorgu ışığı gibi hissettiriyor."
@@ -251,17 +365,49 @@
       "ack": "Anlaşıldı. Ellerinin teri bir türlü durmuyor."
     }
   },
-
   "end": {
     "epitaph": "Kapı 7'yi {days} gün tuttun.",
-    "fired":    { "t": "İŞTEN ATILDIN", "x": "Çok fazla şikayet. Rozetin kapıda alınıyor. Sen olmadan kabin yavaşlamıyor bile." },
-    "promoted": { "t": "TERFİ ETTİN", "x": "Seni yukarı, penceresi olmayan ve kapısında isim bulunmayan bir odaya alıyorlar. Kararlar buradan sonra sadece ağırlaşıyor." },
-    "broke":    { "t": "ÇÖKÜŞ", "x": "Para bitti. Sonra ilaç. Sonra bahaneler. Ev, kabinden hep daha soğuktu." },
-    "greed":    { "t": "DEFTERE DÜŞTÜN", "x": "Banka hesabın, maaşının cevaplayamayacağı sorular sordu. Müfettişler şafakta geliyor." },
-    "reckless": { "t": "KORKACAK BİR ŞEY KALMADI", "x": "Dikkatli olmayı bıraktın. Yanlış adam gülümseyerek geçti. Gerisini hiç duymadın." },
-    "paranoid": { "t": "HER GÖLGE BİR BIÇAK", "x": "Herkesi reddettin. Kendi yansımanı bile aradın. Seni 'sağlığın için' emekliye ayırıyorlar." },
-    "hollow":   { "t": "İÇİ BOŞ", "x": "Artık hiçbir şey hissetmiyorsun. Damgalıyorsun, reddediyorsun, eve gidiyorsun. Kusursuz bir memur. Bir insanın oturduğu yerde boş bir sandalye." },
-    "broken":   { "t": "AĞIRLIK", "x": "Bir yüz daha taşıyamadın. Vardiyanın ortasında damgayı bıraktın ve karın içine yürüdün." },
-    "arrest":   { "t": "ŞAFAKTA ALINDIN", "x": "Biliyorlardı. Hep biliyorlardı. Hücre küçük, ama en azından sorular sona erdi." }
-  }
+    "fired": {
+      "t": "İŞTEN ATILDIN",
+      "x": "Çok fazla şikayet. Rozetin kapıda alınıyor. Sen olmadan kabin yavaşlamıyor bile."
+    },
+    "promoted": {
+      "t": "TERFİ ETTİN",
+      "x": "Seni yukarı, penceresi olmayan ve kapısında isim bulunmayan bir odaya alıyorlar. Kararlar buradan sonra sadece ağırlaşıyor."
+    },
+    "broke": {
+      "t": "ÇÖKÜŞ",
+      "x": "Para bitti. Sonra ilaç. Sonra bahaneler. Ev, kabinden hep daha soğuktu."
+    },
+    "greed": {
+      "t": "DEFTERE DÜŞTÜN",
+      "x": "Banka hesabın, maaşının cevaplayamayacağı sorular sordu. Müfettişler şafakta geliyor."
+    },
+    "reckless": {
+      "t": "KORKACAK BİR ŞEY KALMADI",
+      "x": "Dikkatli olmayı bıraktın. Yanlış adam gülümseyerek geçti. Gerisini hiç duymadın."
+    },
+    "paranoid": {
+      "t": "HER GÖLGE BİR BIÇAK",
+      "x": "Herkesi reddettin. Kendi yansımanı bile aradın. Seni 'sağlığın için' emekliye ayırıyorlar."
+    },
+    "hollow": {
+      "t": "İÇİ BOŞ",
+      "x": "Artık hiçbir şey hissetmiyorsun. Damgalıyorsun, reddediyorsun, eve gidiyorsun. Kusursuz bir memur. Bir insanın oturduğu yerde boş bir sandalye."
+    },
+    "broken": {
+      "t": "AĞIRLIK",
+      "x": "Bir yüz daha taşıyamadın. Vardiyanın ortasında damgayı bıraktın ve karın içine yürüdün."
+    },
+    "arrest": {
+      "t": "ŞAFAKTA ALINDIN",
+      "x": "Biliyorlardı. Hep biliyorlardı. Hücre küçük, ama en azından sorular sona erdi."
+    }
+  },
+  "verify.hint": "Belgeleri karşılaştırmak için eşleşen alanlara dokun",
+  "verify.match": "UYUŞUYOR",
+  "verify.mismatch": "UYUŞMUYOR",
+  "verify.caught": "Sahtecilik yakalandı — belgeler tutmuyordu.",
+  "verify.denied_blind": "Reddedildi. Belgelerde bir terslik vardı.",
+  "verify.missed": "Sahte belgeyi geçirdin. Bu fark edilecek."
 }
