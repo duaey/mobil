@@ -301,6 +301,50 @@
     return { name: pick(first) + " " + pick(last), id: prefix + "-" + num };
   }
 
+  /* ---------- typewriter voices ----------
+     Each character type "speaks" at its own pitch and pace; the text types
+     out and a short blip plays as it goes. Tap the speech to skip. */
+  const VOICE = {
+    elder:    { f: 150, type: "sine",     speed: 52 },
+    patient:  { f: 165, type: "sine",     speed: 56 },
+    worker:   { f: 200, type: "square",   speed: 30 },
+    smuggler: { f: 130, type: "sawtooth", speed: 30 },
+    boss:     { f: 110, type: "sawtooth", speed: 38 },
+    refugee:  { f: 280, type: "sine",     speed: 40 },
+    family:   { f: 300, type: "triangle", speed: 38 },
+    student:  { f: 320, type: "square",   speed: 24 },
+    tourist:  { f: 240, type: "triangle", speed: 30 },
+    merchant: { f: 180, type: "sawtooth", speed: 34 },
+    diplomat: { f: 170, type: "sine",     speed: 36 },
+    kemal:    { f: 190, type: "square",   speed: 30 },
+    stranger: { f: 140, type: "sawtooth", speed: 36 },
+    _default: { f: 220, type: "triangle", speed: 32 },
+  };
+  function voiceFor(scenario) { return VOICE[scenario.portrait] || VOICE[scenario.voice] || VOICE._default; }
+
+  let typeTimer = null;
+  let typeDone = null; // call to finish instantly
+  function typeSpeech(el, text, profile) {
+    if (typeTimer) { clearTimeout(typeTimer); typeTimer = null; }
+    el.textContent = "";
+    el.classList.add("typing");
+    let i = 0;
+    const finish = () => {
+      if (typeTimer) { clearTimeout(typeTimer); typeTimer = null; }
+      el.textContent = text; typeDone = null; el.classList.remove("typing");
+    };
+    typeDone = finish;
+    const tick = () => {
+      if (i >= text.length) { typeTimer = null; typeDone = null; el.classList.remove("typing"); return; }
+      const ch = text[i++];
+      el.textContent += ch;
+      if (ch.trim() && i % 2 === 0 && window.AUDIO) AUDIO.voice(profile);
+      const pause = ",.!?؟،—".includes(ch) ? 170 : 0;
+      typeTimer = setTimeout(tick, profile.speed + pause);
+    };
+    tick();
+  }
+
   /* ---------- card ---------- */
   let currentScenario = null;
   let cardIdentity = null;  // {name,id} for random-name cards
@@ -325,7 +369,8 @@
     card.className = "card fly-in";
 
     $("#card-name").textContent = t(scenario.nameKey);
-    $("#card-speech").textContent = t(scenario.speechKey);
+    const speechEl = $("#card-speech");
+    typeSpeech(speechEl, t(scenario.speechKey), voiceFor(scenario));
     const portrait = $("#card-portrait");
     portrait.textContent = scenario.emoji || "👤";
     const portraitKey = pickPortrait(scenario);
@@ -390,6 +435,10 @@
     card.addEventListener("mousedown", (e) => down(e.clientX));
     window.addEventListener("mousemove", (e) => move(e.clientX));
     window.addEventListener("mouseup", up);
+
+    // tap the speech bubble to finish the typewriter instantly
+    const speech = card.querySelector(".card-speech");
+    if (speech) speech.addEventListener("click", (e) => { e.stopPropagation(); if (typeDone) typeDone(); });
   }
 
   function choose(name) {

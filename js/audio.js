@@ -94,6 +94,22 @@
     }
   }
 
+  // ---------- character "voice" blip (typewriter gibberish) ----------
+  function voice(p) {
+    if (!ensure() || muted) return;
+    if (ctx.state === "suspended") ctx.resume();
+    const t = now();
+    const base = (p && p.f) || 220;
+    const f = base * (0.9 + Math.random() * 0.22);
+    const o = ctx.createOscillator(); o.type = (p && p.type) || "square"; o.frequency.value = f;
+    const g = ctx.createGain();
+    g.gain.setValueAtTime(0.0001, t);
+    g.gain.exponentialRampToValueAtTime(0.045, t + 0.005);
+    g.gain.exponentialRampToValueAtTime(0.0001, t + 0.05);
+    o.connect(g).connect(sfxBus);
+    o.start(t); o.stop(t + 0.06);
+  }
+
   // ---------- ambient noir drone ----------
   function startMusic() {
     if (!ensure() || musicNodes) return;
@@ -138,5 +154,5 @@
   function toggle() { setMuted(!muted); return muted; }
   function isMuted() { return muted; }
 
-  window.AUDIO = { init, sfx, startMusic, stopMusic, toggle, setMuted, isMuted };
+  window.AUDIO = { init, sfx, voice, startMusic, stopMusic, toggle, setMuted, isMuted };
 })();
