@@ -89,6 +89,21 @@
       cardDocs.push({ type: d.type, def, flagged: !!d.flagged, fields });
     });
 
+    // secondary papers inherit identity fields (name/dob/country) from the
+    // passport when their own value is blank — so they can be cross-checked.
+    const primary = cardDocs[0];
+    if (primary) {
+      cardDocs.forEach((dd, i) => {
+        if (!dd || i === 0) return;
+        COMPARABLE.forEach((key) => {
+          const sf = dd.fields.find((x) => x.key === key);
+          if (!sf || (sf.value !== "—" && sf.value !== "(none)")) return;
+          const pf = primary.fields.find((x) => x.key === key);
+          if (pf && pf.value !== "—" && pf.value !== "(none)") sf.value = pf.value;
+        });
+      });
+    }
+
     // inject a discrepancy onto a secondary paper for eligible travelers
     maybeInjectDiscrepancy(scenario);
   }
@@ -359,7 +374,7 @@
       if (i >= text.length) { typeTimer = null; typeDone = null; el.classList.remove("typing"); return; }
       const ch = text[i++];
       el.textContent += ch;
-      if (ch.trim() && i % 2 === 0 && window.AUDIO) AUDIO.voice(profile);
+      if (ch.trim() && window.AUDIO) AUDIO.voice(profile);
       const pause = ",.!?؟،—".includes(ch) ? 170 : 0;
       typeTimer = setTimeout(tick, profile.speed + pause);
     };

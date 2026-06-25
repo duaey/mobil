@@ -11,15 +11,15 @@ window.DOC_TYPES = {
   },
   visa: {
     titleKey: "doc.visa",
-    fields: ["name", "purpose", "issued", "expires"],
+    fields: ["name", "dob", "country", "purpose", "issued", "expires"],
   },
   permit: {
     titleKey: "doc.permit",
-    fields: ["name", "employer", "role", "expires"],
+    fields: ["name", "dob", "employer", "role", "expires"],
   },
   health: {
     titleKey: "doc.health",
-    fields: ["name", "clinic", "status", "date"],
+    fields: ["name", "dob", "clinic", "status", "date"],
   },
   vehicle: {
     titleKey: "doc.vehicle",

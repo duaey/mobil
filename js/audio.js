@@ -104,10 +104,10 @@
     const o = ctx.createOscillator(); o.type = (p && p.type) || "square"; o.frequency.value = f;
     const g = ctx.createGain();
     g.gain.setValueAtTime(0.0001, t);
-    g.gain.exponentialRampToValueAtTime(0.045, t + 0.005);
-    g.gain.exponentialRampToValueAtTime(0.0001, t + 0.05);
+    g.gain.exponentialRampToValueAtTime(0.11, t + 0.006);
+    g.gain.exponentialRampToValueAtTime(0.0001, t + 0.07);
     o.connect(g).connect(sfxBus);
-    o.start(t); o.stop(t + 0.06);
+    o.start(t); o.stop(t + 0.08);
   }
 
   // ---------- ambient noir drone ----------
