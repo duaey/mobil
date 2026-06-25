@@ -259,15 +259,18 @@ html, body {
   content: "§"; position: absolute; left: 0; color: var(--deny); font-weight: bold;
 }
 
-/* ---------- desk / card ---------- */
+/* ---------- desk / card ----------
+   35-55-10 layout: character zone is a fixed top band, documents fill the
+   scrollable middle, actions pin to the bottom. */
 .desk {
-  flex: 1; position: relative; display: flex; align-items: center; justify-content: center;
-  padding: 14px; overflow: hidden;
+  flex: 0 0 42vh; position: relative; display: flex; align-items: center; justify-content: center;
+  padding: 8px; overflow: hidden;
   background: radial-gradient(ellipse at 50% 30%, rgba(201,162,39,.04), transparent 65%);
 }
 
 .card {
-  position: relative; width: 100%; max-width: 340px;
+  position: relative; width: 100%; max-width: 340px; max-height: 100%;
+  display: flex; flex-direction: column;
   background: var(--panel); border-radius: 12px;
   box-shadow: 0 16px 40px rgba(0,0,0,.7), 0 0 0 1px #3a2e20;
   touch-action: pan-y; will-change: transform;
@@ -276,8 +279,9 @@ html, body {
 
 /* Portrait fills the top of card, overlaid text below */
 .card-portrait {
-  width: 100%; aspect-ratio: 3 / 4; max-height: 52vh;
+  width: 100%; flex: 1 1 auto; min-height: 0;
   background: #15110c top center / cover no-repeat;
+  image-rendering: pixelated; image-rendering: crisp-edges;
   display: flex; align-items: center; justify-content: center;
   font-size: 4rem; color: #4a3c2a;
   position: relative;
@@ -291,6 +295,7 @@ html, body {
   padding: 10px 16px 14px;
   background: var(--panel);
   border-top: 1px solid #3a2e20;
+  flex-shrink: 0; max-height: 50%; overflow-y: auto;
 }
 .card-tag {
   font-family: var(--font); font-size: .6rem; letter-spacing: .25em;
@@ -320,21 +325,46 @@ html, body {
 .swipe-hint-left  { left: 12px; color: var(--deny); border-color: var(--deny); transform: rotate(-12deg); }
 .swipe-hint-right { right: 12px; color: var(--approve); border-color: var(--approve); transform: rotate(12deg); }
 
-/* ---------- documents ---------- */
+/* physical rubber-stamp imprint slammed onto the card */
+.stamp-imprint {
+  position: absolute; top: 38%; left: 50%; z-index: 20; pointer-events: none;
+  font-family: var(--font); font-weight: bold; font-size: 1.9rem;
+  letter-spacing: .12em; text-transform: uppercase;
+  padding: 8px 18px; border: 5px solid; border-radius: 6px;
+  opacity: 0; white-space: nowrap;
+  transform: translate(-50%, -50%) rotate(-16deg) scale(2.4);
+  animation: stampSlam .5s cubic-bezier(.2,.8,.3,1) forwards;
+  text-shadow: 1px 1px 0 rgba(0,0,0,.15);
+  mix-blend-mode: multiply;
+}
+.stamp-imprint.ok { color: var(--approve); border-color: var(--approve); }
+.stamp-imprint.no { color: var(--deny); border-color: var(--deny); }
+@keyframes stampSlam {
+  0%   { opacity: 0; transform: translate(-50%,-50%) rotate(-16deg) scale(2.4); }
+  55%  { opacity: 1; transform: translate(-50%,-50%) rotate(-16deg) scale(.92); }
+  70%  { transform: translate(-50%,-50%) rotate(-16deg) scale(1.04); }
+  100% { opacity: 1; transform: translate(-50%,-50%) rotate(-16deg) scale(1); }
+}
+
+/* ---------- documents (always-open desk surface) ---------- */
 .docs-toggle {
   background: #0d0a07; color: var(--ink-dim); border: none;
   border-top: 1px solid #3a2e20;
-  padding: 9px; font-size: .8rem; cursor: pointer;
+  padding: 7px 9px; font-size: .72rem; cursor: pointer;
   display: flex; gap: 8px; justify-content: center; align-items: center;
-  font-family: var(--font); letter-spacing: .1em; text-transform: uppercase;
+  font-family: var(--font); letter-spacing: .15em; text-transform: uppercase;
   flex-shrink: 0;
 }
 .docs-count {
   background: var(--accent); color: #1a1410; border-radius: 10px;
   padding: 1px 7px; font-size: .7rem; font-weight: bold;
 }
-.docs-drawer { max-height: 0; overflow: hidden; background: var(--bg-2); transition: max-height .35s ease; flex-shrink: 0; }
-.docs-drawer.open { max-height: 42vh; overflow-y: auto; padding: 12px; }
+/* the document tray is the scrollable middle band — always visible */
+.docs-drawer {
+  flex: 1 1 auto; min-height: 0; overflow-y: auto;
+  background: var(--bg-2); padding: 12px;
+  -webkit-overflow-scrolling: touch;
+}
 
 .doc {
   position: relative; background: #e3d8bf; color: #2a2110;
@@ -357,6 +387,7 @@ html, body {
 .doc-photo {
   float: right; width: 64px; height: 80px; margin: 0 0 6px 10px;
   background: #c9bb9c top center / cover no-repeat;
+  image-rendering: pixelated; image-rendering: crisp-edges;
   border: 1px solid #8a7340; box-shadow: inset 0 0 0 2px #e3d8bf, 0 1px 3px rgba(0,0,0,.3);
   display: flex; align-items: center; justify-content: center;
   font-size: 1.8rem; color: #9b8d66;

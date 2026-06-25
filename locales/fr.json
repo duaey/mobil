@@ -409,5 +409,7 @@
   "verify.mismatch": "MISMATCH",
   "verify.caught": "Forgery caught — the papers did not match.",
   "verify.denied_blind": "Denied. Something felt off about the papers.",
-  "verify.missed": "You let a forgery through. It will be noticed."
+  "verify.missed": "You let a forgery through. It will be noticed.",
+  "game.approved": "APPROVED",
+  "game.denied": "DENIED"
 }

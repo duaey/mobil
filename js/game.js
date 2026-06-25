@@ -147,9 +147,10 @@
     const outcome = scenario[choiceName];
     if (!outcome) return;
     AUDIO.sfx(choiceName === "approve" ? "approve" : "deny");
-    UI.flyOut(choiceName === "approve" ? "right" : "left", () => {
+    UI.stampEffect(choiceName);
+    setTimeout(() => UI.flyOut(choiceName === "approve" ? "right" : "left", () => {
       finishOutcome(scenario, outcome, choiceName);
-    });
+    }), 260);
   }
 
   /* a planted forgery: denying it is correct, approving it is a costly miss.

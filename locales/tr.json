@@ -461,5 +461,7 @@
   "verify.mismatch": "UYUŞMUYOR",
   "verify.caught": "Sahtecilik yakalandı — belgeler tutmuyordu.",
   "verify.denied_blind": "Reddedildi. Belgelerde bir terslik vardı.",
-  "verify.missed": "Sahte belgeyi geçirdin. Bu fark edilecek."
+  "verify.missed": "Sahte belgeyi geçirdin. Bu fark edilecek.",
+  "game.approved": "ONAYLANDI",
+  "game.denied": "REDDEDİLDİ"
 }

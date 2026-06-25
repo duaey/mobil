@@ -432,6 +432,19 @@
     if (currentScenario) renderInspector(currentScenario);
   }
 
+  // slam a rubber stamp imprint onto the card before it flies away
+  function stampEffect(kind) {
+    const card = $("#card");
+    if (!card) return;
+    const old = card.querySelector(".stamp-imprint");
+    if (old) old.remove();
+    const s = document.createElement("div");
+    s.className = "stamp-imprint " + (kind === "approve" ? "ok" : "no");
+    s.textContent = kind === "approve" ? t("game.approved") : t("game.denied");
+    card.appendChild(s);
+    setTimeout(() => { try { s.remove(); } catch (e) {} }, 900);
+  }
+
   function flyOut(dir, cb) {
     const card = $("#card");
     card.classList.add(dir === "right" ? "fly-right" : "fly-left");
@@ -553,7 +566,7 @@
   window.UI = {
     show, $, renderMeters, renderCard, flyOut, initSwipe, choose,
     toast, renderIntro, renderSummary, renderEnding, renderRulebook, applyProbeResult,
-    discrepancyInfo,
+    discrepancyInfo, stampEffect,
     get currentScenario() { return currentScenario; },
   };
 })();
