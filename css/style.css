@@ -676,3 +676,73 @@ summary, h2, .ending-title, .summary-inner h2 { font-family: var(--font-pixel); 
 
 /* ---- build tag ---- */
 .build-tag { font-family: var(--font); font-size: .85rem; }
+
+/* ============================================================
+   REALISTIC DOCUMENTS — official passport / paper look.
+   (Clean type on these so they read as real paper held up to
+   the pixel-art world.)
+   ============================================================ */
+.doc {
+  position: relative; padding: 0 !important; overflow: hidden;
+  border: 1px solid #00000055 !important; border-top: none !important;
+  box-shadow: 4px 4px 0 rgba(0,0,0,.5) !important;
+  font-family: "Helvetica Neue", Arial, sans-serif !important;
+  background: #ece4d2 !important;
+}
+.doc-passport { background: #ece6d6 !important; }
+
+/* header band */
+.doc-head {
+  display: flex; align-items: center; gap: 8px;
+  padding: 8px 10px; color: #f4eedd;
+  background: linear-gradient(180deg, #2a3550, #1d2740);
+  border-bottom: 2px solid #c9a84a;
+}
+.doc-passport .doc-head { background: linear-gradient(180deg, #5a2030, #3d1420); }
+.doc-permit   .doc-head { background: linear-gradient(180deg, #2d4a35, #1c3322); }
+.doc-visa     .doc-head { background: linear-gradient(180deg, #4a3d20, #322813); }
+.doc-head .doc-emblem { font-size: 1.4rem; line-height: 1; filter: drop-shadow(1px 1px 0 #0006); }
+.doc-head-txt { display: flex; flex-direction: column; line-height: 1.15; flex: 1; }
+.doc-country { font-family: "Helvetica Neue", Arial, sans-serif; font-weight: 800;
+  font-size: .82rem; letter-spacing: .12em; text-transform: uppercase; }
+.doc-kind { font-size: .62rem; letter-spacing: .22em; text-transform: uppercase; color: #d8cba0; }
+.doc-seal { font-size: 1.2rem; color: #e8c45a; text-shadow: 0 0 6px #e8c45a88; }
+.doc-stamp-seal {
+  font-size: .52rem; letter-spacing: .12em; color: #e8d9a0; border: 1.5px solid #c9a84a;
+  padding: 2px 5px; border-radius: 2px; transform: rotate(-6deg); font-weight: 700;
+}
+
+/* photo + fields row */
+.doc-main {
+  display: flex; gap: 10px; padding: 10px 12px 6px;
+  background:
+    repeating-linear-gradient(135deg, rgba(150,120,70,.05) 0 6px, transparent 6px 12px),
+    radial-gradient(circle at 70% 40%, rgba(160,130,80,.10), transparent 60%);
+}
+.doc-main .doc-photo {
+  float: none; width: 74px; height: 92px; margin: 0; flex-shrink: 0;
+  border: 2px solid #2a2418; box-shadow: 0 1px 3px #0007, inset 0 0 0 2px #fff;
+  background: #cdbf9c center 14% / cover no-repeat; image-rendering: pixelated;
+}
+.doc-fields { flex: 1; min-width: 0; }
+.doc-passport .doc-fields .row, .doc .doc-fields .row,
+.doc-permit .doc-fields .row, .doc-visa .doc-fields .row { padding: 2px 4px; }
+.doc:not(.doc-passport) .doc-fields { padding: 8px 12px 10px;
+  background: radial-gradient(circle at 80% 30%, rgba(160,130,80,.08), transparent 60%); }
+
+.doc .row { border-bottom: 1px dotted #b3a47e; }
+.doc .row .k { font-family: "Helvetica Neue", Arial, sans-serif !important;
+  font-size: .62rem !important; color: #7a6c48 !important; font-weight: 600; letter-spacing: .04em; }
+.doc .row .v { font-family: "Courier New", monospace !important;
+  font-size: .9rem !important; color: #20180c !important; font-weight: 700; }
+
+/* MRZ band */
+.doc-mrz {
+  font-family: "Courier New", monospace; font-size: .58rem; line-height: 1.5;
+  letter-spacing: .08em; color: #1a1408; word-break: break-all;
+  background: #ded3b6; border-top: 2px solid #b3a47e;
+  padding: 6px 10px 8px; white-space: pre-wrap;
+}
+
+/* flag stays clear */
+.doc.flagged { outline: 3px solid var(--pxred) !important; }

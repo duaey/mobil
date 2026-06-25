@@ -52,6 +52,22 @@
   /* ---------- pixelate artwork ----------
      Downsample painterly portraits onto a tiny canvas, then let CSS scale
      them back up with nearest-neighbor — turns illustrations into pixel art. */
+  function esc(s) { return String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c])); }
+
+  // build a faux machine-readable zone for the passport data page
+  function mrz(country, name, id, dob) {
+    const fill = (s, n) => (s + "<".repeat(n)).slice(0, n);
+    const cc = (String(country).replace(/[^A-Za-z]/g, "").toUpperCase() + "XXX").slice(0, 3);
+    const parts = String(name).toUpperCase().replace(/[^A-Z ]/g, "").trim().split(/\s+/);
+    const sur = (parts.pop() || "").slice(0, 10);
+    const giv = parts.join("<").slice(0, 20);
+    const line1 = fill("P<" + cc + sur + "<<" + giv, 44);
+    const num = String(id).replace(/[^A-Za-z0-9]/g, "").toUpperCase();
+    const d = String(dob).replace(/[^0-9]/g, "").slice(2, 8) || "000000";
+    const line2 = fill(fill(num, 9) + cc + d + "<<<<<<<<<<<<<<", 44);
+    return esc(line1) + "<br>" + esc(line2);
+  }
+
   const _pxCache = {};
   function applyPixelBg(el, url, smallW) {
     if (!el) return;
@@ -216,24 +232,42 @@
       if (!d) return;
       const flagged = d.flagged || probeState.flaggedDocs[i];
       const el = document.createElement("div");
-      el.className = "doc" + (flagged ? " flagged" : "");
+      el.className = "doc doc-" + d.type + (flagged ? " flagged" : "");
       const emblem = DOC_EMBLEM[d.type] || "📄";
-      let html = `<h4><span class="doc-emblem">${emblem}</span> ${t(d.def.titleKey)}</h4>`;
-      if (d.type === "passport") {
-        const ph = portraitKey ? `style="background-image:url(assets/img/${portraitKey}.png)"` : "";
-        html += `<div class="doc-photo" ${ph}>${portraitKey ? "" : "👤"}</div>`;
-      }
+
+      // field rows (carry the cross-check tap logic)
+      let rows = "";
       d.fields.forEach((f) => {
         const cmp = crossKeys.includes(f.key);
         const isActive = activeKey === f.key;
         let cls = "row" + (cmp ? " cmp" : "") + (isActive ? " active" : "");
-        // when this key is being compared and values disagree, paint the row
         if (isActive && mismatchVals && mismatchVals.size > 1) cls += " mismatch";
         const tap = cmp ? ` data-cmp="${f.key}"` : "";
         const badge = cmp ? `<span class="cmp-dot">⇄</span>` : "";
-        html += `<div class="${cls}"${tap}><span class="k">${f.label}${badge}</span><span class="v">${f.value}</span></div>`;
+        rows += `<div class="${cls}"${tap}><span class="k">${f.label}${badge}</span><span class="v">${f.value}</span></div>`;
       });
-      el.innerHTML = html;
+
+      const country = (d.fields.find((x) => x.key === "country") || {}).value
+        || (cardDocs[0] && (cardDocs[0].fields.find((x) => x.key === "country") || {}).value) || "FEDERATION";
+      const title = t(d.def.titleKey);
+
+      if (d.type === "passport") {
+        const name = (d.fields.find((x) => x.key === "name") || {}).value || "";
+        const idv = (d.fields.find((x) => x.key === "id") || {}).value || "";
+        const dob = (d.fields.find((x) => x.key === "dob") || {}).value || "";
+        el.innerHTML =
+          `<div class="doc-head"><span class="doc-emblem">${emblem}</span>` +
+          `<div class="doc-head-txt"><span class="doc-country">${esc(country)}</span>` +
+          `<span class="doc-kind">${esc(title)}</span></div><span class="doc-seal">★</span></div>` +
+          `<div class="doc-main"><div class="doc-photo"></div><div class="doc-fields">${rows}</div></div>` +
+          `<div class="doc-mrz">${mrz(country, name, idv, dob)}</div>`;
+      } else {
+        el.innerHTML =
+          `<div class="doc-head"><span class="doc-emblem">${emblem}</span>` +
+          `<div class="doc-head-txt"><span class="doc-country">${esc(country)}</span>` +
+          `<span class="doc-kind">${esc(title)}</span></div><span class="doc-stamp-seal">OFFICIAL</span></div>` +
+          `<div class="doc-fields">${rows}</div>`;
+      }
       drawer.appendChild(el);
     });
 
