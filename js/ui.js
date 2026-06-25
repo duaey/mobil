@@ -71,6 +71,8 @@
   }
 
   let cardDocs = [];          // resolved [{type,def,flagged,fields:[{key,label,value}]}]
+  let cardSeed = "";          // PRNG seed for the procedural face
+  let cardFaceOpts = {};      // { gender, age } for the procedural face
   let cardDiscrepancy = null; // {kind,docIndex,label,expected,actual} | null
   let compareState = { activeKey: null, found: {} }; // per-card compare interaction
 
@@ -240,10 +242,13 @@
       row.addEventListener("click", () => toggleCompare(row.getAttribute("data-cmp"), scenario));
     });
 
-    // pixelate the passport photo to match the portrait style
-    if (portraitKey) {
-      const photo = drawer.querySelector(".doc-photo");
-      if (photo) applyPixelBg(photo, `assets/img/${portraitKey}.png`, 48);
+    // passport photo = the same procedural face as the card portrait
+    const photo = drawer.querySelector(".doc-photo");
+    if (photo && window.PORTRAIT) {
+      photo.style.backgroundImage = `url(${PORTRAIT.build(cardSeed, cardFaceOpts)})`;
+      photo.style.backgroundSize = "cover";
+      photo.style.backgroundPosition = "center 14%";
+      photo.textContent = "";
     }
   }
 
@@ -424,6 +429,13 @@
     // give travelers a fresh identity unless they're a story character
     const hasPassport = (scenario.documents || []).some((d) => d.type === "passport" && d.data && d.data.name && d.data.name !== "—");
     cardIdentity = (hasPassport && !FIXED_NAME_IDS.has(scenario.id)) ? makeIdentity(scenario) : null;
+    if (!cardIdentity) cardGender = resolveGender(scenario);
+    // a stable seed so the card portrait and passport photo are the same face
+    cardSeed = cardIdentity ? (cardIdentity.id + "|" + cardIdentity.name) : ("sc:" + scenario.id);
+    cardFaceOpts = {
+      gender: cardGender,
+      age: (scenario.age === "old" || scenario.portrait === "elder" || scenario.portrait === "patient") ? "old" : "",
+    };
     buildCardDocs(scenario);
 
     const card = $("#card");
@@ -435,10 +447,12 @@
     const speechEl = $("#card-speech");
     typeSpeech(speechEl, t(scenario.speechKey), voiceFor(scenario));
     const portrait = $("#card-portrait");
-    portrait.textContent = scenario.emoji || "👤";
-    const portraitKey = pickPortrait(scenario);
-    if (portraitKey) {
-      applyPixelBg(portrait, `assets/img/${portraitKey}.png`, 110);
+    portrait.textContent = "";
+    if (window.PORTRAIT) {
+      portrait.style.backgroundImage = `url(${PORTRAIT.build(cardSeed, cardFaceOpts)})`;
+      portrait.style.backgroundSize = "cover";
+      portrait.style.backgroundPosition = "center 18%";
+      portrait.style.imageRendering = "pixelated";
     } else {
       portrait.style.backgroundImage = "";
     }
