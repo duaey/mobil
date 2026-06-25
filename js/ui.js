@@ -55,7 +55,7 @@
 
   // generate a plausible "wrong" full name distinct from `avoid`
   function otherName(avoid) {
-    const first = I18N.raw("names.first"); const last = I18N.raw("names.last");
+    const first = firstPool(cardGender); const last = I18N.raw("names.last");
     if (!Array.isArray(first) || !Array.isArray(last)) return "—";
     let n = "—";
     for (let i = 0; i < 8; i++) { n = pick(first) + " " + pick(last); if (n !== avoid) break; }
@@ -288,10 +288,31 @@
   ]);
   const COUNTRY_PREFIX = { Federation: "FD", Eastmark: "EM", Southreach: "SR" };
 
+  // gender of each portrait's art, so a face never gets a mismatched name.
+  // "?" = unknown art → pick at random. Per-scenario `gender` overrides this.
+  const PORTRAIT_GENDER = {
+    tourist: "f", worker: "m", elder: "m", merchant: "m", refugee: "f",
+    kemal: "m", stranger: "m", student: "?", patient: "?", smuggler: "m",
+    boss: "m", family: "f", diplomat: "m",
+  };
   function pick(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
 
+  // pick a first-name pool for a gender, falling back to the combined list
+  function firstPool(gender) {
+    const g = gender === "f" ? I18N.raw("names.female")
+      : gender === "m" ? I18N.raw("names.male") : null;
+    return Array.isArray(g) && g.length ? g : I18N.raw("names.first");
+  }
+  function resolveGender(scenario) {
+    let g = scenario.gender || PORTRAIT_GENDER[scenario.portrait] || "?";
+    if (g === "?") g = Math.random() < 0.5 ? "m" : "f";
+    return g;
+  }
+
+  let cardGender = "m";
   function makeIdentity(scenario) {
-    const first = I18N.raw("names.first");
+    cardGender = resolveGender(scenario);
+    const first = firstPool(cardGender);
     const last = I18N.raw("names.last");
     if (!Array.isArray(first) || !Array.isArray(last)) return null;
     const country = (scenario.documents || []).map((d) => d.data && d.data.country)
