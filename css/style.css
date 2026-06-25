@@ -263,13 +263,13 @@ html, body {
    35-55-10 layout: character zone is a fixed top band, documents fill the
    scrollable middle, actions pin to the bottom. */
 .desk {
-  flex: 0 0 42vh; position: relative; display: flex; align-items: center; justify-content: center;
+  flex: 0 0 50vh; position: relative; display: flex; align-items: center; justify-content: center;
   padding: 8px; overflow: hidden;
   background: radial-gradient(ellipse at 50% 30%, rgba(201,162,39,.04), transparent 65%);
 }
 
 .card {
-  position: relative; width: 100%; max-width: 340px; max-height: 100%;
+  position: relative; width: 100%; max-width: 340px; height: 100%;
   display: flex; flex-direction: column;
   background: var(--panel); border-radius: 12px;
   box-shadow: 0 16px 40px rgba(0,0,0,.7), 0 0 0 1px #3a2e20;
@@ -280,15 +280,14 @@ html, body {
 /* Portrait fills the top of card, overlaid text below */
 .card-portrait {
   width: 100%; flex: 1 1 auto; min-height: 0;
-  background: #15110c top center / cover no-repeat;
-  image-rendering: pixelated; image-rendering: crisp-edges;
+  background: #15110c center 22% / cover no-repeat;
   display: flex; align-items: center; justify-content: center;
   font-size: 4rem; color: #4a3c2a;
   position: relative;
 }
 .card-portrait::after {
   content: ""; position: absolute; inset: 0;
-  background: linear-gradient(to bottom, transparent 55%, rgba(26,20,16,.95) 100%);
+  background: linear-gradient(to bottom, transparent 70%, rgba(26,20,16,.85) 100%);
 }
 
 .card-body {
@@ -386,8 +385,7 @@ html, body {
 /* passport photo box */
 .doc-photo {
   float: right; width: 64px; height: 80px; margin: 0 0 6px 10px;
-  background: #c9bb9c top center / cover no-repeat;
-  image-rendering: pixelated; image-rendering: crisp-edges;
+  background: #c9bb9c center 20% / cover no-repeat;
   border: 1px solid #8a7340; box-shadow: inset 0 0 0 2px #e3d8bf, 0 1px 3px rgba(0,0,0,.3);
   display: flex; align-items: center; justify-content: center;
   font-size: 1.8rem; color: #9b8d66;
