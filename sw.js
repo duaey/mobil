@@ -1,8 +1,8 @@
 /* GATE 7 — service worker for offline play (PWA) */
-const CACHE = "gate7-v16";
+const CACHE = "gate7-v17";
 const ASSETS = [
   "./", "./index.html", "./css/style.css",
-  "./js/audio.js", "./js/portrait.js", "./js/i18n.js", "./js/state.js", "./js/ui.js", "./js/game.js",
+  "./js/audio.js", "./js/portrait.js", "./js/booth.js", "./js/i18n.js", "./js/state.js", "./js/ui.js", "./js/game.js",
   "./js/data/documents.js", "./js/data/scenarios.js",
   "./manifest.json",
   "./locales/en.json", "./locales/tr.json", "./locales/de.json",

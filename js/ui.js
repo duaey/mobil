@@ -480,13 +480,31 @@
     $("#card-name").textContent = t(scenario.nameKey);
     const speechEl = $("#card-speech");
     typeSpeech(speechEl, t(scenario.speechKey), voiceFor(scenario));
+    // booth backdrop (city window + wooden walls + desk) behind the traveler
+    const desk = $("#desk");
+    if (window.BOOTH && desk.dataset.booth !== "1") {
+      desk.style.backgroundImage = `url(${BOOTH.build()})`;
+      desk.dataset.booth = "1";
+    }
+
     const portrait = $("#card-portrait");
     portrait.textContent = "";
     if (window.PORTRAIT) {
-      portrait.style.backgroundImage = `url(${PORTRAIT.build(cardSeed, cardFaceOpts)})`;
-      portrait.style.backgroundSize = "cover";
-      portrait.style.backgroundPosition = "center 18%";
+      // transparent-bg face so the city shows behind the person in the window
+      portrait.style.backgroundImage = `url(${PORTRAIT.build(cardSeed, Object.assign({ bg: false }, cardFaceOpts))})`;
+      portrait.style.backgroundSize = "contain";
+      portrait.style.backgroundRepeat = "no-repeat";
+      portrait.style.backgroundPosition = "center bottom";
       portrait.style.imageRendering = "pixelated";
+      // place the portrait inside the booth window
+      if (window.BOOTH) {
+        const wgt = BOOTH.win;
+        portrait.style.position = "absolute";
+        portrait.style.left = (wgt.xPct * 100) + "%";
+        portrait.style.top = (wgt.yPct * 100) + "%";
+        portrait.style.width = (wgt.wPct * 100) + "%";
+        portrait.style.height = (wgt.hPct * 100) + "%";
+      }
     } else {
       portrait.style.backgroundImage = "";
     }

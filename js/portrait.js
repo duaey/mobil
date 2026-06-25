@@ -62,7 +62,8 @@
   const cache = {};
 
   function build(seed, opts) {
-    const key = seed + "|" + ((opts && opts.gender) || "?") + "|" + ((opts && opts.age) || "");
+    const bg = !(opts && opts.bg === false);
+    const key = seed + "|" + ((opts && opts.gender) || "?") + "|" + ((opts && opts.age) || "") + "|" + (bg ? "b" : "t");
     if (cache[key]) return cache[key];
     const r = mulberry32(hashSeed(seed));
     const gender = (opts && opts.gender) || (chance(r, 0.5) ? "m" : "f");
@@ -83,12 +84,12 @@
     const [cl, clS, clH] = cloth;
     const [hr, hrS, hrH] = hair;
 
-    // ---------- background ----------
-    px(0, 0, W, H, wall[1]);
-    // soft top-light gradient
-    for (let y = 0; y < H; y++) { const f = 1 - y / H; g.fillStyle = mix(wall[0], wall[1], 1 - f); g.fillRect(0, y, W, 1); }
-    // gentle rim light upper-right
-    g.fillStyle = "rgba(255,235,200,.05)"; g.fillRect(34, 4, 30, 30);
+    // ---------- background (skipped when placed in the booth window) ----------
+    if (bg) {
+      px(0, 0, W, H, wall[1]);
+      for (let y = 0; y < H; y++) { const f = 1 - y / H; g.fillStyle = mix(wall[0], wall[1], 1 - f); g.fillRect(0, y, W, 1); }
+      g.fillStyle = "rgba(255,235,200,.05)"; g.fillRect(34, 4, 30, 30);
+    }
 
     // ---------- shoulders / clothing ----------
     // rounded shoulders
@@ -225,10 +226,12 @@
     // earrings
     if (gender === "f" && chance(r, 0.4)) { px(19, 43, 1, 2, "#e8c45a"); px(45, 43, 1, 2, "#e8c45a"); }
 
-    // subtle overall vignette
-    const vg = g.createRadialGradient(W / 2, 34, 10, W / 2, 40, 46);
-    vg.addColorStop(0, "rgba(0,0,0,0)"); vg.addColorStop(1, "rgba(0,0,0,.28)");
-    g.fillStyle = vg; g.fillRect(0, 0, W, H);
+    // subtle overall vignette (only on the framed/passport version)
+    if (bg) {
+      const vg = g.createRadialGradient(W / 2, 34, 10, W / 2, 40, 46);
+      vg.addColorStop(0, "rgba(0,0,0,0)"); vg.addColorStop(1, "rgba(0,0,0,.28)");
+      g.fillStyle = vg; g.fillRect(0, 0, W, H);
+    }
 
     const data = c.toDataURL("image/png");
     cache[key] = data;
