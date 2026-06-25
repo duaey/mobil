@@ -49,6 +49,27 @@
   const COMPARABLE = ["name", "dob", "country"];
   const DOC_EMBLEM = { passport: "🛂", visa: "🎫", permit: "🏭", health: "⚕", vehicle: "🚚" };
 
+  /* ---------- pixelate artwork ----------
+     Downsample painterly portraits onto a tiny canvas, then let CSS scale
+     them back up with nearest-neighbor — turns illustrations into pixel art. */
+  const _pxCache = {};
+  function applyPixelBg(el, url, smallW) {
+    if (!el) return;
+    if (_pxCache[url]) { el.style.backgroundImage = `url(${_pxCache[url]})`; el.textContent = ""; return; }
+    const img = new Image();
+    img.onload = () => {
+      const w = smallW, h = Math.max(1, Math.round(smallW * (img.height / img.width)));
+      const c = document.createElement("canvas"); c.width = w; c.height = h;
+      const cx = c.getContext("2d"); cx.imageSmoothingEnabled = false;
+      cx.drawImage(img, 0, 0, w, h);
+      let data; try { data = c.toDataURL("image/png"); } catch (e) { return; }
+      _pxCache[url] = data;
+      el.style.backgroundImage = `url(${data})`; el.textContent = "";
+    };
+    img.onerror = () => {};
+    img.src = url;
+  }
+
   let cardDocs = [];          // resolved [{type,def,flagged,fields:[{key,label,value}]}]
   let cardDiscrepancy = null; // {kind,docIndex,label,expected,actual} | null
   let compareState = { activeKey: null, found: {} }; // per-card compare interaction
@@ -218,6 +239,12 @@
     drawer.querySelectorAll(".row.cmp").forEach((row) => {
       row.addEventListener("click", () => toggleCompare(row.getAttribute("data-cmp"), scenario));
     });
+
+    // pixelate the passport photo to match the portrait style
+    if (portraitKey) {
+      const photo = drawer.querySelector(".doc-photo");
+      if (photo) applyPixelBg(photo, `assets/img/${portraitKey}.png`, 48);
+    }
   }
 
   function buildVerifyBar(crossKeys) {
@@ -411,8 +438,7 @@
     portrait.textContent = scenario.emoji || "👤";
     const portraitKey = pickPortrait(scenario);
     if (portraitKey) {
-      portrait.style.backgroundImage = `url(assets/img/${portraitKey}.png)`;
-      portrait.textContent = "";
+      applyPixelBg(portrait, `assets/img/${portraitKey}.png`, 110);
     } else {
       portrait.style.backgroundImage = "";
     }
