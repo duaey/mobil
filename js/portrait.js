@@ -1,13 +1,12 @@
 /* ============================================================
-   PORTRAIT — procedural pixel-art faces.
-   Builds a unique traveler face from layered parts (skin, hair,
-   eyes, nose, mouth, facial hair, clothes, hat, glasses) driven
-   by a seeded PRNG. The same seed always yields the same face, so
-   a traveler's card portrait and passport photo match. Hundreds of
-   combinations → players almost never see the same person twice.
+   PORTRAIT — procedural pixel-art faces (high quality).
+   A face is composed from layered parts on a 64x76 pixel grid with
+   directional shading (light from upper-right), then scaled up with
+   nearest-neighbor for a crisp pixel look. A seeded PRNG makes each
+   traveler unique but stable, so card portrait == passport photo.
    ============================================================ */
 (function () {
-  // ---- seeded PRNG (mulberry32) ----
+  // ---- seeded PRNG ----
   function hashSeed(str) {
     let h = 1779033703 ^ str.length;
     for (let i = 0; i < str.length; i++) {
@@ -25,146 +24,226 @@
     };
   }
 
-  // ---- palettes ----
-  const SKIN   = ["#f0c9a0", "#e8b48a", "#d99a6c", "#c98a5a", "#a8693f", "#8a5430", "#6e4326", "#f5d6b0"];
-  const HAIR   = ["#1c1410", "#2a1c10", "#4a2f1a", "#6b4423", "#8a6a3a", "#b08538", "#cfa14a", "#3a3a3a", "#6a6a6a", "#9a9a9a", "#c9c9c9", "#7a2a1a"];
-  const GREY   = ["#9a9a9a", "#b5b5b5", "#cfcfcf", "#888"];
-  const CLOTH  = ["#3a4a6a", "#5a3a3a", "#3a5a4a", "#6a5a3a", "#4a3a5a", "#2e3540", "#7a4a2a", "#444", "#5a6a3a", "#6a3a52"];
-  const WALL   = ["#2a2620", "#27241d", "#2e2a22", "#242a2a", "#2a2426"];
-  const EYE    = ["#3a2a1a", "#2a3a4a", "#3a4a2a", "#2a2a2a", "#4a3a2a"];
-  const HATCOL = ["#2a2a2a", "#3a2a1a", "#1c2a3a", "#4a3a1a", "#3a1c1c"];
+  // ---- palettes: [base, shadow, highlight] ----
+  const SKINSETS = [
+    ["#f3cda8", "#d9ac82", "#fbe0c0"],
+    ["#e8b88c", "#cb955f", "#f4cda4"],
+    ["#d49a6a", "#b07a48", "#e3b487"],
+    ["#bb7f4f", "#965f33", "#cf9a6b"],
+    ["#9c6b43", "#794c28", "#b3824f"],
+    ["#7a5230", "#5c3a1e", "#946a42"],
+    ["#5e3f25", "#452c17", "#774f30"],
+    ["#f8dcc0", "#e3bd99", "#ffeeda"],
+  ];
+  const HAIRSETS = [
+    ["#1b1410", "#0e0a07", "#2e231a"], ["#332314", "#1f1610", "#4a3622"],
+    ["#4a2f1a", "#311e10", "#6b482a"], ["#6b4423", "#4a2e16", "#8a6238"],
+    ["#8a6a3a", "#624a28", "#b08c52"], ["#b89048", "#8c6c34", "#dcb46a"],
+    ["#caa24c", "#9c7a34", "#ecca78"], ["#7a2a1a", "#561c10", "#9c4434"],
+    ["#3a3a3a", "#222", "#555"], ["#777", "#555", "#9a9a9a"],
+    ["#a8a8a8", "#808080", "#cfcfcf"], ["#d8d8d8", "#aeaeae", "#f0f0f0"],
+  ];
+  const GREYSETS = [["#9a9a9a", "#727272", "#bcbcbc"], ["#bcbcbc", "#909090", "#dcdcdc"], ["#cfcfcf", "#a4a4a4", "#ececec"]];
+  const CLOTHSETS = [
+    ["#39507a", "#28395a", "#4a648f"], ["#6a3540", "#4a2430", "#854450"],
+    ["#356b4a", "#234a33", "#458a60"], ["#7a5a30", "#574020", "#9a7440"],
+    ["#4a3a5a", "#352840", "#5f4d72"], ["#2f3640", "#202530", "#414b58"],
+    ["#8a4a2a", "#643418", "#a8643a"], ["#444", "#2c2c2c", "#5f5f5f"],
+    ["#5a6a3a", "#414f28", "#74854a"],
+  ];
+  const EYE = ["#3a2a1a", "#2a4458", "#35502f", "#222", "#4a3520", "#5a3a22"];
+  const WALL = [["#2b2620", "#211d18"], ["#26241d", "#1c1a14"], ["#2a2622", "#201d1a"], ["#242a2a", "#1a2020"]];
+  const HAT = [["#262626", "#171717", "#3a3a3a"], ["#3a2a1a", "#261a10", "#54402a"], ["#1c2a3a", "#121d28", "#2c4358"], ["#4a3a1a", "#332810", "#6a542a"]];
 
-  function pick(r, arr) { return arr[Math.floor(r() * arr.length)]; }
+  function pick(r, a) { return a[Math.floor(r() * a.length)]; }
   function chance(r, p) { return r() < p; }
 
-  // shade a hex color by a factor (<1 darker, >1 lighter)
-  function shade(hex, f) {
-    const n = parseInt(hex.slice(1), 16);
-    let R = Math.min(255, Math.max(0, Math.round(((n >> 16) & 255) * f)));
-    let G = Math.min(255, Math.max(0, Math.round(((n >> 8) & 255) * f)));
-    let B = Math.min(255, Math.max(0, Math.round((n & 255) * f)));
-    return "#" + ((1 << 24) + (R << 16) + (G << 8) + B).toString(16).slice(1);
-  }
-
-  const W = 48, H = 60;          // logical pixel grid
+  const W = 64, H = 76;
   const cache = {};
 
   function build(seed, opts) {
-    const key = seed + "|" + (opts && opts.gender || "?") + "|" + (opts && opts.age || "");
+    const key = seed + "|" + ((opts && opts.gender) || "?") + "|" + ((opts && opts.age) || "");
     if (cache[key]) return cache[key];
     const r = mulberry32(hashSeed(seed));
     const gender = (opts && opts.gender) || (chance(r, 0.5) ? "m" : "f");
-    const elder = (opts && opts.age === "old");
+    const elder = opts && opts.age === "old";
 
     const c = document.createElement("canvas"); c.width = W; c.height = H;
     const g = c.getContext("2d");
     const px = (x, y, w, h, col) => { g.fillStyle = col; g.fillRect(x, y, w, h); };
+    // horizontal symmetric span helper for face rows
+    const row = (y, x0, x1, col) => px(x0, y, x1 - x0, 1, col);
 
-    // background wall with a soft vignette band
+    const skin = pick(r, SKINSETS);
+    const cloth = pick(r, CLOTHSETS);
     const wall = pick(r, WALL);
-    px(0, 0, W, H, wall);
-    px(0, 0, W, 14, shade(wall, 0.82));
-
-    // colors
-    const skin = pick(r, SKIN);
-    const skinSh = shade(skin, 0.8);
-    const cloth = pick(r, CLOTH);
-    const clothSh = shade(cloth, 0.78);
-    let hair = elder ? pick(r, GREY) : pick(r, HAIR);
+    let hair = elder ? pick(r, GREYSETS) : pick(r, HAIRSETS);
     const eyeCol = pick(r, EYE);
+    const [sk, skS, skH] = skin;
+    const [cl, clS, clH] = cloth;
+    const [hr, hrS, hrH] = hair;
 
-    // shoulders / clothing
-    px(8, 50, 32, 10, cloth);
-    px(8, 50, 32, 2, shade(cloth, 1.15));
-    px(8, 56, 32, 4, clothSh);
+    // ---------- background ----------
+    px(0, 0, W, H, wall[1]);
+    // soft top-light gradient
+    for (let y = 0; y < H; y++) { const f = 1 - y / H; g.fillStyle = mix(wall[0], wall[1], 1 - f); g.fillRect(0, y, W, 1); }
+    // gentle rim light upper-right
+    g.fillStyle = "rgba(255,235,200,.05)"; g.fillRect(34, 4, 30, 30);
+
+    // ---------- shoulders / clothing ----------
+    // rounded shoulders
+    px(8, 66, 48, 10, cl);
+    px(6, 70, 52, 6, cl);
+    px(8, 66, 48, 2, clH);            // top light
+    px(8, 73, 52, 3, clS);            // bottom shade
     // collar
-    px(20, 50, 8, 5, shade(cloth, 0.6));
+    px(24, 64, 16, 6, clS);
+    px(26, 64, 12, 2, clH);
 
-    // neck
-    px(21, 44, 6, 8, skinSh);
+    // ---------- neck ----------
+    px(27, 56, 10, 10, sk);
+    px(27, 56, 10, 3, skS);          // jaw shadow on neck
+    px(27, 56, 2, 10, skS);          // left neck shade
 
-    // head (rounded rectangle look)
-    px(15, 12, 18, 30, skin);
-    px(14, 16, 1, 22, skin); px(33, 16, 1, 22, skin);      // side rounding
-    px(16, 10, 16, 2, skin);                                 // top
-    px(16, 41, 16, 2, shade(skin, 0.9));                     // jaw shade
-    // ears
-    px(13, 26, 2, 5, skin); px(33, 26, 2, 5, skin);
+    // ---------- head base (oval) ----------
+    const headRows = [
+      [16, 26, 38], [17, 24, 40], [18, 23, 41], [19, 22, 42], [20, 21, 43],
+      [21, 20, 44], [44, 20, 44], [45, 21, 43], [46, 21, 43], [47, 22, 42],
+      [48, 23, 41], [49, 24, 40], [50, 25, 39], [51, 26, 38], [52, 28, 36],
+    ];
+    // fill main block then taper
+    px(20, 21, 24, 32, sk);
+    headRows.forEach(([y, a, b]) => row(y, a, b, sk));
 
-    // cheeks shading
-    px(15, 30, 2, 8, skinSh); px(31, 30, 2, 8, skinSh);
+    // ---------- ears ----------
+    px(18, 36, 3, 8, sk); px(43, 36, 3, 8, sk);
+    px(18, 38, 2, 5, skS); px(44, 38, 2, 5, skS);
 
-    // ---- eyes ----
-    const eyeY = 26;
-    px(18, eyeY, 4, 3, "#f4efe6"); px(27, eyeY, 4, 3, "#f4efe6"); // whites
-    const look = Math.floor(r() * 2);
-    px(19 + look, eyeY, 2, 3, eyeCol); px(28 + look, eyeY, 2, 3, eyeCol); // iris
-    // eyebrows
-    const brow = elder ? shade(hair, 1.1) : shade(hair, 0.8);
-    px(18, eyeY - 2, 4, 1, brow); px(27, eyeY - 2, 4, 1, brow);
+    // ---------- skin shading (light upper-right) ----------
+    // left cheek/temple shadow
+    px(21, 24, 4, 26, skS);
+    px(21, 24, 2, 28, mix(skS, "#000", .15));
+    // jaw underside shadow
+    px(24, 50, 16, 3, skS);
+    // forehead + nose-bridge + right cheek highlight
+    px(30, 20, 10, 6, skH);
+    px(38, 26, 5, 16, skH);
 
-    // glasses (sometimes)
-    if (chance(r, gender === "m" ? 0.22 : 0.16)) {
-      const gl = "#23201a";
-      px(17, eyeY - 1, 6, 5, "rgba(0,0,0,0)");
-      g.strokeStyle = gl; g.lineWidth = 1;
-      g.strokeRect(17.5, eyeY - 0.5, 5, 4); g.strokeRect(26.5, eyeY - 0.5, 5, 4);
-      px(22, eyeY + 1, 5, 1, gl);
-    }
+    // ---------- eyebrows ----------
+    const browCol = elder ? mix(hrH, "#888", .4) : hrS;
+    const browY = 33 + (gender === "f" ? 0 : 0);
+    px(24, browY, 8, 2, browCol); px(32, browY, 8, 2, browCol);
+    if (gender === "m") { px(24, browY - 1, 8, 1, browCol); px(32, browY - 1, 8, 1, browCol); }
 
-    // ---- nose ----
-    px(23, 30, 2, 6, skinSh);
-    px(22, 35, 4, 1, shade(skin, 0.72));
+    // ---------- eye sockets ----------
+    px(24, 36, 7, 1, skS); px(33, 36, 7, 1, skS);
 
-    // ---- mouth ----
-    const mouthCol = "#9a4a44";
-    if (chance(r, 0.12)) px(21, 39, 6, 1, mouthCol);              // thin line
-    else { px(21, 39, 6, 2, mouthCol); px(22, 40, 4, 1, shade(mouthCol, 0.7)); }
+    // ---------- eyes ----------
+    const eW = 6, eH = 4, eY = 37;
+    const eLx = 24, eRx = 34;
+    px(eLx, eY, eW, eH, "#f3eee2"); px(eRx, eY, eW, eH, "#f3eee2");
+    px(eLx, eY, eW, 1, mix(skS, "#000", .2)); px(eRx, eY, eW, 1, mix(skS, "#000", .2)); // upper lid line
+    const gaze = Math.floor(r() * 2);
+    px(eLx + 2 + gaze, eY + 1, 2, 3, eyeCol); px(eRx + 1 + gaze, eY + 1, 2, 3, eyeCol);  // iris
+    px(eLx + 2 + gaze, eY + 1, 1, 2, "#120c08"); px(eRx + 1 + gaze, eY + 1, 1, 2, "#120c08"); // pupil
+    px(eLx + 3 + gaze, eY + 1, 1, 1, "#fff"); px(eRx + 2 + gaze, eY + 1, 1, 1, "#fff");        // catchlight
 
-    // ---- facial hair (men) ----
-    if (gender === "m") {
-      const beardCol = elder ? pick(r, GREY) : shade(hair, 0.95);
-      const style = Math.floor(r() * 4);
-      if (style === 1 || style === 3) px(20, 38, 8, 1, beardCol);          // moustache
-      if (style === 2 || style === 3) {                                     // full beard
-        px(16, 36, 16, 8, beardCol); px(17, 43, 14, 2, shade(beardCol, 0.8));
-        // re-draw mouth over beard
-        px(21, 39, 6, 1, mouthCol);
-      }
-      if (style === 0 && chance(r, 0.4)) px(20, 42, 8, 2, beardCol);        // stubble/goatee
-    }
+    // ---------- nose ----------
+    px(31, 38, 3, 8, sk);
+    px(31, 38, 1, 8, skS);             // left side
+    px(33, 39, 1, 6, skH);             // bridge light
+    px(30, 45, 5, 2, skS);             // base shadow
+    px(30, 46, 1, 1, mix(skS, "#000", .3)); px(34, 46, 1, 1, mix(skS, "#000", .3)); // nostrils
 
-    // ---- hair / hat ----
-    const wearHat = chance(r, gender === "m" ? 0.34 : 0.18);
-    if (wearHat) {
-      const hatc = pick(r, HATCOL);
-      px(13, 6, 22, 6, hatc);                 // cap body
-      px(12, 11, 24, 2, shade(hatc, 0.7));    // brim
-      px(14, 5, 20, 2, shade(hatc, 1.2));     // highlight
+    // ---------- mouth ----------
+    const lip = mix(sk, "#9a4038", .7);
+    if (gender === "f") {
+      px(27, 49, 10, 2, mix(lip, "#b0504a", .5));
+      px(28, 51, 8, 1, mix(lip, "#000", .15));
+      px(29, 50, 6, 1, mix(lip, "#fff", .25));
     } else {
-      const longHair = gender === "f" ? chance(r, 0.75) : chance(r, 0.12);
-      // crown
-      px(14, 8, 20, 6, hair);
-      px(14, 8, 20, 2, shade(hair, 1.2));
-      // sides
-      px(14, 14, 2, longHair ? 22 : 8, hair);
-      px(32, 14, 2, longHair ? 22 : 8, hair);
-      if (longHair) { px(13, 16, 2, 20, hair); px(33, 16, 2, 20, hair); }
-      // fringe variations
-      const fr = Math.floor(r() * 3);
-      if (fr === 0) px(15, 13, 18, 2, hair);
-      else if (fr === 1) { px(15, 13, 8, 3, hair); }
-      else { px(25, 13, 8, 3, hair); }
-      if (elder && chance(r, 0.4)) { px(20, 9, 8, 4, wall); } // balding
+      px(28, 50, 8, 1, mix(lip, "#000", .1));
+      px(28, 49, 8, 1, lip);
+      px(29, 51, 6, 1, skS);
     }
 
-    // earrings (women, sometimes)
-    if (gender === "f" && chance(r, 0.35)) { px(13, 31, 1, 1, "#e8b22e"); px(34, 31, 1, 1, "#e8b22e"); }
+    // ---------- facial hair (men) ----------
+    if (gender === "m" && !elder ? chance(r, 0.5) : (gender === "m" && chance(r, 0.55))) {
+      const bc = elder ? pick(r, GREYSETS)[0] : hrS;
+      const bcH = elder ? "#cfcfcf" : hr;
+      const style = Math.floor(r() * 4);
+      if (style === 0) { px(27, 48, 10, 2, bc); }                          // moustache
+      else if (style === 1) { px(29, 52, 6, 4, bc); px(28, 53, 8, 1, bc); } // goatee
+      else { // full beard with shading
+        px(22, 46, 20, 9, bc); px(22, 46, 20, 1, bcH);
+        px(24, 54, 16, 2, mix(bc, "#000", .25));
+        px(20, 42, 3, 12, bc); px(41, 42, 3, 12, bc);
+        // carve mouth back in
+        px(28, 49, 8, 1, lip); px(28, 50, 8, 1, mix(lip, "#000", .1));
+      }
+    }
+
+    // ---------- hair / hat ----------
+    const wearHat = chance(r, gender === "m" ? 0.3 : 0.16);
+    if (wearHat) {
+      const [hc, hcS, hcH] = pick(r, HAT);
+      px(19, 10, 26, 9, hc);
+      px(19, 10, 26, 2, hcH);
+      px(17, 17, 30, 3, hcS);          // brim
+      px(19, 18, 26, 1, mix(hcS, "#000", .3));
+    } else {
+      const long = gender === "f" ? chance(r, 0.8) : chance(r, 0.12);
+      const bald = elder && chance(r, 0.45) && gender === "m";
+      if (!bald) {
+        // crown volume
+        px(20, 12, 24, 9, hr);
+        px(20, 12, 24, 3, hrH);        // top highlight
+        px(20, 19, 24, 2, hrS);        // under-crown shadow onto forehead
+        // sides
+        const sideLen = long ? 30 : 12;
+        px(19, 18, 3, sideLen, hr); px(42, 18, 3, sideLen, hr);
+        px(19, 18, 1, sideLen, hrS); px(44, 18, 1, sideLen, hrH);
+        if (long) { px(18, 22, 2, 26, hr); px(44, 22, 2, 26, hr); }
+        // fringe style
+        const fr = Math.floor(r() * 3);
+        if (fr === 0) px(21, 18, 22, 3, hr);
+        else if (fr === 1) { px(21, 18, 11, 4, hr); px(40, 18, 4, 3, hr); }
+        else { px(33, 18, 11, 4, hr); px(20, 18, 4, 3, hr); }
+      } else {
+        px(20, 14, 24, 4, hr); px(19, 22, 3, 18, hr); px(42, 22, 3, 18, hr);
+      }
+    }
+
+    // glasses
+    if (chance(r, gender === "m" ? 0.2 : 0.14)) {
+      const gl = "#1c1812";
+      g.strokeStyle = gl; g.lineWidth = 1.4;
+      g.strokeRect(23.5, 36.5, 7, 5); g.strokeRect(33.5, 36.5, 7, 5);
+      px(30, 38, 4, 1, gl);
+      g.fillStyle = "rgba(200,220,255,.18)"; g.fillRect(24, 37, 6, 2); g.fillRect(34, 37, 6, 2);
+    }
+    // earrings
+    if (gender === "f" && chance(r, 0.4)) { px(19, 43, 1, 2, "#e8c45a"); px(45, 43, 1, 2, "#e8c45a"); }
+
+    // subtle overall vignette
+    const vg = g.createRadialGradient(W / 2, 34, 10, W / 2, 40, 46);
+    vg.addColorStop(0, "rgba(0,0,0,0)"); vg.addColorStop(1, "rgba(0,0,0,.28)");
+    g.fillStyle = vg; g.fillRect(0, 0, W, H);
 
     const data = c.toDataURL("image/png");
     cache[key] = data;
     return data;
   }
+
+  // blend two hex colors, t=0 → a, t=1 → b
+  function mix(a, b, t) {
+    const pa = hx(a), pb = hx(b);
+    const R = Math.round(pa[0] + (pb[0] - pa[0]) * t);
+    const G = Math.round(pa[1] + (pb[1] - pa[1]) * t);
+    const B = Math.round(pa[2] + (pb[2] - pa[2]) * t);
+    return "#" + ((1 << 24) + (R << 16) + (G << 8) + B).toString(16).slice(1);
+  }
+  function hx(h) { h = h.replace("#", ""); if (h.length < 6) h = "000000"; return [parseInt(h.slice(0, 2), 16) || 0, parseInt(h.slice(2, 4), 16) || 0, parseInt(h.slice(4, 6), 16) || 0]; }
 
   window.PORTRAIT = { build };
 })();
